@@ -5,80 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nosso Destino - Eternidade</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,700;1,900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,700;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --primary-pink: #ff4d8d;
             --strong-red: #FF0000;
             --neon-cyan: #00FFFF;
-            --neon-blue-strong: #0077FF;
+            --bg-deep: #0a0a0c;
             --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
             --neon-glow-cyan: 0 0 20px #00ffff, 0 0 40px rgba(0, 255, 255, 0.4);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
+        /* O FUNDO DO JACARÉ */
         body { 
-            background: radial-gradient(circle at center, #333333 0%, #000000 80%);
-            background-attachment: fixed;
+            background: radial-gradient(circle at 50% 50%, #2c2c34 0%, #000000 85%);
             color: #ffffff; 
             overflow: hidden; 
             height: 100vh; 
             width: 100vw; 
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 1;
         }
 
         .red-vibrant { color: var(--strong-red) !important; font-weight: 800; text-shadow: var(--neon-glow-red); }
         .cyan-vibrant { color: var(--neon-cyan) !important; font-weight: 700; text-shadow: var(--neon-glow-cyan); }
         .italic-fancy { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* GLOW INTENSO ABA 1 */
         .glass-card {
-            background: rgba(0, 0, 0, 0.65);
-            backdrop-filter: blur(20px);
-            border: 2px solid var(--neon-cyan);
-            box-shadow: var(--neon-glow-cyan);
-            border-radius: 25px;
-            padding: 20px;
+            background: rgba(15, 15, 20, 0.7);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), var(--neon-glow-cyan);
+            border-radius: 30px;
+            padding: 25px;
             width: 100%;
             max-width: 450px;
             margin-bottom: 20px;
+            z-index: 2;
         }
 
-        .time-card { 
-            background: rgba(0,0,0,0.8); 
-            padding: 15px 5px; 
-            border-radius: 18px; 
-            text-align: center; 
-            border: 1px solid var(--neon-cyan);
-            box-shadow: inset 0 0 15px rgba(0,255,255,0.2), 0 0 10px rgba(0,255,255,0.3);
-        }
-        .time-card span { font-size: 22px; font-weight: 900; color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan); }
+        #master-slider { display: flex; width: 400vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); visibility: hidden; z-index: 2; }
+        .page { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 25px; overflow-y: auto; flex-shrink: 0; }
 
-        #master-slider { display: flex; width: 400vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); visibility: hidden; }
-        .page { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-y: auto; flex-shrink: 0; }
-
-        /* SCROLLING INFINITO ABA 3 */
-        .marquee-container { width: 100%; overflow: hidden; background: rgba(0,255,255,0.05); border-top: 1px solid var(--neon-cyan); border-bottom: 1px solid var(--neon-cyan); padding: 10px 0; margin-top: 20px; }
-        .marquee-content { display: flex; white-space: nowrap; animation: marquee 20s linear infinite; }
-        .marquee-content span { font-size: 18px; font-weight: 800; color: var(--neon-cyan); margin-right: 50px; text-transform: uppercase; letter-spacing: 2px; }
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        /* ABA 2 - VIDEO E SCROLL */
-        .video-wrapper { width: 100%; max-width: 450px; border-radius: 25px; overflow: hidden; border: 3px solid var(--neon-cyan); box-shadow: var(--neon-glow-cyan); margin: 15px 0; }
-        .scrollable-text-container { width: 100%; max-width: 450px; height: 250px; overflow-y: auto; padding-right: 10px; }
-        .scrollable-text-container::-webkit-scrollbar { width: 5px; }
+        .video-wrapper { width: 100%; max-width: 450px; border-radius: 25px; overflow: hidden; border: 2px solid var(--neon-cyan); box-shadow: var(--neon-glow-cyan); margin: 15px 0; }
+        .scrollable-text-container { width: 100%; max-width: 450px; height: 260px; overflow-y: auto; padding-right: 12px; }
+        .scrollable-text-container::-webkit-scrollbar { width: 4px; }
         .scrollable-text-container::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
 
+        .marquee-container { width: 100%; overflow: hidden; background: rgba(0,255,255,0.03); border-top: 1px solid rgba(0,255,255,0.2); border-bottom: 1px solid rgba(0,255,255,0.2); padding: 12px 0; margin-top: auto; }
+        .marquee-content { display: flex; white-space: nowrap; animation: marquee 25s linear infinite; }
+        .marquee-content span { font-size: 16px; font-weight: 800; color: var(--neon-cyan); margin-right: 60px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
         #splash-screen { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; }
-        .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.2s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
-        @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.4s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
+        @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <audio id="audio-sotam" loop><source src="foi-assim.mp3" type="audio/mpeg"></audio>
-    <audio id="audio-motel" loop><source src="motel-caro.mp3" type="audio/mpeg"></audio>
     <audio id="audio-tick"><source src="https://www.soundjay.com/misc/sounds/click-02.mp3" type="audio/mpeg"></audio>
 
     <div id="splash-screen"><div class="main-heart" id="btn-start">❤️</div></div>
@@ -86,23 +83,14 @@
     <div id="master-slider">
         <div class="page">
             <div class="glass-card" style="text-align: center;">
-                <div style="width: 140px; height: 140px; margin: 0 auto 15px; border-radius: 50%; border: 4px solid var(--neon-cyan); background: url('foto-capa.jpg') center/cover; box-shadow: var(--neon-glow-cyan);"></div>
-                <h1 class="italic-fancy red-vibrant" style="font-size: 32px;">Foi Assim</h1>
-                <p style="opacity: 0.6; font-size: 11px; letter-spacing: 4px;">SOTAM • CONEXÃO ATIVA</p>
+                <div style="width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; border: 3px solid var(--neon-cyan); background: url('foto-capa.jpg') center/cover; box-shadow: var(--neon-glow-cyan);"></div>
+                <h1 class="italic-fancy red-vibrant" style="font-size: 34px;">Foi Assim</h1>
             </div>
-            <div class="timer-grid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 450px; margin-bottom: 20px;">
-                <div class="time-card"><span id="days">0</span><p style="font-size: 8px;">DIAS</p></div>
-                <div class="time-card"><span id="hours">0</span><p style="font-size: 8px;">HORAS</p></div>
-                <div class="time-card"><span id="mins">0</span><p style="font-size: 8px;">MIN</p></div>
-                <div class="time-card"><span id="secs">0</span><p style="font-size: 8px;">SEG</p></div>
-            </div>
-            <div class="glass-card">
-                <div id="typewriter1" style="font-size: 15px; line-height: 1.6;"></div>
-            </div>
+            <div id="typewriter1" class="glass-card" style="font-size: 15px; line-height: 1.7;"></div>
         </div>
 
         <div class="page">
-            <h1 class="red-vibrant italic-fancy" style="font-size: 28px;">Nossa Jornada ✨</h1>
+            <h1 class="red-vibrant italic-fancy" style="font-size: 30px;">Nossa Jornada ✨</h1>
             <div class="video-wrapper"><video id="love-video" playsinline src="seu-video.mp4"></video></div>
             <div class="glass-card scrollable-text-container">
                 <div id="typewriter2" style="font-size: 15px; line-height: 1.8;"></div>
@@ -111,46 +99,54 @@
 
         <div class="page">
             <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px;">Sorte no Amor 🎡</h2>
-            <canvas id="wheel-canvas" width="400" height="400" style="width: 280px; height: 280px; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 40px var(--primary-pink); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); margin: 20px 0;"></canvas>
-            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 45px; border-radius: 40px; font-weight: 900; box-shadow: var(--neon-glow-red);">GIRAR SORTE</button>
-            
+            <canvas id="wheel-canvas" width="400" height="400" style="width: 290px; height: 290px; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 50px rgba(0, 255, 255, 0.3); margin: 25px 0;"></canvas>
+            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), #ff4d8d); color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: 900; font-size: 16px; letter-spacing: 1px; box-shadow: var(--neon-glow-red); cursor: pointer;">GIRAR SORTE</button>
             <div class="marquee-container">
-                <div class="marquee-content" id="marquee">
-                    <span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span><span>Destino Traçado</span><span>Te Amo Para Sempre</span>
-                    <span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span><span>Destino Traçado</span><span>Te Amo Para Sempre</span>
+                <div class="marquee-content">
+                    <span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span><span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span>
                 </div>
             </div>
         </div>
 
         <div class="page" style="justify-content: center; text-align: center;">
-            <h1 class="red-vibrant italic-fancy" style="font-size: 60px;">Infinito.</h1>
-            <p style="font-size: 18px; margin-top: 20px;">Você é o meu <span class="cyan-vibrant">melhor</span> presente.</p>
-            <div style="font-size: 45px; margin-top: 40px;">💍 ❤️ 👑</div>
+            <h1 class="red-vibrant italic-fancy" style="font-size: 65px; margin-bottom: 20px;">Infinito.</h1>
+            <p style="font-size: 18px; letter-spacing: 2px;">Onde quer que você esteja, eu estarei.</p>
+            <div style="font-size: 50px; margin-top: 50px;">💍 ❤️ 👑</div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const DATA_INICIO = new Date('2025-05-12T00:00:00');
             const TEXTO_P1 = "Iniciando protocolo de <span class='red-vibrant'>amor infinito</span>... Cada segundo ao seu lado prova que o nosso tempo é <span class='red-vibrant'>sagrado</span>. Você é minha <span class='red-vibrant'>princesa</span> eterna.";
-            const TEXTO_P2 = "Minha <span class='red-vibrant'>Princesa</span>, escrever sobre nós é traduzir o infinito. Desde que você surgiu, meu mundo ganhou <span class='red-vibrant'>cores vibrantes</span>. Nosso amor é uma <span class='red-vibrant'>chama inabalável</span>, um laço que desafia o tempo. Você é meu <span class='cyan-vibrant'>porto seguro</span>, meu sorriso sincero. Prometo te amar com toda a <span class='red-vibrant'>intensidade</span>, protegendo cada sonho. Você não é apenas minha namorada, você é minha vida, meu <span class='red-vibrant'>destino</span> e meu para sempre. Olhar nos seus olhos é ver o futuro. Cada batida do meu coração sussurra o seu nome, e cada segundo sem você é uma eternidade. Nossa história está apenas começando, rumo ao <span class='red-vibrant'>infinito</span>. Você é a perfeição, meu maior presente. Te amo pela <span class='red-vibrant'>eternidade</span>! ❤️";
+            const TEXTO_P2 = "Minha <span class='red-vibrant'>Princesa</span>, escrever sobre nós é traduzir o infinito. Nosso amor é uma <span class='red-vibrant'>chama inabalável</span>. Você é meu <span class='cyan-vibrant'>porto seguro</span>. Prometo te amar com toda a <span class='red-vibrant'>intensidade</span>, protegendo cada sonho. Você não é apenas minha namorada, você é minha vida, meu <span class='red-vibrant'>destino</span> e meu para sempre. Olhar nos seus olhos é ver o futuro. Cada batida do meu coração sussurra o seu nome, e cada segundo sem você é uma eternidade. Nossa história está apenas começando, rumo ao <span class='red-vibrant'>infinito</span>. Você é a perfeição, meu maior presente. Te amo pela <span class='red-vibrant'>eternidade</span>! ❤️";
+            const PREMIOS = ["Beijo Longo", "Massagem", "😈 ...", "Vale Mimo", "Cinema em Casa", "Abraço de Urso"];
 
             let abaAtiva = 0, startX = 0, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0, estaGirando = false;
-            const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), motel = document.getElementById('audio-motel'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
+            const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), tick = document.getElementById('audio-tick'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
 
-            function typeWriter(elId, text, speed = 30) {
+            function fadeVolume(target) {
+                let current = sotam.volume;
+                const interval = setInterval(() => {
+                    if (Math.abs(current - target) < 0.05) {
+                        sotam.volume = target;
+                        clearInterval(interval);
+                    } else {
+                        current += (target > current ? 0.05 : -0.05);
+                        sotam.volume = Math.max(0, Math.min(1, current));
+                    }
+                }, 50);
+            }
+
+            function typeWriter(elId, text, speed = 35) {
                 const el = document.getElementById(elId);
-                el.innerHTML = "";
-                let i = 0;
+                el.innerHTML = ""; let i = 0;
                 function typing() {
                     if (i < text.length) {
                         if (text.charAt(i) === '<') {
-                            let tagEnd = text.indexOf('>', i) + 1;
-                            el.insertAdjacentHTML('beforeend', text.substring(i, tagEnd));
-                            i = tagEnd;
+                            let end = text.indexOf('>', i) + 1;
+                            el.insertAdjacentHTML('beforeend', text.substring(i, end)); i = end;
                         } else {
-                            el.insertAdjacentHTML('beforeend', text.charAt(i));
-                            i++;
+                            el.insertAdjacentHTML('beforeend', text.charAt(i)); i++;
                         }
                         setTimeout(typing, speed);
                         if(elId === 'typewriter2') el.parentElement.scrollTop = el.parentElement.scrollHeight;
@@ -163,10 +159,43 @@
                 if (index < 0 || index > 3 || estaGirando) return;
                 abaAtiva = index;
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
+                
                 if (abaAtiva === 0 && !rolandoT1) { rolandoT1 = true; typeWriter('typewriter1', TEXTO_P1); }
-                if (abaAtiva === 1) { sotam.pause(); video.play(); if(!rolandoT2) { rolandoT2 = true; typeWriter('typewriter2', TEXTO_P2, 25); }
-                } else { video.pause(); if(abaAtiva === 3) { sotam.pause(); motel.play(); } else { motel.pause(); sotam.play(); } }
+                if (abaAtiva === 1) { 
+                    fadeVolume(0); video.play(); 
+                    if(!rolandoT2) { rolandoT2 = true; typeWriter('typewriter2', TEXTO_P2, 25); }
+                } else { 
+                    fadeVolume(1); video.pause(); 
+                }
             }
+
+            function drawWheel() {
+                const arc = (Math.PI * 2) / 6;
+                ctx.clearRect(0,0,400,400);
+                for (let i = 0; i < 6; i++) {
+                    ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
+                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
+                    ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
+                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText(PREMIOS[i], 175, 5); ctx.restore();
+                }
+            }
+
+            document.getElementById('spin-button').onclick = () => {
+                if (estaGirando) return;
+                estaGirando = true;
+                let giros = 0;
+                const totalRotation = Math.floor(Math.random() * 360) + 2160;
+                
+                const timer = setInterval(() => {
+                    giros++;
+                    if(giros % 12 === 0) { tick.currentTime = 0; tick.play(); }
+                    if(giros > 120) clearInterval(timer);
+                }, 40);
+
+                anguloAtual += totalRotation;
+                canvas.style.transform = `rotate(${anguloAtual}deg)`;
+                setTimeout(() => { estaGirando = false; }, 5100);
+            };
 
             document.body.addEventListener('touchstart', e => startX = e.touches[0].clientX);
             document.body.addEventListener('touchend', e => {
@@ -174,37 +203,11 @@
                 if (Math.abs(diff) > 50) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
             });
 
-            function runCounters() {
-                setInterval(() => {
-                    const now = new Date(), diff = now - DATA_INICIO;
-                    document.getElementById('days').innerText = Math.floor(diff / 86400000);
-                    document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
-                    document.getElementById('mins').innerText = Math.floor((diff % 3600000) / 60000);
-                    document.getElementById('secs').innerText = Math.floor((diff % 60000) / 1000);
-                }, 1000);
-            }
-
-            function drawWheel() {
-                const arc = (Math.PI * 2) / 6;
-                for (let i = 0; i < 6; i++) {
-                    ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
-                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
-                    ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
-                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText("Prêmio " + (i+1), 175, 5); ctx.restore();
-                }
-            }
-
             document.getElementById('btn-start').onclick = () => {
                 document.getElementById('splash-screen').style.display = 'none';
-                slider.style.visibility = 'visible'; sotam.play(); runCounters(); drawWheel();
+                slider.style.visibility = 'visible';
+                sotam.volume = 1; sotam.play(); drawWheel();
                 typeWriter('typewriter1', TEXTO_P1);
-            };
-
-            document.getElementById('spin-button').onclick = () => {
-                if (estaGirando) return;
-                estaGirando = true; anguloAtual += Math.floor(Math.random() * 360) + 1800;
-                canvas.style.transform = `rotate(${anguloAtual}deg)`;
-                setTimeout(() => { estaGirando = false; }, 5000);
             };
         });
     </script>
