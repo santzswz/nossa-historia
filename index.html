@@ -13,7 +13,6 @@
             --strong-red: #FF0000;
             --neon-cyan: #00FFFF;
             --neon-blue-strong: #0077FF;
-            --deep-black: #050505;
             --glass-vibe: rgba(255, 255, 255, 0.05);
             --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
             --neon-glow-cyan: 0 0 15px #00ffff, 0 0 30px #00ffff;
@@ -23,8 +22,9 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            /* NOVO FUNDO NO ESTILO SOLICITADO */
-            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            /* AJUSTE DO GRADIENTE PARA EFEITO DE LUZ CENTRAL */
+            background: radial-gradient(circle at center, #333333 0%, #000000 80%);
+            background-attachment: fixed;
             color: #ffffff; 
             overflow: hidden; 
             height: 100vh; 
@@ -54,6 +54,7 @@
             display: flex; width: 400vw; height: 100vh; 
             transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
             visibility: hidden; 
+            background: transparent;
         }
 
         .page { 
@@ -61,12 +62,13 @@
             display: flex; flex-direction: column; align-items: center; 
             padding: 20px; overflow-y: auto; overflow-x: hidden; 
             flex-shrink: 0;
+            background: transparent !important; /* GARANTE QUE O FUNDO DO BODY APAREÇA */
         }
 
         .glass-card {
-            background: var(--glass-vibe);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03); /* MAIS TRANSPARENTE PARA MOSTRAR O FUNDO */
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 25px;
             padding: 20px;
             width: 100%;
@@ -79,11 +81,11 @@
         .rotating-art { width: 160px; height: 160px; margin: 0 auto 15px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
         @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
-        .time-card { background: rgba(0,0,0,0.7); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.2); }
+        .time-card { background: rgba(0,0,0,0.6); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.1); }
         .original-text-box { border-left: 5px solid var(--strong-red); padding-left: 20px; }
 
         /* ABA 2 */
-        .timeline-item { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 12px 18px; display: flex; align-items: center; border-left: 4px solid var(--neon-blue-strong); margin-bottom: 12px; width: 100%; }
+        .timeline-item { background: rgba(255,255,255,0.02); border-radius: 15px; padding: 12px 18px; display: flex; align-items: center; border-left: 4px solid var(--neon-blue-strong); margin-bottom: 12px; width: 100%; }
         .item-kiss { border-left-color: var(--strong-red); }
         .video-wrapper { width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; border: 2px solid var(--neon-cyan); margin-bottom: 20px; }
         video { width: 100%; display: block; }
