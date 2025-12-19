@@ -3,34 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kauan & Emeli - Nosso Universo</title>
+    <title>Nosso Destino - Eternidade</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,700;1,900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* ================================================================
-           ESTILIZAÇÃO DE NÚCLEO - CORES E VARIÁVEIS 
-           ================================================================
-        */
         :root {
             --primary-pink: #ff4d8d;
-            --strong-red: #FF0000;    /* Vermelho Chamativo solicitado */
-            --neon-cyan: #00FFFF;     /* Ciano solicitado */
+            --strong-red: #FF0000;    /* Vermelho Vivo */
+            --neon-cyan: #00FFFF;     /* Ciano Neon */
             --deep-black: #000000;
             --glass-vibe: rgba(255, 255, 255, 0.08);
             --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
             --neon-glow-cyan: 0 0 15px #00ffff, 0 0 30px #00ffff;
         }
 
-        /* Reset Geral */
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Poppins', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-        }
-
+        /* Reset e Base */
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
         body { 
             background: var(--deep-black); 
             color: #ffffff; 
@@ -41,198 +31,99 @@
             user-select: none;
         }
 
-        /* ================================================================
-           CLASSES DE UTILIDADE (CORES CHAMATIVAS)
-           ================================================================
-        */
+        /* Classes de Destaque */
         .red-vibrant { color: var(--strong-red) !important; font-weight: 800; text-shadow: var(--neon-glow-red); }
         .cyan-vibrant { color: var(--neon-cyan) !important; font-weight: 700; text-shadow: var(--neon-glow-cyan); }
         .pink-neon { color: var(--primary-pink); text-shadow: 0 0 10px var(--primary-pink); }
         .italic-fancy { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* ================================================================
-           TELAS DE ENTRADA (SPLASH & LOADER)
-           ================================================================
-        */
+        /* Splash Screen */
         #splash-screen {
             position: fixed; inset: 0;
             background: radial-gradient(circle at center, #2b0505 0%, #000 100%);
             z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 1s ease;
+        }
+        .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.2s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
+        @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        /* Loader */
+        #loader-container { display: none; position: fixed; inset: 0; background: #000; z-index: 4999; flex-direction: column; align-items: center; justify-content: center; }
+        .loader-track { width: 300px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 25px; border: 1px solid var(--neon-cyan); }
+        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--strong-red), var(--neon-cyan)); box-shadow: 0 0 15px var(--neon-cyan); transition: width 0.4s; }
+
+        /* Estrutura de Navegação */
+        #master-slider { 
+            display: flex; width: 400vw; height: 100vh; 
+            transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1); 
+            visibility: hidden; 
+        }
+        .page { 
+            width: 100vw; height: 100vh; position: relative; 
+            display: flex; flex-direction: column; align-items: center; 
+            padding: 60px 20px; overflow-y: auto; overflow-x: hidden; 
         }
 
-        .main-heart {
-            font-size: 110px; cursor: pointer;
-            animation: heartPulse 1.2s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            filter: drop-shadow(0 0 30px var(--strong-red));
-        }
-
-        @keyframes heartPulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); filter: drop-shadow(0 0 50px var(--strong-red)); }
-            100% { transform: scale(1); }
-        }
-
-        #loader-container {
-            display: none; position: fixed; inset: 0; background: #000;
-            z-index: 4999; flex-direction: column; align-items: center; justify-content: center;
-        }
-
-        .loader-track { width: 300px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 25px; border: 1px solid rgba(0,255,255,0.2); }
-        .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--strong-red), var(--neon-cyan)); box-shadow: 0 0 15px var(--neon-cyan); transition: width 0.4s ease; }
-
-        /* ================================================================
-           ESTRUTURA DO SLIDER (COMPATIBILIDADE PC/MOBILE)
-           ================================================================
-        */
-        #master-slider {
-            display: flex; width: 400vw; height: 100vh;
-            transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1);
-            visibility: hidden;
-        }
-
-        .page {
-            width: 100vw; height: 100vh; position: relative;
-            display: flex; flex-direction: column; align-items: center;
-            padding: 70px 25px; overflow-y: auto; overflow-x: hidden;
-        }
-
-        /* ================================================================
-           PÁGINA 1: O TEMPO (TEXTOS ORIGINAIS + ACRÉSCIMOS)
-           ================================================================
-        */
-        #page1 { background: linear-gradient(180deg, #000 0%, #150000 100%); }
-
-        .player-ui {
-            width: 100%; max-width: 400px; background: var(--glass-vibe);
-            backdrop-filter: blur(20px); border-radius: 40px; padding: 35px;
-            text-align: center; border: 1px solid rgba(255,0,0,0.2);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.6); margin-bottom: 30px;
-        }
-
-        .rotating-art {
-            width: 220px; height: 220px; margin: 0 auto 25px;
-            border-radius: 50%; border: 5px solid #111;
-            background: url('foto-capa.jpg') center/cover;
-            box-shadow: 0 0 30px var(--strong-red);
-            animation: spinArt 20s linear infinite;
-        }
+        /* Widgets da Página 1 */
+        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); backdrop-filter: blur(20px); border-radius: 40px; padding: 35px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 30px; }
+        .rotating-art { width: 200px; height: 200px; margin: 0 auto 25px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
         @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .timer-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
-            width: 100%; max-width: 420px; margin-bottom: 30px;
-        }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 420px; margin-bottom: 30px; }
+        .time-card { background: rgba(0,0,0,0.7); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.2); }
+        .time-card span { display: block; font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
+        .time-card label { font-size: 9px; color: var(--neon-cyan); letter-spacing: 1px; font-weight: 700; }
 
-        .time-card {
-            background: rgba(0,0,0,0.6); padding: 20px 5px; border-radius: 20px;
-            text-align: center; border: 1px solid rgba(0,255,255,0.15);
-            transition: 0.3s;
-        }
-        .time-card:hover { border-color: var(--neon-cyan); transform: translateY(-5px); }
-        .time-card span { display: block; font-size: 32px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
-        .time-card label { font-size: 10px; font-weight: 600; color: var(--neon-cyan); letter-spacing: 1px; }
+        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 25px; border-radius: 0 20px 20px 0; line-height: 1.8; font-size: 15px; text-align: justify; }
 
-        .original-text-box {
-            width: 100%; max-width: 450px; background: rgba(255,0,0,0.03);
-            border-left: 4px solid var(--strong-red); padding: 25px; border-radius: 0 20px 20px 0;
-            line-height: 1.8; font-size: 15px; text-align: justify;
-        }
-
-        /* ================================================================
-           PÁGINA 2: JORNADA (TIMELINE & VÍDEO)
-           ================================================================
-        */
-        .anniversary-badge {
-            background: linear-gradient(45deg, var(--strong-red), #500);
-            padding: 15px 30px; border-radius: 50px; margin-bottom: 40px;
-            box-shadow: 0 0 20px rgba(255,0,0,0.4); text-align: center;
-        }
-
-        .timeline-container {
-            width: 100%; max-width: 380px; position: relative; margin: 20px 0;
-        }
-        .timeline-container::after {
-            content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 100%;
-            background: linear-gradient(to bottom, var(--strong-red), var(--neon-cyan));
-            transform: translateX(-50%);
-        }
-
-        .timeline-event {
-            width: 100%; margin-bottom: 40px; display: flex; position: relative; z-index: 2;
-        }
-        .event-point { width: 14px; height: 14px; background: #fff; border-radius: 50%; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: 0 0 15px #fff; }
-        .event-card { width: 42%; background: var(--glass-vibe); padding: 15px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); font-size: 12px; }
-        .event-right { justify-content: flex-end; }
-        .event-left { justify-content: flex-start; }
-
-        .video-frame {
-            width: 100%; max-width: 400px; border-radius: 25px; overflow: hidden;
-            border: 3px solid var(--neon-cyan); box-shadow: 0 0 40px rgba(0,255,255,0.2);
-            margin: 30px 0; background: #000;
-        }
-        video { width: 100%; display: block; }
-
-        /* ================================================================
-           PÁGINA 3: ROLETA (RECONSTRUÇÃO TOTAL)
-           ================================================================
-        */
-        .roulette-wrapper {
-            position: relative; width: 340px; height: 340px; margin: 40px 0;
-            display: flex; align-items: center; justify-content: center;
-        }
+        /* Widgets da Página 2 */
+        .anniversary-badge { background: linear-gradient(45deg, var(--strong-red), #500); padding: 15px 30px; border-radius: 50px; margin-bottom: 30px; text-align: center; box-shadow: 0 0 20px var(--strong-red); }
         
-        #wheel-canvas {
-            width: 100%; height: 100%; border-radius: 50%;
-            border: 8px solid #1a1a1a; box-shadow: 0 0 50px var(--primary-pink);
-            transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1);
+        .timeline-container { width: 100%; max-width: 380px; position: relative; margin: 20px 0; padding-bottom: 20px; }
+        .timeline-container::after { content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--strong-red), var(--neon-cyan)); transform: translateX(-50%); }
+        .timeline-event { width: 100%; margin-bottom: 30px; display: flex; position: relative; z-index: 2; }
+        .event-point { width: 12px; height: 12px; background: #fff; border-radius: 50%; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px #fff; }
+        .event-card { width: 44%; background: var(--glass-vibe); padding: 12px; border-radius: 12px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
+        .event-right { justify-content: flex-end; } .event-left { justify-content: flex-start; }
+
+        /* CORREÇÃO DO VÍDEO */
+        .video-container { 
+            width: 100%; 
+            max-width: 400px; 
+            min-height: 225px; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            border: 3px solid var(--neon-cyan); 
+            margin: 20px 0; 
+            background: #000;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            position: relative;
+        }
+        video { width: 100%; height: auto; display: block; object-fit: cover; }
+
+        .letter-box { 
+            width: 100%; 
+            max-width: 450px; 
+            padding: 30px; 
+            background: rgba(255,255,255,0.03); 
+            border-radius: 30px; 
+            border: 1px solid rgba(0,255,255,0.1);
+            margin-top: 10px;
         }
 
-        .wheel-pin {
-            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent;
-            border-top: 40px solid var(--neon-cyan); z-index: 20; filter: drop-shadow(0 0 10px var(--neon-cyan));
-        }
+        /* Roleta */
+        .roulette-wrapper { position: relative; width: 320px; height: 320px; margin: 30px 0; }
+        #wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 40px var(--primary-pink); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
+        .wheel-pin { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid var(--neon-cyan); z-index: 20; filter: drop-shadow(0 0 5px #000); }
+        #spin-button { background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 15px 45px; border-radius: 40px; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 25px rgba(255,0,0,0.4); margin-top: 15px; }
 
-        #spin-button {
-            background: linear-gradient(135deg, var(--strong-red), var(--primary-pink));
-            color: white; border: none; padding: 18px 50px; border-radius: 40px;
-            font-size: 18px; font-weight: 900; cursor: pointer; letter-spacing: 2px;
-            box-shadow: 0 10px 25px rgba(255,0,0,0.5); transition: 0.3s;
-        }
-        #spin-button:hover { transform: scale(1.1); box-shadow: 0 15px 35px rgba(255,0,0,0.7); }
-        #spin-button:disabled { opacity: 0.5; cursor: not-allowed; }
+        /* Modais e Partículas */
+        #prize-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
+        .prize-content { background: #111; border: 3px solid var(--strong-red); padding: 40px 25px; border-radius: 40px; text-align: center; max-width: 350px; }
 
-        /* ================================================================
-           MODAIS E ELEMENTOS FINAIS
-           ================================================================
-        */
-        #prize-modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            display: none; z-index: 9999; align-items: center; justify-content: center;
-            backdrop-filter: blur(15px);
-        }
-        .prize-content {
-            background: #111; border: 3px solid var(--strong-red);
-            padding: 50px 30px; border-radius: 40px; text-align: center;
-            max-width: 380px; box-shadow: 0 0 60px var(--strong-red);
-        }
+        .particle { position: fixed; pointer-events: none; z-index: 10; animation: particleFloat 4s ease-in forwards; }
+        @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2) rotate(360deg); opacity: 0; } }
 
-        /* Partículas de Coração */
-        .particle {
-            position: fixed; pointer-events: none; z-index: 10;
-            animation: particleFloat 4s ease-in forwards;
-        }
-        @keyframes particleFloat {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(2) rotate(360deg); opacity: 0; }
-        }
-
-        /* Auxílio de Navegação PC */
-        .pc-nav {
-            position: absolute; bottom: 30px; color: rgba(255,255,255,0.3);
-            font-size: 11px; letter-spacing: 3px; display: flex; gap: 20px;
-        }
     </style>
 </head>
 <body>
@@ -244,11 +135,10 @@
     <div id="splash-screen">
         <div class="main-heart" id="btn-start">❤️</div>
         <p style="margin-top: 30px; letter-spacing: 5px; color: var(--strong-red); font-weight: 700;">TOQUE PARA ENTRAR</p>
-        <p style="position: absolute; bottom: 50px; font-size: 10px; opacity: 0.4; letter-spacing: 8px;">KAUAN & EMELI</p>
     </div>
 
     <div id="loader-container">
-        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Eternizando momentos...</h2>
+        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Processando nossa história...</h2>
         <div class="loader-track"><div class="loader-bar" id="bar"></div></div>
     </div>
 
@@ -258,7 +148,7 @@
             <div class="player-ui">
                 <div class="rotating-art"></div>
                 <h1 class="italic-fancy red-vibrant" style="font-size: 32px;">Foi Assim</h1>
-                <p style="opacity: 0.6; font-size: 12px; letter-spacing: 2px;">SOTAM • EM REPRODUÇÃO</p>
+                <p style="opacity: 0.6; font-size: 11px; letter-spacing: 3px;">SOTAM • EM REPRODUÇÃO</p>
             </div>
 
             <div class="timer-grid">
@@ -269,119 +159,108 @@
             </div>
 
             <div class="original-text-box">
-                <h3 class="cyan-vibrant" style="margin-bottom: 15px;">Nosso Tempo Particular</h3>
+                <h3 class="cyan-vibrant" style="margin-bottom: 12px; font-size: 18px;">Nosso Tempo Particular</h3>
                 <p>
                     <span class="red-vibrant">Cada segundo ao seu lado</span> é uma prova do <span class="cyan-vibrant">tempo precioso</span> que dedicamos um ao outro. 
                     Desde que você entrou na minha vida, o relógio parece marcar as horas de um jeito diferente, mais intenso e cheio de cor.
                     <br><br>
-                    Você é a minha <span class="red-vibrant">maior certeza</span> e o motivo de cada um desses segundos valerem a pena. Este contador é apenas um pequeno reflexo da <span class="cyan-vibrant">eternidade</span> que quero construir segurando a sua mão. Cada batida do meu coração agora segue o ritmo desse cronômetro, sempre buscando você.
+                    Você é a minha <span class="red-vibrant">maior certeza</span> e o motivo de cada um desses segundos valerem a pena. Este contador não é apenas sobre números, mas sobre a vida que ganha cor a cada batida do coração ao seu lado.
                 </p>
             </div>
-            
-            <div class="pc-nav"><span>SETAS DO TECLADO</span> • <span>ARRASTAR MOUSE</span></div>
         </div>
 
         <div class="page" id="page2">
             <div class="anniversary-badge">
-                <p style="font-size: 10px; letter-spacing: 2px; color: #ffcccc;">FALTAM PARA 1 ANO</p>
-                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 5px;">
-                    <span id="a-days" class="red-vibrant" style="font-size: 24px;">0</span>
-                    <span id="a-hours" class="red-vibrant" style="font-size: 24px;">0</span>
-                    <span id="a-mins" class="red-vibrant" style="font-size: 24px;">0</span>
+                <p style="font-size: 9px; letter-spacing: 2px; color: #fff;">CONTAGEM PARA 1 ANO</p>
+                <div style="display: flex; gap: 12px; justify-content: center; margin-top: 5px;">
+                    <span id="a-days" class="cyan-vibrant" style="font-size: 22px;">0</span>
+                    <span id="a-hours" class="cyan-vibrant" style="font-size: 22px;">0</span>
+                    <span id="a-mins" class="cyan-vibrant" style="font-size: 22px;">0</span>
                 </div>
             </div>
 
             <div class="timeline-container">
                 <div class="timeline-event event-left">
                     <div class="event-point" style="background: var(--strong-red);"></div>
-                    <div class="event-card">
-                        <b class="red-vibrant">05 MAIO</b><br>O dia em que o destino nos apresentou e tudo começou a fazer sentido.
-                    </div>
+                    <div class="event-card"><b class="red-vibrant">05 MAIO</b><br>O primeiro "oi" que mudou o meu mundo para sempre.</div>
                 </div>
                 <div class="timeline-event event-right">
                     <div class="event-point" style="background: var(--neon-cyan);"></div>
-                    <div class="event-card" style="border-color: var(--neon-cyan);">
-                        <b class="cyan-vibrant">12 MAIO</b><br>Nosso primeiro beijo. O momento em que o mundo finalmente parou.
-                    </div>
+                    <div class="event-card" style="border-color: var(--neon-cyan);"><b class="cyan-vibrant">12 MAIO</b><br>O beijo que selou o início da nossa linda jornada.</div>
                 </div>
             </div>
 
-            <div class="video-frame">
-                <video id="love-video" controls playsinline src="seu-video.mp4"></video>
+            <div class="video-container">
+                <video id="love-video" controls playsinline webkit-playsinline src="seu-video.mp4" poster=""></video>
             </div>
 
-            <div class="glass-box" style="width: 100%; max-width: 450px; padding: 25px; border-radius: 25px;">
-                <h3 class="pink-neon italic-fancy" style="font-size: 24px; margin-bottom: 10px;">Minha Promessa</h3>
-                <div id="typewriter" style="font-size: 14px; line-height: 1.8; color: #ddd;"></div>
+            <div class="letter-box">
+                <h3 class="red-vibrant italic-fancy" style="font-size: 22px; margin-bottom: 15px;">Minha Promessa Eterna</h3>
+                <div id="typewriter" style="font-size: 14px; line-height: 1.9; color: #eee; text-align: justify;"></div>
             </div>
         </div>
 
-        <div class="page" id="page3" style="background: radial-gradient(circle at center, #0a0a1a 0%, #000 100%);">
-            <h2 class="cyan-vibrant italic-fancy" style="font-size: 35px;">Sorte no Amor</h2>
-            <p style="font-size: 12px; opacity: 0.6; letter-spacing: 2px;">GIRE PARA GANHAR UM MIMO</p>
-
+        <div class="page" id="page3">
+            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 5px;">Sorte no Amor</h2>
+            <p style="font-size: 10px; opacity: 0.6; letter-spacing: 2px;">GIRE E GANHE UM MIMO</p>
+            
             <div class="roulette-wrapper">
                 <div class="wheel-pin"></div>
                 <canvas id="wheel-canvas" width="400" height="400"></canvas>
             </div>
-
+            
             <button id="spin-button">GIRAR SORTE</button>
-
-            <div class="glass-box" style="margin-top: 40px; text-align: center; width: 250px;">
-                <p style="font-size: 10px; opacity: 0.5;">CONSTRUINDO SONHOS HÁ</p>
-                <h2 id="total-hours" class="cyan-vibrant" style="font-size: 35px;">0</h2>
-                <p style="font-size: 10px; opacity: 0.5;">HORAS</p>
+            
+            <div class="glass-box" style="margin-top: 30px; text-align: center; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 20px; width: 220px; border: 1px solid var(--neon-cyan);">
+                <p style="font-size: 9px; opacity: 0.7;">TOTAL DE HORAS JUNTOS</p>
+                <h2 id="total-hours" class="cyan-vibrant" style="font-size: 32px;">0</h2>
             </div>
         </div>
 
         <div class="page" id="page4" style="justify-content: center;">
-            <div style="text-align: center; max-width: 500px;">
-                <h1 class="red-vibrant italic-fancy" style="font-size: 60px;">Infinito.</h1>
-                <p style="font-size: 18px; line-height: 2; margin-top: 20px; padding: 0 20px;">
-                    Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>, minha <span class="red-vibrant">melhor amiga</span> e o grande amor da minha vida. 
-                    Este site é um pedaço do meu coração dedicado a você.
+            <div style="text-align: center; padding: 0 20px;">
+                <h1 class="red-vibrant italic-fancy" style="font-size: 55px;">Infinito.</h1>
+                <p style="font-size: 16px; line-height: 2; margin-top: 20px;">
+                    Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>, minha <span class="red-vibrant">melhor amiga</span> e a dona do meu sorriso mais sincero. Cada capítulo que escrevemos juntos é o meu favorito.
                 </p>
-                <div style="font-size: 50px; margin-top: 40px; filter: drop-shadow(0 0 20px var(--strong-red));">💍 ❤️ 👑</div>
-                <p style="margin-top: 50px; font-size: 11px; opacity: 0.3; letter-spacing: 5px;">PARA SEMPRE KAUAN & EMELI</p>
+                <div style="font-size: 45px; margin-top: 40px; filter: drop-shadow(0 0 15px var(--strong-red));">💍 ❤️ 👑</div>
+                <p style="margin-top: 60px; font-size: 10px; opacity: 0.3; letter-spacing: 4px;">DESENVOLVIDO COM AMOR POR KAUAN</p>
             </div>
         </div>
     </div>
 
     <div id="prize-modal">
         <div class="prize-content">
-            <h2 id="prize-title" class="cyan-vibrant" style="font-size: 30px; margin-bottom: 20px;">Você Ganhou!</h2>
-            <p id="prize-desc" style="font-size: 18px; line-height: 1.6; color: #fff;"></p>
-            <button onclick="closePrize()" style="margin-top: 30px; background: var(--neon-cyan); border: none; padding: 12px 35px; border-radius: 25px; font-weight: 800; cursor: pointer;">AMADO!</button>
+            <h2 id="prize-title" class="cyan-vibrant" style="font-size: 28px; margin-bottom: 15px;">Ganhou!</h2>
+            <p id="prize-desc" style="font-size: 16px; color: #fff;"></p>
+            <button onclick="document.getElementById('prize-modal').style.display='none'" style="margin-top: 25px; background: var(--neon-cyan); border: none; padding: 12px 30px; border-radius: 25px; font-weight: 800; cursor: pointer;">AMADO!</button>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- CONFIGURAÇÕES DE DADOS ---
             const DATA_INICIO = new Date('2025-05-12T00:00:00');
             const DATA_CONHECIDOS = new Date('2025-05-05T00:00:00');
             const DATA_1_ANO = new Date('2026-05-12T00:00:00');
             
-            const TEXTO_CARTA = "Minha princesa Emeli, cada dia ao seu lado é uma nova página do livro mais bonito que eu já li. Você trouxe luz para os meus dias e um sentido novo para a palavra felicidade. Prometo cuidar de você, te proteger e te amar com toda a intensidade que o meu coração permitir. Você é o meu porto seguro. Te amo hoje, amanhã e para sempre! ❤️";
+            // TEXTO MUITO MAIS LONGO E SEM NOME
+            const TEXTO_CARTA = "Minha princesa, desde o exato momento em que nossas vidas se cruzaram, eu senti que algo extraordinário estava prestes a acontecer. Você não é apenas a pessoa que eu amo, mas o porto seguro onde encontro paz em meio a qualquer tempestade. Prometo que serei sempre o seu apoio, aquele que segura a sua mão nos dias difíceis e aquele que celebra com o sorriso mais largo as suas vitórias. Meu amor por você ultrapassa qualquer barreira do tempo e do espaço; é uma chama que arde com a força de mil sóis e a delicadeza de uma flor. Quero construir cada sonho ao seu lado, planejar cada viagem, rir de cada tropeço e envelhecer admirando a luz que você emana. Você é a minha melhor escolha, o meu pensamento mais bonito e a razão pela qual o meu coração bate com tanta alegria. Obrigado por me escolher para caminhar ao seu lado. Eu te amo hoje, amanhã e por toda a eternidade que ainda temos pela frente! ❤️";
 
             const LISTA_PREMIOS = [
-                { t: "Beijo Apaixonado", d: "Um beijo longo e cheio de amor para parar o tempo!" },
-                { t: "Abraço de Urso", d: "Um abraço apertado de pelo menos 1 minuto." },
-                { t: "Massagem Relax", d: "Vale uma massagem completa onde você preferir." },
-                { t: "Jantar Especial", d: "Eu preparo (ou peço) o seu prato favorito hoje!" },
-                { t: "Vale Presente", d: "Um mimo surpresa que vou te dar em mãos." },
-                { t: "Noite de Filmes", d: "Você escolhe o filme e eu levo a pipoca!" }
+                { t: "Beijo Apaixonado", d: "Um beijo demorado que faz o mundo parar de girar!" },
+                { t: "Abraço de 1 Minuto", d: "Aquele abraço apertado que recarrega todas as energias." },
+                { t: "Massagem Relax", d: "Você merece um momento de relaxamento total hoje." },
+                { t: "Jantar Especial", d: "Eu cuido de tudo, você só precisa saborear o momento." },
+                { t: "Vale Presente", d: "Um pequeno mimo surpresa para alegrar o seu dia." },
+                { t: "Noite de Cinema", d: "Pipoca, cobertor e o seu filme favorito escolhido por você!" }
             ];
 
-            // --- ESTADOS ---
             let abaAtiva = 0;
             let startX = 0;
-            let isDragging = false;
             let rolandoTypewriter = false;
             let anguloAtual = 0;
             let estaGirando = false;
 
-            // --- ELEMENTOS ---
             const slider = document.getElementById('master-slider');
             const sotam = document.getElementById('audio-sotam');
             const motel = document.getElementById('audio-motel');
@@ -389,7 +268,6 @@
             const canvas = document.getElementById('wheel-canvas');
             const ctx = canvas.getContext('2d');
 
-            // --- FUNÇÃO CORAÇÕES ---
             function createHeart() {
                 const h = document.createElement('div');
                 h.innerHTML = '❤️';
@@ -397,77 +275,50 @@
                 h.style.left = Math.random() * 100 + 'vw';
                 h.style.top = '100vh';
                 h.style.color = Math.random() > 0.5 ? '#FF0000' : '#00FFFF';
-                h.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                h.style.fontSize = (Math.random() * 20 + 10) + 'px';
                 document.body.appendChild(h);
                 setTimeout(() => h.remove(), 4000);
             }
 
-            // --- NAVEGAÇÃO ---
             function changePage(index) {
                 if (index < 0 || index > 3 || estaGirando) return;
                 abaAtiva = index;
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
                 
-                // Lógica de Typewriter na Pag 2
+                // Disparo da carta longa
                 if (abaAtiva === 1 && !rolandoTypewriter) {
                     rolandoTypewriter = true;
                     let char = 0;
                     const dest = document.getElementById('typewriter');
                     const interval = setInterval(() => {
-                        if (char < TEXTO_CARTA.length) {
-                            dest.innerHTML += TEXTO_CARTA[char];
-                            char++;
-                        } else clearInterval(interval);
-                    }, 45);
+                        if (char < TEXTO_CARTA.length) { dest.innerHTML += TEXTO_CARTA[char]; char++; }
+                        else clearInterval(interval);
+                    }, 40); // Velocidade ajustada para texto longo
                 }
 
-                // Lógica de Áudio Crossfade
-                if (abaAtiva === 3) {
-                    crossFade(sotam, motel);
-                    video.pause();
-                } else if (sotam.paused && !video.playing) {
-                    crossFade(motel, sotam);
-                }
+                if (abaAtiva === 3) { sotam.pause(); motel.play(); video.pause(); }
+                else { motel.pause(); if(video.paused) sotam.play(); }
             }
 
-            function crossFade(out, incoming) {
-                let vol = 1;
-                const fadeOut = setInterval(() => {
-                    if (vol > 0.1) { vol -= 0.1; out.volume = vol; }
-                    else { out.pause(); clearInterval(fadeOut); }
-                }, 100);
-                
-                incoming.volume = 0;
-                incoming.play();
-                let volIn = 0;
-                const fadeIn = setInterval(() => {
-                    if (volIn < 0.9) { volIn += 0.1; incoming.volume = volIn; }
-                    else { incoming.volume = 1; clearInterval(fadeIn); }
-                }, 100);
-            }
-
-            // Listeners PC (Mouse e Teclado)
+            // Controles PC
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight') changePage(abaAtiva + 1);
                 if (e.key === 'ArrowLeft') changePage(abaAtiva - 1);
             });
 
-            slider.addEventListener('mousedown', (e) => { startX = e.clientX; isDragging = true; });
+            slider.addEventListener('mousedown', (e) => { startX = e.clientX; });
             slider.addEventListener('mouseup', (e) => {
-                if (!isDragging) return;
                 const diff = startX - e.clientX;
                 if (Math.abs(diff) > 100) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
-                isDragging = false;
             });
 
-            // Listeners Mobile (Touch)
+            // Controles Mobile
             slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
             slider.addEventListener('touchend', (e) => {
                 const diff = startX - e.changedTouches[0].clientX;
                 if (Math.abs(diff) > 70) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
             });
 
-            // --- CONTADORES ---
             function runCounters() {
                 setInterval(() => {
                     const now = new Date();
@@ -477,41 +328,31 @@
                     document.getElementById('mins').innerText = Math.floor((diff % 3600000) / 60000);
                     document.getElementById('secs').innerText = Math.floor((diff % 60000) / 1000);
 
-                    const diffAniv = DATA_1_ANO - now;
-                    document.getElementById('a-days').innerText = Math.max(0, Math.floor(diffAniv / 86400000));
-                    document.getElementById('a-hours').innerText = Math.max(0, Math.floor((diffAniv % 86400000) / 3600000));
-                    document.getElementById('a-mins').innerText = Math.max(0, Math.floor((diffAniv % 3600000) / 60000));
+                    const da = DATA_1_ANO - now;
+                    document.getElementById('a-days').innerText = Math.max(0, Math.floor(da / 86400000));
+                    document.getElementById('a-hours').innerText = Math.max(0, Math.floor((da % 86400000) / 3600000));
+                    document.getElementById('a-mins').innerText = Math.max(0, Math.floor((da % 3600000) / 60000));
 
                     document.getElementById('total-hours').innerText = Math.floor((now - DATA_CONHECIDOS) / 3600000).toLocaleString();
                 }, 1000);
             }
 
-            // --- ROLETA (DESENHO E LÓGICA) ---
             function drawWheel() {
                 const slices = 6;
-                const sliceAngle = (Math.PI * 2) / slices;
-                ctx.clearRect(0,0,400,400);
-
+                const arc = (Math.PI * 2) / slices;
                 for (let i = 0; i < slices; i++) {
                     ctx.beginPath();
                     ctx.moveTo(200, 200);
-                    ctx.arc(200, 200, 190, i * sliceAngle, (i + 1) * sliceAngle);
-                    ctx.fillStyle = i % 2 === 0 ? '#ff4d8d' : '#FF0000';
+                    ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
+                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF';
                     ctx.fill();
-                    ctx.strokeStyle = '#000';
-                    ctx.lineWidth = 4;
-                    ctx.stroke();
-
-                    // Texto das fatias
                     ctx.save();
                     ctx.translate(200, 200);
-                    ctx.rotate(i * sliceAngle + sliceAngle / 2);
-                    ctx.fillStyle = "#fff";
+                    ctx.rotate(i * arc + arc / 2);
+                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000";
                     ctx.font = "bold 15px Poppins";
                     ctx.textAlign = "right";
-                    ctx.shadowBlur = 5;
-                    ctx.shadowColor = "#000";
-                    ctx.fillText(LISTA_PREMIOS[i].t, 170, 5);
+                    ctx.fillText(LISTA_PREMIOS[i].t, 175, 5);
                     ctx.restore();
                 }
             }
@@ -519,51 +360,41 @@
             document.getElementById('spin-button').addEventListener('click', () => {
                 if (estaGirando) return;
                 estaGirando = true;
-                const spinExtra = Math.floor(Math.random() * 360) + 1800; // Mínimo 5 voltas
-                anguloAtual += spinExtra;
+                const extra = Math.floor(Math.random() * 360) + 2160; // 6 voltas min
+                anguloAtual += extra;
                 canvas.style.transform = `rotate(${anguloAtual}deg)`;
                 document.getElementById('audio-tick').play();
 
                 setTimeout(() => {
                     estaGirando = false;
-                    const finalAngle = (anguloAtual % 360);
-                    const sliceDeg = 360 / 6;
-                    // Cálculo para o prêmio que cai no topo (seta em 270 deg ou topo do canvas)
-                    const index = Math.floor(((360 - (finalAngle % 360)) / sliceDeg)) % 6;
-                    const premio = LISTA_PREMIOS[index];
-                    
-                    document.getElementById('prize-title').innerText = premio.t;
-                    document.getElementById('prize-desc').innerText = premio.d;
+                    const normalized = (anguloAtual % 360);
+                    const idx = Math.floor(((360 - (normalized % 360)) / 60)) % 6;
+                    document.getElementById('prize-title').innerText = LISTA_PREMIOS[idx].t;
+                    document.getElementById('prize-desc').innerText = LISTA_PREMIOS[idx].d;
                     document.getElementById('prize-modal').style.display = 'flex';
                 }, 5100);
             });
 
-            // --- START ---
             document.getElementById('btn-start').addEventListener('click', () => {
-                document.getElementById('splash-screen').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('splash-screen').style.display = 'none';
-                    const loader = document.getElementById('loader-container');
-                    loader.style.display = 'flex';
-                    let progress = 0;
-                    const bar = document.getElementById('bar');
-                    const loadInterval = setInterval(() => {
-                        progress += 2;
-                        bar.style.width = progress + '%';
-                        if (progress >= 100) {
-                            clearInterval(loadInterval);
-                            loader.style.display = 'none';
-                            slider.style.visibility = 'visible';
-                            sotam.play();
-                            runCounters();
-                            drawWheel();
-                            setInterval(createHeart, 400);
-                        }
-                    }, 40);
-                }, 1000);
+                document.getElementById('splash-screen').style.display = 'none';
+                const load = document.getElementById('loader-container');
+                load.style.display = 'flex';
+                let p = 0;
+                const itv = setInterval(() => {
+                    p += 2;
+                    document.getElementById('bar').style.width = p + '%';
+                    if (p >= 100) {
+                        clearInterval(itv);
+                        load.style.display = 'none';
+                        slider.style.visibility = 'visible';
+                        sotam.play();
+                        runCounters();
+                        drawWheel();
+                        setInterval(createHeart, 500);
+                    }
+                }, 40);
             });
 
-            window.closePrize = () => { document.getElementById('prize-modal').style.display = 'none'; };
             video.addEventListener('play', () => { sotam.pause(); motel.pause(); });
             video.addEventListener('pause', () => { if (abaAtiva < 3) sotam.play(); else motel.play(); });
         });
