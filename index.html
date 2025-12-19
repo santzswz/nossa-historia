@@ -10,15 +10,14 @@
     <style>
         :root {
             --primary-pink: #ff4d8d;
-            --strong-red: #FF0000;    /* Vermelho Vivo */
-            --neon-cyan: #00FFFF;     /* Ciano Neon */
+            --strong-red: #FF0000;
+            --neon-cyan: #00FFFF;
             --deep-black: #000000;
             --glass-vibe: rgba(255, 255, 255, 0.08);
             --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
             --neon-glow-cyan: 0 0 15px #00ffff, 0 0 30px #00ffff;
         }
 
-        /* Reset e Base */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
@@ -31,13 +30,10 @@
             user-select: none;
         }
 
-        /* Classes de Destaque */
         .red-vibrant { color: var(--strong-red) !important; font-weight: 800; text-shadow: var(--neon-glow-red); }
         .cyan-vibrant { color: var(--neon-cyan) !important; font-weight: 700; text-shadow: var(--neon-glow-cyan); }
-        .pink-neon { color: var(--primary-pink); text-shadow: 0 0 10px var(--primary-pink); }
         .italic-fancy { font-family: 'Playfair Display', serif; font-style: italic; }
 
-        /* Splash Screen */
         #splash-screen {
             position: fixed; inset: 0;
             background: radial-gradient(circle at center, #2b0505 0%, #000 100%);
@@ -47,12 +43,10 @@
         .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.2s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
         @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
-        /* Loader */
         #loader-container { display: none; position: fixed; inset: 0; background: #000; z-index: 4999; flex-direction: column; align-items: center; justify-content: center; }
         .loader-track { width: 300px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 25px; border: 1px solid var(--neon-cyan); }
         .loader-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--strong-red), var(--neon-cyan)); box-shadow: 0 0 15px var(--neon-cyan); transition: width 0.4s; }
 
-        /* Estrutura de Navegação */
         #master-slider { 
             display: flex; width: 400vw; height: 100vh; 
             transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1); 
@@ -61,69 +55,55 @@
         .page { 
             width: 100vw; height: 100vh; position: relative; 
             display: flex; flex-direction: column; align-items: center; 
-            padding: 60px 20px; overflow-y: auto; overflow-x: hidden; 
+            padding: 40px 20px; overflow-y: auto; overflow-x: hidden; 
         }
 
-        /* Widgets da Página 1 */
-        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); backdrop-filter: blur(20px); border-radius: 40px; padding: 35px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 30px; }
-        .rotating-art { width: 200px; height: 200px; margin: 0 auto 25px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
+        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); backdrop-filter: blur(20px); border-radius: 40px; padding: 25px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 20px; }
+        .rotating-art { width: 160px; height: 160px; margin: 0 auto 15px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
         @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 420px; margin-bottom: 30px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 420px; margin-bottom: 20px; }
         .time-card { background: rgba(0,0,0,0.7); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.2); }
-        .time-card span { display: block; font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
+        .time-card span { display: block; font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
         .time-card label { font-size: 9px; color: var(--neon-cyan); letter-spacing: 1px; font-weight: 700; }
 
-        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 25px; border-radius: 0 20px 20px 0; line-height: 1.8; font-size: 15px; text-align: justify; }
+        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 20px; border-radius: 0 20px 20px 0; line-height: 1.6; font-size: 14px; text-align: justify; min-height: 150px;}
 
-        /* Widgets da Página 2 */
-        .anniversary-badge { background: linear-gradient(45deg, var(--strong-red), #500); padding: 15px 30px; border-radius: 50px; margin-bottom: 30px; text-align: center; box-shadow: 0 0 20px var(--strong-red); }
-        
-        .timeline-container { width: 100%; max-width: 380px; position: relative; margin: 20px 0; padding-bottom: 20px; }
-        .timeline-container::after { content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 100%; background: linear-gradient(to bottom, var(--strong-red), var(--neon-cyan)); transform: translateX(-50%); }
-        .timeline-event { width: 100%; margin-bottom: 30px; display: flex; position: relative; z-index: 2; }
-        .event-point { width: 12px; height: 12px; background: #fff; border-radius: 50%; position: absolute; left: 50%; transform: translateX(-50%); box-shadow: 0 0 10px #fff; }
-        .event-card { width: 44%; background: var(--glass-vibe); padding: 12px; border-radius: 12px; font-size: 11px; border: 1px solid rgba(255,255,255,0.1); }
-        .event-right { justify-content: flex-end; } .event-left { justify-content: flex-start; }
-
-        /* CORREÇÃO DO VÍDEO */
+        /* VIDEO MAIOR */
         .video-container { 
-            width: 100%; 
-            max-width: 400px; 
-            min-height: 225px; 
+            width: 95%; 
+            max-width: 480px; 
+            aspect-ratio: 16/9;
             border-radius: 20px; 
             overflow: hidden; 
             border: 3px solid var(--neon-cyan); 
-            margin: 20px 0; 
+            margin: 10px 0 20px 0; 
             background: #000;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.4);
             position: relative;
         }
-        video { width: 100%; height: auto; display: block; object-fit: cover; }
+        video { width: 100%; height: 100%; display: block; object-fit: cover; }
 
         .letter-box { 
             width: 100%; 
             max-width: 450px; 
-            padding: 30px; 
+            padding: 25px; 
             background: rgba(255,255,255,0.03); 
             border-radius: 30px; 
             border: 1px solid rgba(0,255,255,0.1);
-            margin-top: 10px;
+            min-height: 200px;
         }
 
-        /* Roleta */
-        .roulette-wrapper { position: relative; width: 320px; height: 320px; margin: 30px 0; }
+        .roulette-wrapper { position: relative; width: 300px; height: 300px; margin: 20px 0; }
         #wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 40px var(--primary-pink); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
-        .wheel-pin { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 18px solid transparent; border-right: 18px solid transparent; border-top: 35px solid var(--neon-cyan); z-index: 20; filter: drop-shadow(0 0 5px #000); }
-        #spin-button { background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 15px 45px; border-radius: 40px; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 25px rgba(255,0,0,0.4); margin-top: 15px; }
+        .wheel-pin { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--neon-cyan); z-index: 20; }
+        #spin-button { background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 40px; border-radius: 40px; font-size: 16px; font-weight: 900; cursor: pointer; box-shadow: 0 10px 25px rgba(255,0,0,0.4); }
 
-        /* Modais e Partículas */
         #prize-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
         .prize-content { background: #111; border: 3px solid var(--strong-red); padding: 40px 25px; border-radius: 40px; text-align: center; max-width: 350px; }
 
         .particle { position: fixed; pointer-events: none; z-index: 10; animation: particleFloat 4s ease-in forwards; }
         @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2) rotate(360deg); opacity: 0; } }
-
     </style>
 </head>
 <body>
@@ -143,88 +123,56 @@
     </div>
 
     <div id="master-slider">
-        
         <div class="page" id="page1">
             <div class="player-ui">
                 <div class="rotating-art"></div>
-                <h1 class="italic-fancy red-vibrant" style="font-size: 32px;">Foi Assim</h1>
-                <p style="opacity: 0.6; font-size: 11px; letter-spacing: 3px;">SOTAM • EM REPRODUÇÃO</p>
+                <h1 class="italic-fancy red-vibrant" style="font-size: 28px;">Foi Assim</h1>
+                <p style="opacity: 0.6; font-size: 10px; letter-spacing: 3px;">SOTAM • EM REPRODUÇÃO</p>
             </div>
-
             <div class="timer-grid">
                 <div class="time-card"><span id="days">0</span><label>DIAS</label></div>
                 <div class="time-card"><span id="hours">0</span><label>HORAS</label></div>
                 <div class="time-card"><span id="mins">0</span><label>MIN</label></div>
                 <div class="time-card"><span id="secs">0</span><label>SEG</label></div>
             </div>
-
             <div class="original-text-box">
                 <h3 class="cyan-vibrant" style="margin-bottom: 12px; font-size: 18px;">Nosso Tempo Particular</h3>
-                <p>
-                    <span class="red-vibrant">Cada segundo ao seu lado</span> é uma prova do <span class="cyan-vibrant">tempo precioso</span> que dedicamos um ao outro. 
-                    Desde que você entrou na minha vida, o relógio parece marcar as horas de um jeito diferente, mais intenso e cheio de cor.
-                    <br><br>
-                    Você é a minha <span class="red-vibrant">maior certeza</span> e o motivo de cada um desses segundos valerem a pena. Este contador não é apenas sobre números, mas sobre a vida que ganha cor a cada batida do coração ao seu lado.
-                </p>
+                <div id="typewriter1"></div>
             </div>
         </div>
 
         <div class="page" id="page2">
-            <div class="anniversary-badge">
-                <p style="font-size: 9px; letter-spacing: 2px; color: #fff;">CONTAGEM PARA 1 ANO</p>
-                <div style="display: flex; gap: 12px; justify-content: center; margin-top: 5px;">
-                    <span id="a-days" class="cyan-vibrant" style="font-size: 22px;">0</span>
-                    <span id="a-hours" class="cyan-vibrant" style="font-size: 22px;">0</span>
-                    <span id="a-mins" class="cyan-vibrant" style="font-size: 22px;">0</span>
-                </div>
-            </div>
-
-            <div class="timeline-container">
-                <div class="timeline-event event-left">
-                    <div class="event-point" style="background: var(--strong-red);"></div>
-                    <div class="event-card"><b class="red-vibrant">05 MAIO</b><br>O primeiro "oi" que mudou o meu mundo para sempre.</div>
-                </div>
-                <div class="timeline-event event-right">
-                    <div class="event-point" style="background: var(--neon-cyan);"></div>
-                    <div class="event-card" style="border-color: var(--neon-cyan);"><b class="cyan-vibrant">12 MAIO</b><br>O beijo que selou o início da nossa linda jornada.</div>
-                </div>
-            </div>
-
             <div class="video-container">
-                <video id="love-video" controls playsinline webkit-playsinline src="seu-video.mp4" poster=""></video>
+                <video id="love-video" playsinline webkit-playsinline src="seu-video.mp4"></video>
             </div>
-
             <div class="letter-box">
                 <h3 class="red-vibrant italic-fancy" style="font-size: 22px; margin-bottom: 15px;">Minha Promessa Eterna</h3>
-                <div id="typewriter" style="font-size: 14px; line-height: 1.9; color: #eee; text-align: justify;"></div>
+                <div id="typewriter2" style="font-size: 14px; line-height: 1.9; color: #eee; text-align: justify;"></div>
             </div>
         </div>
 
         <div class="page" id="page3">
             <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 5px;">Sorte no Amor</h2>
             <p style="font-size: 10px; opacity: 0.6; letter-spacing: 2px;">GIRE E GANHE UM MIMO</p>
-            
             <div class="roulette-wrapper">
                 <div class="wheel-pin"></div>
                 <canvas id="wheel-canvas" width="400" height="400"></canvas>
             </div>
-            
             <button id="spin-button">GIRAR SORTE</button>
-            
-            <div class="glass-box" style="margin-top: 30px; text-align: center; background: rgba(0,0,0,0.4); padding: 20px; border-radius: 20px; width: 220px; border: 1px solid var(--neon-cyan);">
+            <div style="margin-top: 20px; text-align: center; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 20px; width: 220px; border: 1px solid var(--neon-cyan);">
                 <p style="font-size: 9px; opacity: 0.7;">TOTAL DE HORAS JUNTOS</p>
-                <h2 id="total-hours" class="cyan-vibrant" style="font-size: 32px;">0</h2>
+                <h2 id="total-hours" class="cyan-vibrant" style="font-size: 28px;">0</h2>
             </div>
         </div>
 
         <div class="page" id="page4" style="justify-content: center;">
-            <div style="text-align: center; padding: 0 20px;">
-                <h1 class="red-vibrant italic-fancy" style="font-size: 55px;">Infinito.</h1>
-                <p style="font-size: 16px; line-height: 2; margin-top: 20px;">
-                    Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>, minha <span class="red-vibrant">melhor amiga</span> e a dona do meu sorriso mais sincero. Cada capítulo que escrevemos juntos é o meu favorito.
+            <div style="text-align: center;">
+                <h1 class="red-vibrant italic-fancy" style="font-size: 50px;">Infinito.</h1>
+                <p style="font-size: 15px; line-height: 2; margin-top: 15px; padding: 0 20px;">
+                    Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>, minha <span class="red-vibrant">melhor amiga</span> e a dona do meu sorriso mais sincero.
                 </p>
-                <div style="font-size: 45px; margin-top: 40px; filter: drop-shadow(0 0 15px var(--strong-red));">💍 ❤️ 👑</div>
-                <p style="margin-top: 60px; font-size: 10px; opacity: 0.3; letter-spacing: 4px;">DESENVOLVIDO COM AMOR POR KAUAN</p>
+                <div style="font-size: 40px; margin-top: 30px;">💍 ❤️ 👑</div>
+                <p style="margin-top: 50px; font-size: 9px; opacity: 0.3; letter-spacing: 4px;">DESENVOLVIDO COM AMOR POR KAUAN</p>
             </div>
         </div>
     </div>
@@ -241,43 +189,43 @@
         document.addEventListener('DOMContentLoaded', () => {
             const DATA_INICIO = new Date('2025-05-12T00:00:00');
             const DATA_CONHECIDOS = new Date('2025-05-05T00:00:00');
-            const DATA_1_ANO = new Date('2026-05-12T00:00:00');
-            
-            // TEXTO MUITO MAIS LONGO E SEM NOME
-            const TEXTO_CARTA = "Minha princesa, desde o exato momento em que nossas vidas se cruzaram, eu senti que algo extraordinário estava prestes a acontecer. Você não é apenas a pessoa que eu amo, mas o porto seguro onde encontro paz em meio a qualquer tempestade. Prometo que serei sempre o seu apoio, aquele que segura a sua mão nos dias difíceis e aquele que celebra com o sorriso mais largo as suas vitórias. Meu amor por você ultrapassa qualquer barreira do tempo e do espaço; é uma chama que arde com a força de mil sóis e a delicadeza de uma flor. Quero construir cada sonho ao seu lado, planejar cada viagem, rir de cada tropeço e envelhecer admirando a luz que você emana. Você é a minha melhor escolha, o meu pensamento mais bonito e a razão pela qual o meu coração bate com tanta alegria. Obrigado por me escolher para caminhar ao seu lado. Eu te amo hoje, amanhã e por toda a eternidade que ainda temos pela frente! ❤️";
+            const TEXTO_P1 = "Cada segundo ao seu lado é uma prova do tempo precioso que dedicamos um ao outro. Desde que você entrou na minha vida, o relógio parece marcar as horas de um jeito diferente, mais intenso e cheio de cor. Você é a minha maior certeza.";
+            const TEXTO_P2 = "Minha princesa, desde o exato momento em que nossas vidas se cruzaram, eu senti que algo extraordinário estava prestes a acontecer. Você não é apenas a pessoa que eu amo, mas o porto seguro onde encontro paz. Prometo ser sempre o seu apoio, segurando sua mão e celebrando suas vitórias. Meu amor por você ultrapassa barreiras, é uma chama que arde com força e delicadeza. Quero construir cada sonho ao seu lado. Eu te amo por toda a eternidade! ❤️";
 
             const LISTA_PREMIOS = [
-                { t: "Beijo Apaixonado", d: "Um beijo demorado que faz o mundo parar de girar!" },
-                { t: "Abraço de 1 Minuto", d: "Aquele abraço apertado que recarrega todas as energias." },
-                { t: "Massagem Relax", d: "Você merece um momento de relaxamento total hoje." },
-                { t: "Jantar Especial", d: "Eu cuido de tudo, você só precisa saborear o momento." },
-                { t: "Vale Presente", d: "Um pequeno mimo surpresa para alegrar o seu dia." },
-                { t: "Noite de Cinema", d: "Pipoca, cobertor e o seu filme favorito escolhido por você!" }
+                { t: "Beijo Longo", d: "Um beijo demorado que faz o mundo parar." },
+                { t: "Massagem", d: "Você merece um momento de relaxamento total." },
+                { t: "Jantar Especial", d: "Eu cuido de tudo, você só aproveita." },
+                { t: "Vale Mimo", d: "Um presente surpresa para você hoje." },
+                { t: "Cinema em Casa", d: "Pipoca e o filme que você escolher!" },
+                { t: "Abraço de Urso", d: "Aquele abraço que recarrega as energias." }
             ];
 
-            let abaAtiva = 0;
-            let startX = 0;
-            let rolandoTypewriter = false;
-            let anguloAtual = 0;
-            let estaGirando = false;
+            let abaAtiva = 0, startX = 0, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0, estaGirando = false;
+            const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), motel = document.getElementById('audio-motel'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
 
-            const slider = document.getElementById('master-slider');
-            const sotam = document.getElementById('audio-sotam');
-            const motel = document.getElementById('audio-motel');
-            const video = document.getElementById('love-video');
-            const canvas = document.getElementById('wheel-canvas');
-            const ctx = canvas.getContext('2d');
+            function startTypewriter(elementId, text, speed = 40) {
+                let char = 0;
+                const dest = document.getElementById(elementId);
+                dest.innerHTML = "";
+                const interval = setInterval(() => {
+                    if (char < text.length) { dest.innerHTML += text[char]; char++; }
+                    else clearInterval(interval);
+                }, speed);
+            }
 
-            function createHeart() {
-                const h = document.createElement('div');
-                h.innerHTML = '❤️';
-                h.className = 'particle';
-                h.style.left = Math.random() * 100 + 'vw';
-                h.style.top = '100vh';
-                h.style.color = Math.random() > 0.5 ? '#FF0000' : '#00FFFF';
-                h.style.fontSize = (Math.random() * 20 + 10) + 'px';
-                document.body.appendChild(h);
-                setTimeout(() => h.remove(), 4000);
+            function crossfade(audioOut, audioIn) {
+                let vol = 1;
+                const interval = setInterval(() => {
+                    vol -= 0.1;
+                    if (vol <= 0) {
+                        audioOut.pause();
+                        audioOut.volume = 1;
+                        clearInterval(interval);
+                        audioIn.volume = 1;
+                        audioIn.play();
+                    } else { audioOut.volume = vol; }
+                }, 100);
             }
 
             function changePage(index) {
@@ -285,34 +233,25 @@
                 abaAtiva = index;
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
                 
-                // Disparo da carta longa
-                if (abaAtiva === 1 && !rolandoTypewriter) {
-                    rolandoTypewriter = true;
-                    let char = 0;
-                    const dest = document.getElementById('typewriter');
-                    const interval = setInterval(() => {
-                        if (char < TEXTO_CARTA.length) { dest.innerHTML += TEXTO_CARTA[char]; char++; }
-                        else clearInterval(interval);
-                    }, 40); // Velocidade ajustada para texto longo
+                if (abaAtiva === 0 && !rolandoT1) { rolandoT1 = true; startTypewriter('typewriter1', TEXTO_P1); }
+                
+                if (abaAtiva === 1) {
+                    crossfade(sotam, video);
+                    video.currentTime = 0;
+                    video.play();
+                    if(!rolandoT2) { rolandoT2 = true; setTimeout(() => startTypewriter('typewriter2', TEXTO_P2), 500); }
+                } else {
+                    video.pause();
+                    if (abaAtiva === 3) { sotam.pause(); motel.play(); }
+                    else { motel.pause(); sotam.play(); }
                 }
-
-                if (abaAtiva === 3) { sotam.pause(); motel.play(); video.pause(); }
-                else { motel.pause(); if(video.paused) sotam.play(); }
             }
 
-            // Controles PC
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowRight') changePage(abaAtiva + 1);
                 if (e.key === 'ArrowLeft') changePage(abaAtiva - 1);
             });
 
-            slider.addEventListener('mousedown', (e) => { startX = e.clientX; });
-            slider.addEventListener('mouseup', (e) => {
-                const diff = startX - e.clientX;
-                if (Math.abs(diff) > 100) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
-            });
-
-            // Controles Mobile
             slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
             slider.addEventListener('touchend', (e) => {
                 const diff = startX - e.changedTouches[0].clientX;
@@ -327,48 +266,32 @@
                     document.getElementById('hours').innerText = Math.floor((diff % 86400000) / 3600000);
                     document.getElementById('mins').innerText = Math.floor((diff % 3600000) / 60000);
                     document.getElementById('secs').innerText = Math.floor((diff % 60000) / 1000);
-
-                    const da = DATA_1_ANO - now;
-                    document.getElementById('a-days').innerText = Math.max(0, Math.floor(da / 86400000));
-                    document.getElementById('a-hours').innerText = Math.max(0, Math.floor((da % 86400000) / 3600000));
-                    document.getElementById('a-mins').innerText = Math.max(0, Math.floor((da % 3600000) / 60000));
-
                     document.getElementById('total-hours').innerText = Math.floor((now - DATA_CONHECIDOS) / 3600000).toLocaleString();
                 }, 1000);
             }
 
             function drawWheel() {
-                const slices = 6;
-                const arc = (Math.PI * 2) / slices;
+                const slices = 6; const arc = (Math.PI * 2) / slices;
                 for (let i = 0; i < slices; i++) {
-                    ctx.beginPath();
-                    ctx.moveTo(200, 200);
-                    ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
-                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF';
-                    ctx.fill();
-                    ctx.save();
-                    ctx.translate(200, 200);
-                    ctx.rotate(i * arc + arc / 2);
-                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000";
-                    ctx.font = "bold 15px Poppins";
-                    ctx.textAlign = "right";
-                    ctx.fillText(LISTA_PREMIOS[i].t, 175, 5);
-                    ctx.restore();
+                    ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
+                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
+                    ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
+                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText(LISTA_PREMIOS[i].t, 175, 5); ctx.restore();
                 }
             }
 
             document.getElementById('spin-button').addEventListener('click', () => {
                 if (estaGirando) return;
                 estaGirando = true;
-                const extra = Math.floor(Math.random() * 360) + 2160; // 6 voltas min
+                const extra = Math.floor(Math.random() * 360) + 1800;
                 anguloAtual += extra;
                 canvas.style.transform = `rotate(${anguloAtual}deg)`;
                 document.getElementById('audio-tick').play();
-
                 setTimeout(() => {
                     estaGirando = false;
                     const normalized = (anguloAtual % 360);
-                    const idx = Math.floor(((360 - (normalized % 360)) / 60)) % 6;
+                    // Lógica para alinhar o prêmio com o pino superior (270 graus no canvas)
+                    const idx = Math.floor(((360 - (normalized % 360) + 270) % 360) / 60);
                     document.getElementById('prize-title').innerText = LISTA_PREMIOS[idx].t;
                     document.getElementById('prize-desc').innerText = LISTA_PREMIOS[idx].d;
                     document.getElementById('prize-modal').style.display = 'flex';
@@ -381,22 +304,15 @@
                 load.style.display = 'flex';
                 let p = 0;
                 const itv = setInterval(() => {
-                    p += 2;
-                    document.getElementById('bar').style.width = p + '%';
+                    p += 2; document.getElementById('bar').style.width = p + '%';
                     if (p >= 100) {
-                        clearInterval(itv);
-                        load.style.display = 'none';
+                        clearInterval(itv); load.style.display = 'none';
                         slider.style.visibility = 'visible';
-                        sotam.play();
-                        runCounters();
-                        drawWheel();
-                        setInterval(createHeart, 500);
+                        sotam.play(); runCounters(); drawWheel();
+                        if(!rolandoT1) { rolandoT1 = true; startTypewriter('typewriter1', TEXTO_P1); }
                     }
-                }, 40);
+                }, 30);
             });
-
-            video.addEventListener('play', () => { sotam.pause(); motel.pause(); });
-            video.addEventListener('pause', () => { if (abaAtiva < 3) sotam.play(); else motel.play(); });
         });
     </script>
 </body>
