@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nosso Destino - Eternidade</title>
+    <title>Premium Experience - Eternidade</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@1,400;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&family=Playfair+Display:ital,wght@1,700;1,900&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --strong-red: #FF0000;
             --neon-cyan: #00FFFF;
-            --bg-deep: #0a0a0c;
-            --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
-            --neon-glow-cyan: 0 0 20px #00ffff, 0 0 40px rgba(0, 255, 255, 0.4);
+            --premium-gold: rgba(255, 255, 255, 0.1);
+            --neon-glow-red: 0 0 20px rgba(255, 0, 0, 0.6), 0 0 40px rgba(255, 0, 0, 0.3);
+            --neon-glow-cyan: 0 0 25px rgba(0, 255, 255, 0.5), 0 0 50px rgba(0, 255, 255, 0.2);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
-        /* O FUNDO DO JACARÉ */
         body { 
-            background: radial-gradient(circle at 50% 50%, #2c2c34 0%, #000000 85%);
+            background: #000;
             color: #ffffff; 
             overflow: hidden; 
             height: 100vh; 
@@ -28,90 +27,121 @@
             position: relative;
         }
 
-        body::before {
-            content: "";
-            position: absolute;
+        /* CANVAS DE PARTÍCULAS CINEMATOGRÁFICAS */
+        #particles-canvas {
+            position: fixed;
             inset: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-            opacity: 0.04;
+            z-index: 0;
             pointer-events: none;
-            z-index: 1;
         }
 
-        .red-vibrant { color: var(--strong-red) !important; font-weight: 800; text-shadow: var(--neon-glow-red); }
+        /* TEXTURAS DE LUXO */
+        .overlay-vignette {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.8) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .red-vibrant { 
+            background: linear-gradient(135deg, #fff 0%, var(--strong-red) 50%, #800000 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            filter: drop-shadow(var(--neon-glow-red));
+        }
+
         .cyan-vibrant { color: var(--neon-cyan) !important; font-weight: 700; text-shadow: var(--neon-glow-cyan); }
         .italic-fancy { font-family: 'Playfair Display', serif; font-style: italic; }
 
+        /* CARTÃO GLASSMOPHISM PRO MAX */
         .glass-card {
-            background: rgba(15, 15, 20, 0.7);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), var(--neon-glow-cyan);
-            border-radius: 30px;
-            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px) saturate(180%);
+            -webkit-backdrop-filter: blur(30px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,255,255,0.05);
+            border-radius: 35px;
+            padding: 30px;
             width: 100%;
             max-width: 450px;
-            margin-bottom: 20px;
-            z-index: 2;
+            margin-bottom: 25px;
+            z-index: 10;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.8s forwards ease-out;
         }
 
-        #master-slider { display: flex; width: 400vw; height: 100vh; transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); visibility: hidden; z-index: 2; }
-        .page { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 25px; overflow-y: auto; flex-shrink: 0; }
+        @keyframes slideIn { to { transform: translateY(0); opacity: 1; } }
 
-        .video-wrapper { width: 100%; max-width: 450px; border-radius: 25px; overflow: hidden; border: 2px solid var(--neon-cyan); box-shadow: var(--neon-glow-cyan); margin: 15px 0; }
-        .scrollable-text-container { width: 100%; max-width: 450px; height: 260px; overflow-y: auto; padding-right: 12px; }
-        .scrollable-text-container::-webkit-scrollbar { width: 4px; }
-        .scrollable-text-container::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 10px; }
+        #master-slider { display: flex; width: 400vw; height: 100vh; transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1); visibility: hidden; z-index: 10; }
+        .page { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 25px; overflow-y: auto; flex-shrink: 0; position: relative; }
 
-        .marquee-container { width: 100%; overflow: hidden; background: rgba(0,255,255,0.03); border-top: 1px solid rgba(0,255,255,0.2); border-bottom: 1px solid rgba(0,255,255,0.2); padding: 12px 0; margin-top: auto; }
-        .marquee-content { display: flex; white-space: nowrap; animation: marquee 25s linear infinite; }
-        .marquee-content span { font-size: 16px; font-weight: 800; color: var(--neon-cyan); margin-right: 60px; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .video-wrapper { 
+            width: 100%; max-width: 450px; border-radius: 30px; overflow: hidden; 
+            border: 1px solid rgba(0, 255, 255, 0.4); 
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2); margin: 20px 0;
+        }
 
-        #splash-screen { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; align-items: center; justify-content: center; }
-        .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.4s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
-        @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
+        .scrollable-text-container { width: 100%; max-width: 450px; height: 280px; overflow-y: auto; padding-right: 15px; }
+        .scrollable-text-container::-webkit-scrollbar { width: 3px; }
+        .scrollable-text-container::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.3); border-radius: 10px; }
+
+        .marquee-container { 
+            width: 100%; overflow: hidden; 
+            background: linear-gradient(90deg, transparent, rgba(0,255,255,0.05), transparent); 
+            padding: 15px 0; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .marquee-content span { font-size: 14px; font-weight: 300; color: #fff; margin-right: 80px; text-transform: uppercase; letter-spacing: 5px; opacity: 0.5; }
+
+        #splash-screen { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s ease-in-out; }
+        .main-heart { font-size: 120px; cursor: pointer; animation: heartPremium 2s infinite; filter: drop-shadow(0 0 50px var(--strong-red)); }
+        @keyframes heartPremium { 0%, 100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.1) rotate(5deg); } }
     </style>
 </head>
 <body>
 
+    <canvas id="particles-canvas"></canvas>
+    <div class="overlay-vignette"></div>
+
     <audio id="audio-sotam" loop><source src="foi-assim.mp3" type="audio/mpeg"></audio>
     <audio id="audio-tick"><source src="https://www.soundjay.com/misc/sounds/click-02.mp3" type="audio/mpeg"></audio>
+    <audio id="audio-whoosh"><source src="https://www.soundjay.com/button/sounds/button-20.mp3" type="audio/mpeg"></audio>
 
     <div id="splash-screen"><div class="main-heart" id="btn-start">❤️</div></div>
 
     <div id="master-slider">
         <div class="page">
-            <div class="glass-card" style="text-align: center;">
-                <div style="width: 140px; height: 140px; margin: 0 auto 20px; border-radius: 50%; border: 3px solid var(--neon-cyan); background: url('foto-capa.jpg') center/cover; box-shadow: var(--neon-glow-cyan);"></div>
-                <h1 class="italic-fancy red-vibrant" style="font-size: 34px;">Foi Assim</h1>
+            <div class="glass-card" style="text-align: center; border: 1px solid rgba(0,255,255,0.2);">
+                <div style="width: 150px; height: 150px; margin: 0 auto 25px; border-radius: 50%; border: 2px solid var(--neon-cyan); background: url('foto-capa.jpg') center/cover; box-shadow: var(--neon-glow-cyan);"></div>
+                <h1 class="italic-fancy red-vibrant" style="font-size: 38px; letter-spacing: -1px;">Foi Assim</h1>
             </div>
-            <div id="typewriter1" class="glass-card" style="font-size: 15px; line-height: 1.7;"></div>
+            <div id="typewriter1" class="glass-card" style="font-size: 15px; line-height: 1.8; font-weight: 300;"></div>
         </div>
 
         <div class="page">
-            <h1 class="red-vibrant italic-fancy" style="font-size: 30px;">Nossa Jornada ✨</h1>
-            <div class="video-wrapper"><video id="love-video" playsinline src="seu-video.mp4"></video></div>
+            <h1 class="red-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 10px;">A Jornada</h1>
+            <div class="video-wrapper"><video id="love-video" playsinline loop src="seu-video.mp4"></video></div>
             <div class="glass-card scrollable-text-container">
-                <div id="typewriter2" style="font-size: 15px; line-height: 1.8;"></div>
+                <div id="typewriter2" style="font-size: 15px; line-height: 2;"></div>
             </div>
         </div>
 
         <div class="page">
-            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px;">Sorte no Amor 🎡</h2>
-            <canvas id="wheel-canvas" width="400" height="400" style="width: 290px; height: 290px; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 50px rgba(0, 255, 255, 0.3); margin: 25px 0;"></canvas>
-            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), #ff4d8d); color: white; border: none; padding: 15px 50px; border-radius: 50px; font-weight: 900; font-size: 16px; letter-spacing: 1px; box-shadow: var(--neon-glow-red); cursor: pointer;">GIRAR SORTE</button>
+            <h2 class="cyan-vibrant italic-fancy" style="font-size: 35px; margin-bottom: 20px;">Wheel of Destiny</h2>
+            <canvas id="wheel-canvas" width="400" height="400" style="width: 300px; height: 300px; border-radius: 50%; box-shadow: 0 0 60px rgba(0, 255, 255, 0.1); margin-bottom: 30px;"></canvas>
+            <button id="spin-button" style="background: #fff; color: #000; border: none; padding: 18px 60px; border-radius: 100px; font-weight: 900; font-size: 14px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: 0.3s;">Tentar Sorte</button>
             <div class="marquee-container">
-                <div class="marquee-content">
-                    <span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span><span>Eternidade</span><span>Minha Princesa</span><span>Amor Infinito</span><span>Minha Vida</span>
+                <div class="marquee-content" style="display: flex; animation: marquee 30s linear infinite;">
+                    <span>Amor Infinito</span><span>Princesa</span><span>Destino</span><span>Eternidade</span><span>Amor Infinito</span><span>Princesa</span><span>Destino</span><span>Eternidade</span>
                 </div>
             </div>
         </div>
 
         <div class="page" style="justify-content: center; text-align: center;">
-            <h1 class="red-vibrant italic-fancy" style="font-size: 65px; margin-bottom: 20px;">Infinito.</h1>
-            <p style="font-size: 18px; letter-spacing: 2px;">Onde quer que você esteja, eu estarei.</p>
-            <div style="font-size: 50px; margin-top: 50px;">💍 ❤️ 👑</div>
+            <h1 class="red-vibrant italic-fancy" style="font-size: 80px; line-height: 1;">Para<br>Sempre.</h1>
+            <div style="font-size: 50px; margin-top: 60px; filter: drop-shadow(0 0 20px #fff);">💍 ❤️ 👑</div>
         </div>
     </div>
 
@@ -122,32 +152,39 @@
             const PREMIOS = ["Beijo Longo", "Massagem", "😈 ...", "Vale Mimo", "Cinema em Casa", "Abraço de Urso"];
 
             let abaAtiva = 0, startX = 0, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0, estaGirando = false;
-            const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), tick = document.getElementById('audio-tick'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
+            const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), tick = document.getElementById('audio-tick'), whoosh = document.getElementById('audio-whoosh'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
+
+            /* MOTOR DE PARTÍCULAS JACARÉ PRO MAX */
+            const pCanvas = document.getElementById('particles-canvas'), pCtx = pCanvas.getContext('2d');
+            let particles = [];
+            function initParticles() {
+                pCanvas.width = window.innerWidth; pCanvas.height = window.innerHeight;
+                for(let i=0; i<80; i++) particles.push({ x: Math.random()*pCanvas.width, y: Math.random()*pCanvas.height, size: Math.random()*2, speed: Math.random()*0.5 + 0.1, opacity: Math.random() });
+            }
+            function animateParticles() {
+                pCtx.clearRect(0,0,pCanvas.width,pCanvas.height);
+                particles.forEach(p => {
+                    p.y -= p.speed; if(p.y < 0) p.y = pCanvas.height;
+                    pCtx.fillStyle = `rgba(255,255,255,${p.opacity})`;
+                    pCtx.beginPath(); pCtx.arc(p.x, p.y, p.size, 0, Math.PI*2); pCtx.fill();
+                });
+                requestAnimationFrame(animateParticles);
+            }
 
             function fadeVolume(target) {
                 let current = sotam.volume;
                 const interval = setInterval(() => {
-                    if (Math.abs(current - target) < 0.05) {
-                        sotam.volume = target;
-                        clearInterval(interval);
-                    } else {
-                        current += (target > current ? 0.05 : -0.05);
-                        sotam.volume = Math.max(0, Math.min(1, current));
-                    }
+                    if (Math.abs(current - target) < 0.05) { sotam.volume = target; clearInterval(interval); }
+                    else { current += (target > current ? 0.05 : -0.05); sotam.volume = Math.max(0, Math.min(1, current)); }
                 }, 50);
             }
 
             function typeWriter(elId, text, speed = 35) {
-                const el = document.getElementById(elId);
-                el.innerHTML = ""; let i = 0;
+                const el = document.getElementById(elId); el.innerHTML = ""; let i = 0;
                 function typing() {
                     if (i < text.length) {
-                        if (text.charAt(i) === '<') {
-                            let end = text.indexOf('>', i) + 1;
-                            el.insertAdjacentHTML('beforeend', text.substring(i, end)); i = end;
-                        } else {
-                            el.insertAdjacentHTML('beforeend', text.charAt(i)); i++;
-                        }
+                        if (text.charAt(i) === '<') { let end = text.indexOf('>', i) + 1; el.insertAdjacentHTML('beforeend', text.substring(i, end)); i = end; }
+                        else { el.insertAdjacentHTML('beforeend', text.charAt(i)); i++; }
                         setTimeout(typing, speed);
                         if(elId === 'typewriter2') el.parentElement.scrollTop = el.parentElement.scrollHeight;
                     }
@@ -157,16 +194,11 @@
 
             function changePage(index) {
                 if (index < 0 || index > 3 || estaGirando) return;
-                abaAtiva = index;
+                abaAtiva = index; whoosh.currentTime = 0; whoosh.volume = 0.2; whoosh.play();
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
-                
                 if (abaAtiva === 0 && !rolandoT1) { rolandoT1 = true; typeWriter('typewriter1', TEXTO_P1); }
-                if (abaAtiva === 1) { 
-                    fadeVolume(0); video.play(); 
-                    if(!rolandoT2) { rolandoT2 = true; typeWriter('typewriter2', TEXTO_P2, 25); }
-                } else { 
-                    fadeVolume(1); video.pause(); 
-                }
+                if (abaAtiva === 1) { fadeVolume(0); video.play(); if(!rolandoT2) { rolandoT2 = true; typeWriter('typewriter2', TEXTO_P2, 25); } }
+                else { fadeVolume(1); video.pause(); }
             }
 
             function drawWheel() {
@@ -174,26 +206,17 @@
                 ctx.clearRect(0,0,400,400);
                 for (let i = 0; i < 6; i++) {
                     ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
-                    ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
+                    ctx.fillStyle = i % 2 === 0 ? '#111' : '#222'; ctx.strokeStyle = "rgba(0,255,255,0.2)"; ctx.lineWidth = 2; ctx.stroke(); ctx.fill();
                     ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
-                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText(PREMIOS[i], 175, 5); ctx.restore();
+                    ctx.fillStyle = i % 2 === 0 ? "#FF0000" : "#00FFFF"; ctx.font = "bold 13px Poppins"; ctx.textAlign = "right"; ctx.fillText(PREMIOS[i], 170, 5); ctx.restore();
                 }
             }
 
             document.getElementById('spin-button').onclick = () => {
-                if (estaGirando) return;
-                estaGirando = true;
-                let giros = 0;
-                const totalRotation = Math.floor(Math.random() * 360) + 2160;
-                
-                const timer = setInterval(() => {
-                    giros++;
-                    if(giros % 12 === 0) { tick.currentTime = 0; tick.play(); }
-                    if(giros > 120) clearInterval(timer);
-                }, 40);
-
-                anguloAtual += totalRotation;
-                canvas.style.transform = `rotate(${anguloAtual}deg)`;
+                if (estaGirando) return; estaGirando = true;
+                let giros = 0; const totalRotation = Math.floor(Math.random() * 360) + 2160;
+                const timer = setInterval(() => { giros++; if(giros % 10 === 0) { tick.currentTime = 0; tick.play(); } if(giros > 120) clearInterval(timer); }, 40);
+                anguloAtual += totalRotation; canvas.style.transform = `rotate(${anguloAtual}deg)`;
                 setTimeout(() => { estaGirando = false; }, 5100);
             };
 
@@ -204,9 +227,10 @@
             });
 
             document.getElementById('btn-start').onclick = () => {
-                document.getElementById('splash-screen').style.display = 'none';
+                document.getElementById('splash-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 1000);
                 slider.style.visibility = 'visible';
-                sotam.volume = 1; sotam.play(); drawWheel();
+                sotam.volume = 1; sotam.play(); initParticles(); animateParticles(); drawWheel();
                 typeWriter('typewriter1', TEXTO_P1);
             };
         });
