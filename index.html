@@ -28,8 +28,8 @@
             overflow: hidden; 
             height: 100vh; 
             width: 100vw; 
-            touch-action: none; 
             user-select: none;
+            touch-action: pan-y;
         }
 
         .red-vibrant { color: var(--strong-red) !important; font-weight: 800; text-shadow: var(--neon-glow-red); }
@@ -52,68 +52,42 @@
 
         #master-slider { 
             display: flex; width: 400vw; height: 100vh; 
-            transition: transform 0.9s cubic-bezier(0.7, 0, 0.3, 1); 
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1); 
             visibility: hidden; 
         }
+
         .page { 
             width: 100vw; height: 100vh; position: relative; 
             display: flex; flex-direction: column; align-items: center; 
-            padding: 30px 20px; overflow-y: auto; overflow-x: hidden; 
+            padding: 20px; overflow-y: auto; overflow-x: hidden; 
+            flex-shrink: 0;
         }
 
-        /* ABA 1 STYLES */
-        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); backdrop-filter: blur(20px); border-radius: 40px; padding: 25px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 20px; }
+        /* ABA 1 */
+        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); border-radius: 40px; padding: 25px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 20px; }
         .rotating-art { width: 160px; height: 160px; margin: 0 auto 15px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
         @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
         .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 420px; margin-bottom: 20px; }
         .time-card { background: rgba(0,0,0,0.7); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.2); }
-        .time-card span { display: block; font-size: 24px; font-weight: 900; color: #fff; text-shadow: 0 0 10px var(--neon-cyan); }
-        .time-card label { font-size: 9px; color: var(--neon-cyan); letter-spacing: 1px; font-weight: 700; }
+        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 20px; border-radius: 0 20px 20px 0; min-height: 120px;}
 
-        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 20px; border-radius: 0 20px 20px 0; line-height: 1.6; font-size: 14px; text-align: justify; min-height: 120px;}
+        /* ABA 2 */
+        .journey-header { text-align: center; margin-bottom: 20px; pointer-events: none; }
+        .timeline-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 450px; margin-bottom: 20px; pointer-events: none; }
+        .timeline-item { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 12px 18px; display: flex; align-items: center; border-left: 4px solid transparent; backdrop-filter: blur(5px); }
+        .item-know { border-color: var(--neon-blue-strong); }
+        .item-kiss { border-color: var(--strong-red); }
+        .anniversary-card { width: 100%; max-width: 450px; background: #080808; border: 1px solid rgba(0,255,255,0.3); border-radius: 25px; padding: 15px; margin-bottom: 20px; text-align: center; pointer-events: none; }
+        .video-wrapper { width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; border: 2px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0,255,255,0.2); margin-bottom: 20px; }
+        video { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: auto; }
+        .letter-box { width: 100%; max-width: 450px; padding: 25px; background: rgba(10,10,10,0.8); border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); pointer-events: none; }
 
-        /* ABA 2 - NOSSA JORNADA */
-        .anniversary-counter {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 20px;
-            padding: 10px 20px;
-            margin: 10px 0;
-            text-align: center;
-        }
-
-        .timeline-box { text-align: center; margin-bottom: 15px; }
-        .timeline-box p { font-size: 14px; margin: 5px 0; font-weight: 600; }
-
-        .video-container { 
-            width: 100%; 
-            max-width: 450px; 
-            aspect-ratio: 16/9;
-            border-radius: 15px; 
-            overflow: hidden; 
-            border: 2px solid var(--neon-cyan); 
-            margin: 10px 0; 
-            background: #000;
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
-        }
-        video { width: 100%; height: 100%; display: block; object-fit: contain; }
-
-        .letter-box { 
-            width: 100%; max-width: 450px; padding: 20px; 
-            background: rgba(255,255,255,0.03); border-radius: 20px; 
-            border: 1px solid rgba(0,255,255,0.1); min-height: 150px;
-        }
-
-        /* ROLETA */
+        /* ABA 3 */
         .roulette-wrapper { position: relative; width: 280px; height: 280px; margin: 15px 0; }
         #wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 40px var(--primary-pink); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
         .wheel-pin { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--neon-cyan); z-index: 20; }
         
         #prize-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
-        .prize-content { background: #111; border: 3px solid var(--strong-red); padding: 40px 25px; border-radius: 40px; text-align: center; max-width: 350px; }
-        .particle { position: fixed; pointer-events: none; z-index: 10; animation: particleFloat 4s ease-in forwards; }
-        @keyframes particleFloat { 0% { transform: translateY(0) scale(1); opacity: 1; } 100% { transform: translateY(-100vh) scale(2) rotate(360deg); opacity: 0; } }
     </style>
 </head>
 <body>
@@ -128,7 +102,7 @@
     </div>
 
     <div id="loader-container">
-        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Processando nossa história...</h2>
+        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Eternizando momentos...</h2>
         <div class="loader-track"><div class="loader-bar" id="bar"></div></div>
     </div>
 
@@ -147,58 +121,59 @@
             </div>
             <div class="original-text-box">
                 <h3 class="cyan-vibrant" style="margin-bottom: 12px; font-size: 18px;">Nosso Tempo Particular</h3>
-                <div id="typewriter1"></div>
+                <div id="typewriter1" style="font-size: 14px; line-height: 1.6;"></div>
             </div>
         </div>
 
         <div class="page" id="page2">
-            <h1 class="red-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 10px;">Nossa Jornada</h1>
-            
-            <div class="timeline-box">
-                <p><span class="blue-neon-strong">08/05</span> Quando nos conhecemos</p>
-                <p><span class="red-vibrant">12/05</span> Primeiro Beijo</p>
+            <div class="journey-header">
+                <h1 class="red-vibrant italic-fancy">Nossa Jornada ✨</h1>
             </div>
-
-            <div class="anniversary-counter">
-                <p style="font-size: 10px; color: var(--neon-cyan); letter-spacing: 2px; margin-bottom: 5px;">FALTAM PARA 1 ANO</p>
-                <div style="display: flex; gap: 15px; justify-content: center; font-weight: 800;">
-                    <div><span id="a-days" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">DIAS</small></div>
-                    <div><span id="a-hours" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">HRS</small></div>
-                    <div><span id="a-mins" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">MIN</small></div>
+            <div class="timeline-container">
+                <div class="timeline-item item-know">
+                    <span class="date-badge blue-neon-strong">08/05</span>
+                    <span class="event-desc">O destino nos apresentou... 🌌 <br><small style="opacity:0.6">Quando nos conhecemos</small></span>
+                </div>
+                <div class="timeline-item item-kiss">
+                    <span class="date-badge red-vibrant">12/05</span>
+                    <span class="event-desc">O beijo que mudou tudo! 💋 <br><small style="opacity:0.6">Nosso primeiro momento</small></span>
                 </div>
             </div>
-
-            <div class="video-container">
-                <video id="love-video" playsinline webkit-playsinline src="seu-video.mp4"></video>
+            <div class="anniversary-card">
+                <p style="font-size: 11px; color: var(--neon-cyan); font-weight: 700; margin-bottom: 10px;">CONTAGEM PARA 1 ANO 🥂</p>
+                <div style="display: flex; gap: 20px; justify-content: center; font-weight: 900; font-size: 24px;">
+                    <div><span id="a-days" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">DIAS</small></div>
+                    <div><span id="a-hours" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">HRS</small></div>
+                    <div><span id="a-mins" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">MIN</small></div>
+                </div>
             </div>
-
+            <div class="video-wrapper">
+                <video id="love-video" playsinline src="seu-video.mp4"></video>
+            </div>
             <div class="letter-box">
-                <h3 class="red-vibrant italic-fancy" style="font-size: 20px; margin-bottom: 10px;">Minha Promessa Eterna</h3>
-                <div id="typewriter2" style="font-size: 13px; line-height: 1.7; color: #eee; text-align: justify;"></div>
+                <h3 class="red-vibrant italic-fancy" style="font-size: 22px; margin-bottom: 12px;">Minha Promessa Eterna 💍</h3>
+                <div id="typewriter2" style="font-size: 14px; line-height: 1.8; color: #f0f0f0;"></div>
             </div>
         </div>
 
         <div class="page" id="page3">
-            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 5px;">Sorte no Amor</h2>
+            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 5px;">Sorte no Amor 🎡</h2>
             <div class="roulette-wrapper">
                 <div class="wheel-pin"></div>
                 <canvas id="wheel-canvas" width="400" height="400"></canvas>
             </div>
-            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 40px; border-radius: 40px; font-size: 16px; font-weight: 900; cursor: pointer;">GIRAR SORTE</button>
-            <div style="margin-top: 20px; text-align: center; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 20px; width: 220px; border: 1px solid var(--neon-cyan);">
-                <p style="font-size: 9px; opacity: 0.7;">TOTAL DE HORAS JUNTOS</p>
+            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 45px; border-radius: 40px; font-weight: 900; pointer-events: auto;">GIRAR SORTE</button>
+            <div style="margin-top: 25px; text-align: center; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 20px; width: 240px; border: 1px solid var(--neon-cyan);">
+                <p style="font-size: 9px; opacity: 0.7;">HORAS DE CONEXÃO</p>
                 <h2 id="total-hours" class="cyan-vibrant" style="font-size: 28px;">0</h2>
             </div>
         </div>
 
         <div class="page" id="page4" style="justify-content: center;">
             <div style="text-align: center;">
-                <h1 class="red-vibrant italic-fancy" style="font-size: 50px;">Infinito.</h1>
-                <p style="font-size: 15px; line-height: 2; margin-top: 15px; padding: 0 20px;">
-                    Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>, minha <span class="red-vibrant">melhor amiga</span> e a dona do meu sorriso mais sincero.
-                </p>
-                <div style="font-size: 40px; margin-top: 30px;">💍 ❤️ 👑</div>
-                <p style="margin-top: 50px; font-size: 9px; opacity: 0.3; letter-spacing: 4px;">DESENVOLVIDO COM AMOR POR KAUAN</p>
+                <h1 class="red-vibrant italic-fancy" style="font-size: 55px;">Infinito.</h1>
+                <p style="font-size: 16px; margin-top: 15px; padding: 0 20px;">Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>.</p>
+                <div style="font-size: 45px; margin-top: 30px;">💍 ❤️ 👑</div>
             </div>
         </div>
     </div>
@@ -207,7 +182,7 @@
         <div class="prize-content">
             <h2 id="prize-title" class="cyan-vibrant" style="font-size: 28px; margin-bottom: 15px;">Ganhou!</h2>
             <p id="prize-desc" style="font-size: 16px; color: #fff;"></p>
-            <button onclick="document.getElementById('prize-modal').style.display='none'" style="margin-top: 25px; background: var(--neon-cyan); border: none; padding: 12px 30px; border-radius: 25px; font-weight: 800; cursor: pointer;">AMADO!</button>
+            <button id="close-modal" style="margin-top: 25px; background: var(--neon-cyan); border: none; padding: 12px 30px; border-radius: 25px; font-weight: 800; pointer-events: auto;">AMADO!</button>
         </div>
     </div>
 
@@ -229,17 +204,16 @@
                 { t: "Abraço de Urso", d: "Aquele abraço que recarrega as energias." }
             ];
 
-            let abaAtiva = 0, startX = 0, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0, estaGirando = false;
+            let abaAtiva = 0, startX = 0, estaGirando = false, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0;
             const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), motel = document.getElementById('audio-motel'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
 
-            function startTypewriter(elementId, text, speed = 40) {
-                let char = 0;
-                const dest = document.getElementById(elementId);
+            function startTypewriter(elementId, text) {
+                let char = 0; const dest = document.getElementById(elementId);
                 dest.innerHTML = "";
                 const interval = setInterval(() => {
                     if (char < text.length) { dest.innerHTML += text[char]; char++; }
                     else clearInterval(interval);
-                }, speed);
+                }, 40);
             }
 
             function crossfade(audioOut, audioIn) {
@@ -247,11 +221,9 @@
                 const interval = setInterval(() => {
                     vol -= 0.1;
                     if (vol <= 0) {
-                        audioOut.pause();
-                        audioOut.volume = 1;
+                        audioOut.pause(); audioOut.volume = 1;
                         clearInterval(interval);
-                        audioIn.volume = 1;
-                        audioIn.play();
+                        audioIn.volume = 1; audioIn.play();
                     } else { audioOut.volume = vol; }
                 }, 100);
             }
@@ -262,23 +234,26 @@
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
                 
                 if (abaAtiva === 0 && !rolandoT1) { rolandoT1 = true; startTypewriter('typewriter1', TEXTO_P1); }
-                
                 if (abaAtiva === 1) {
-                    crossfade(sotam, video);
-                    video.currentTime = 0;
-                    video.play();
+                    crossfade(sotam, video); video.currentTime = 0; video.play();
                     if(!rolandoT2) { rolandoT2 = true; setTimeout(() => startTypewriter('typewriter2', TEXTO_P2), 500); }
                 } else {
                     video.pause();
-                    if (abaAtiva === 3) { sotam.pause(); motel.play(); }
-                    else { motel.pause(); sotam.play(); }
+                    if (abaAtiva === 3) { sotam.pause(); motel.play(); } else { motel.pause(); sotam.play(); }
                 }
             }
 
-            slider.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
-            slider.addEventListener('touchend', (e) => {
+            // GESTOR DE NAVEGAÇÃO GLOBAL
+            document.body.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
+            document.body.addEventListener('touchend', (e) => {
                 const diff = startX - e.changedTouches[0].clientX;
-                if (Math.abs(diff) > 70) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
+                if (Math.abs(diff) > 50) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
+            }, {passive: true});
+
+            document.body.addEventListener('mousedown', (e) => { startX = e.clientX; });
+            document.body.addEventListener('mouseup', (e) => {
+                const diff = startX - e.clientX;
+                if (Math.abs(diff) > 50) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
             });
 
             function runCounters() {
@@ -294,14 +269,13 @@
                     document.getElementById('a-days').innerText = Math.max(0, Math.floor(da / 86400000));
                     document.getElementById('a-hours').innerText = Math.max(0, Math.floor((da % 86400000) / 3600000));
                     document.getElementById('a-mins').innerText = Math.max(0, Math.floor((da % 3600000) / 60000));
-
                     document.getElementById('total-hours').innerText = Math.floor((now - DATA_CONHECIDOS) / 3600000).toLocaleString();
                 }, 1000);
             }
 
             function drawWheel() {
-                const slices = 6; const arc = (Math.PI * 2) / slices;
-                for (let i = 0; i < slices; i++) {
+                const arc = (Math.PI * 2) / 6;
+                for (let i = 0; i < 6; i++) {
                     ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
                     ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
                     ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
@@ -309,7 +283,8 @@
                 }
             }
 
-            document.getElementById('spin-button').addEventListener('click', () => {
+            document.getElementById('spin-button').addEventListener('click', (e) => {
+                e.stopPropagation();
                 if (estaGirando) return;
                 estaGirando = true;
                 const extra = Math.floor(Math.random() * 360) + 1800;
@@ -326,10 +301,11 @@
                 }, 5100);
             });
 
+            document.getElementById('close-modal').onclick = (e) => { e.stopPropagation(); document.getElementById('prize-modal').style.display = 'none'; };
+
             document.getElementById('btn-start').addEventListener('click', () => {
                 document.getElementById('splash-screen').style.display = 'none';
-                const load = document.getElementById('loader-container');
-                load.style.display = 'flex';
+                const load = document.getElementById('loader-container'); load.style.display = 'flex';
                 let p = 0;
                 const itv = setInterval(() => {
                     p += 2; document.getElementById('bar').style.width = p + '%';
