@@ -13,8 +13,8 @@
             --strong-red: #FF0000;
             --neon-cyan: #00FFFF;
             --neon-blue-strong: #0077FF;
-            --deep-black: #000000;
-            --glass-vibe: rgba(255, 255, 255, 0.08);
+            --deep-black: #050505;
+            --glass-vibe: rgba(255, 255, 255, 0.05);
             --neon-glow-red: 0 0 15px #ff0000, 0 0 30px #ff0000;
             --neon-glow-cyan: 0 0 15px #00ffff, 0 0 30px #00ffff;
             --neon-glow-blue: 0 0 15px #0077ff, 0 0 30px #0077ff;
@@ -23,7 +23,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; -webkit-tap-highlight-color: transparent; }
         
         body { 
-            background: var(--deep-black); 
+            /* NOVO FUNDO NO ESTILO SOLICITADO */
+            background: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
             color: #ffffff; 
             overflow: hidden; 
             height: 100vh; 
@@ -39,9 +40,8 @@
 
         #splash-screen {
             position: fixed; inset: 0;
-            background: radial-gradient(circle at center, #2b0505 0%, #000 100%);
+            background: radial-gradient(circle at center, #150202 0%, #000 100%);
             z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 1s ease;
         }
         .main-heart { font-size: 110px; cursor: pointer; animation: heartPulse 1.2s infinite; filter: drop-shadow(0 0 30px var(--strong-red)); }
         @keyframes heartPulse { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
@@ -63,31 +63,35 @@
             flex-shrink: 0;
         }
 
+        .glass-card {
+            background: var(--glass-vibe);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 20px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px;
+        }
+
         /* ABA 1 */
-        .player-ui { width: 100%; max-width: 400px; background: var(--glass-vibe); border-radius: 40px; padding: 25px; text-align: center; border: 1px solid rgba(255,0,0,0.3); margin-bottom: 20px; }
+        .player-ui { text-align: center; }
         .rotating-art { width: 160px; height: 160px; margin: 0 auto 15px; border-radius: 50%; border: 5px solid #111; background: url('foto-capa.jpg') center/cover; box-shadow: 0 0 30px var(--strong-red); animation: spinArt 20s linear infinite; }
         @keyframes spinArt { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; width: 100%; max-width: 420px; margin-bottom: 20px; }
+        .timer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; width: 100%; }
         .time-card { background: rgba(0,0,0,0.7); padding: 15px 5px; border-radius: 18px; text-align: center; border: 1px solid rgba(0,255,255,0.2); }
-        .original-text-box { width: 100%; max-width: 450px; background: rgba(255,0,0,0.05); border-left: 5px solid var(--strong-red); padding: 20px; border-radius: 0 20px 20px 0; min-height: 120px;}
+        .original-text-box { border-left: 5px solid var(--strong-red); padding-left: 20px; }
 
         /* ABA 2 */
-        .journey-header { text-align: center; margin-bottom: 20px; pointer-events: none; }
-        .timeline-container { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 450px; margin-bottom: 20px; pointer-events: none; }
-        .timeline-item { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 12px 18px; display: flex; align-items: center; border-left: 4px solid transparent; backdrop-filter: blur(5px); }
-        .item-know { border-color: var(--neon-blue-strong); }
-        .item-kiss { border-color: var(--strong-red); }
-        .anniversary-card { width: 100%; max-width: 450px; background: #080808; border: 1px solid rgba(0,255,255,0.3); border-radius: 25px; padding: 15px; margin-bottom: 20px; text-align: center; pointer-events: none; }
-        .video-wrapper { width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; border: 2px solid var(--neon-cyan); box-shadow: 0 0 30px rgba(0,255,255,0.2); margin-bottom: 20px; }
-        video { width: 100%; height: 100%; display: block; object-fit: contain; pointer-events: auto; }
-        .letter-box { width: 100%; max-width: 450px; padding: 25px; background: rgba(10,10,10,0.8); border-radius: 25px; border: 1px solid rgba(255,255,255,0.05); pointer-events: none; }
+        .timeline-item { background: rgba(255,255,255,0.03); border-radius: 15px; padding: 12px 18px; display: flex; align-items: center; border-left: 4px solid var(--neon-blue-strong); margin-bottom: 12px; width: 100%; }
+        .item-kiss { border-left-color: var(--strong-red); }
+        .video-wrapper { width: 100%; max-width: 450px; border-radius: 20px; overflow: hidden; border: 2px solid var(--neon-cyan); margin-bottom: 20px; }
+        video { width: 100%; display: block; }
 
         /* ABA 3 */
         .roulette-wrapper { position: relative; width: 280px; height: 280px; margin: 15px 0; }
         #wheel-canvas { width: 100%; height: 100%; border-radius: 50%; border: 6px solid #1a1a1a; box-shadow: 0 0 40px var(--primary-pink); transition: transform 5s cubic-bezier(0.15, 0, 0.15, 1); }
         .wheel-pin { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--neon-cyan); z-index: 20; }
-        
-        #prize-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; z-index: 9999; align-items: center; justify-content: center; backdrop-filter: blur(15px); }
     </style>
 </head>
 <body>
@@ -102,109 +106,86 @@
     </div>
 
     <div id="loader-container">
-        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Eternizando momentos...</h2>
+        <h2 class="italic-fancy" style="color: var(--neon-cyan);">Processando nossa história...</h2>
         <div class="loader-track"><div class="loader-bar" id="bar"></div></div>
     </div>
 
     <div id="master-slider">
-        <div class="page" id="page1">
-            <div class="player-ui">
+        <div class="page">
+            <div class="glass-card player-ui">
                 <div class="rotating-art"></div>
                 <h1 class="italic-fancy red-vibrant" style="font-size: 28px;">Foi Assim</h1>
                 <p style="opacity: 0.6; font-size: 10px; letter-spacing: 3px;">SOTAM • EM REPRODUÇÃO</p>
             </div>
             <div class="timer-grid">
-                <div class="time-card"><span id="days">0</span><label>DIAS</label></div>
-                <div class="time-card"><span id="hours">0</span><label>HORAS</label></div>
-                <div class="time-card"><span id="mins">0</span><label>MIN</label></div>
-                <div class="time-card"><span id="secs">0</span><label>SEG</label></div>
+                <div class="time-card"><span id="days">0</span><label style="font-size: 8px;">DIAS</label></div>
+                <div class="time-card"><span id="hours">0</span><label style="font-size: 8px;">HORAS</label></div>
+                <div class="time-card"><span id="mins">0</span><label style="font-size: 8px;">MIN</label></div>
+                <div class="time-card"><span id="secs">0</span><label style="font-size: 8px;">SEG</label></div>
             </div>
-            <div class="original-text-box">
+            <div class="glass-card original-text-box">
                 <h3 class="cyan-vibrant" style="margin-bottom: 12px; font-size: 18px;">Nosso Tempo Particular</h3>
                 <div id="typewriter1" style="font-size: 14px; line-height: 1.6;"></div>
             </div>
         </div>
 
-        <div class="page" id="page2">
-            <div class="journey-header">
-                <h1 class="red-vibrant italic-fancy">Nossa Jornada ✨</h1>
+        <div class="page">
+            <h1 class="red-vibrant italic-fancy" style="font-size: 28px; margin-bottom: 20px;">Nossa Jornada ✨</h1>
+            <div class="timeline-item">
+                <span class="blue-neon-strong" style="font-size: 18px; font-weight: 900; margin-right: 15px;">08/05</span>
+                <span style="font-size: 13px;">O destino nos apresentou... 🌌</span>
             </div>
-            <div class="timeline-container">
-                <div class="timeline-item item-know">
-                    <span class="date-badge blue-neon-strong">08/05</span>
-                    <span class="event-desc">O destino nos apresentou... 🌌 <br><small style="opacity:0.6">Quando nos conhecemos</small></span>
-                </div>
-                <div class="timeline-item item-kiss">
-                    <span class="date-badge red-vibrant">12/05</span>
-                    <span class="event-desc">O beijo que mudou tudo! 💋 <br><small style="opacity:0.6">Nosso primeiro momento</small></span>
-                </div>
+            <div class="timeline-item item-kiss">
+                <span class="red-vibrant" style="font-size: 18px; font-weight: 900; margin-right: 15px;">12/05</span>
+                <span style="font-size: 13px;">O beijo que mudou tudo! 💋</span>
             </div>
-            <div class="anniversary-card">
-                <p style="font-size: 11px; color: var(--neon-cyan); font-weight: 700; margin-bottom: 10px;">CONTAGEM PARA 1 ANO 🥂</p>
-                <div style="display: flex; gap: 20px; justify-content: center; font-weight: 900; font-size: 24px;">
-                    <div><span id="a-days" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">DIAS</small></div>
-                    <div><span id="a-hours" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">HRS</small></div>
-                    <div><span id="a-mins" class="cyan-vibrant">0</span><small style="font-size: 9px; display: block;">MIN</small></div>
+            <div class="glass-card" style="text-align: center; padding: 15px;">
+                <p style="font-size: 11px; color: var(--neon-cyan); margin-bottom: 10px;">CONTAGEM PARA 1 ANO 🥂</p>
+                <div style="display: flex; gap: 20px; justify-content: center; font-weight: 900; font-size: 22px;">
+                    <div><span id="a-days" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">DIAS</small></div>
+                    <div><span id="a-hours" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">HRS</small></div>
+                    <div><span id="a-mins" class="cyan-vibrant">0</span><small style="font-size: 8px; display: block;">MIN</small></div>
                 </div>
             </div>
             <div class="video-wrapper">
                 <video id="love-video" playsinline src="seu-video.mp4"></video>
             </div>
-            <div class="letter-box">
-                <h3 class="red-vibrant italic-fancy" style="font-size: 22px; margin-bottom: 12px;">Minha Promessa Eterna 💍</h3>
-                <div id="typewriter2" style="font-size: 14px; line-height: 1.8; color: #f0f0f0;"></div>
+            <div class="glass-card">
+                <h3 class="red-vibrant italic-fancy" style="font-size: 20px; margin-bottom: 10px;">Minha Promessa Eterna 💍</h3>
+                <div id="typewriter2" style="font-size: 14px; line-height: 1.8;"></div>
             </div>
         </div>
 
-        <div class="page" id="page3">
-            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 5px;">Sorte no Amor 🎡</h2>
+        <div class="page">
+            <h2 class="cyan-vibrant italic-fancy" style="font-size: 32px; margin-bottom: 10px;">Sorte no Amor 🎡</h2>
             <div class="roulette-wrapper">
                 <div class="wheel-pin"></div>
                 <canvas id="wheel-canvas" width="400" height="400"></canvas>
             </div>
-            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 45px; border-radius: 40px; font-weight: 900; pointer-events: auto;">GIRAR SORTE</button>
-            <div style="margin-top: 25px; text-align: center; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 20px; width: 240px; border: 1px solid var(--neon-cyan);">
-                <p style="font-size: 9px; opacity: 0.7;">HORAS DE CONEXÃO</p>
+            <button id="spin-button" style="background: linear-gradient(135deg, var(--strong-red), var(--primary-pink)); color: white; border: none; padding: 12px 45px; border-radius: 40px; font-weight: 900;">GIRAR SORTE</button>
+            <div class="glass-card" style="margin-top: 25px; text-align: center;">
+                <p style="font-size: 9px; opacity: 0.7;">TOTAL DE HORAS JUNTOS</p>
                 <h2 id="total-hours" class="cyan-vibrant" style="font-size: 28px;">0</h2>
             </div>
         </div>
 
-        <div class="page" id="page4" style="justify-content: center;">
-            <div style="text-align: center;">
-                <h1 class="red-vibrant italic-fancy" style="font-size: 55px;">Infinito.</h1>
-                <p style="font-size: 16px; margin-top: 15px; padding: 0 20px;">Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>.</p>
-                <div style="font-size: 45px; margin-top: 30px;">💍 ❤️ 👑</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="prize-modal">
-        <div class="prize-content">
-            <h2 id="prize-title" class="cyan-vibrant" style="font-size: 28px; margin-bottom: 15px;">Ganhou!</h2>
-            <p id="prize-desc" style="font-size: 16px; color: #fff;"></p>
-            <button id="close-modal" style="margin-top: 25px; background: var(--neon-cyan); border: none; padding: 12px 30px; border-radius: 25px; font-weight: 800; pointer-events: auto;">AMADO!</button>
+        <div class="page" style="justify-content: center; text-align: center;">
+            <h1 class="red-vibrant italic-fancy" style="font-size: 50px;">Infinito.</h1>
+            <p style="font-size: 16px; line-height: 2; margin-top: 15px; padding: 0 20px;">
+                Obrigado por ser a minha <span class="cyan-vibrant">princesa</span>.
+            </p>
+            <div style="font-size: 40px; margin-top: 30px;">💍 ❤️ 👑</div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const DATA_INICIO = new Date('2025-05-12T00:00:00');
-            const DATA_CONHECIDOS = new Date('2025-05-05T00:00:00');
             const DATA_1_ANO = new Date('2026-05-12T00:00:00');
+            const TEXTO_P1 = "Cada segundo ao seu lado é uma prova do tempo precioso que dedicamos um ao outro. Desde que você entrou na minha vida, o relógio parece marcar as horas de um jeito diferente, mais intenso e cheio de cor.";
+            const TEXTO_P2 = "Minha princesa, desde o exato momento em que nossas vidas se cruzaram, eu senti que algo extraordinário estava prestes a acontecer. Você não é apenas a pessoa que eu amo, mas o porto seguro onde encontro paz.";
 
-            const TEXTO_P1 = "Cada segundo ao seu lado é uma prova do tempo precioso que dedicamos um ao outro. Desde que você entrou na minha vida, o relógio parece marcar as horas de um jeito diferente, mais intenso e cheio de cor. Você é a minha maior certeza.";
-            const TEXTO_P2 = "Minha princesa, desde o exato momento em que nossas vidas se cruzaram, eu senti que algo extraordinário estava prestes a acontecer. Você não é apenas a pessoa que eu amo, mas o porto seguro onde encontro paz. Prometo ser sempre o seu apoio, segurando sua mão e celebrando suas vitórias. Meu amor por você ultrapassa barreiras, é uma chama que arde com força e delicadeza. Quero construir cada sonho ao seu lado. Eu te amo por toda a eternidade! ❤️";
-
-            const LISTA_PREMIOS = [
-                { t: "Beijo Longo", d: "Um beijo demorado que faz o mundo parar." },
-                { t: "Massagem", d: "Você merece um momento de relaxamento total." },
-                { t: "Jantar Especial", d: "Eu cuido de tudo, você só aproveita." },
-                { t: "Vale Mimo", d: "Um presente surpresa para você hoje." },
-                { t: "Cinema em Casa", d: "Pipoca e o filme que você escolher!" },
-                { t: "Abraço de Urso", d: "Aquele abraço que recarrega as energias." }
-            ];
-
-            let abaAtiva = 0, startX = 0, estaGirando = false, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0;
+            let abaAtiva = 0, startX = 0, rolandoT1 = false, rolandoT2 = false, anguloAtual = 0, estaGirando = false;
             const slider = document.getElementById('master-slider'), sotam = document.getElementById('audio-sotam'), motel = document.getElementById('audio-motel'), video = document.getElementById('love-video'), canvas = document.getElementById('wheel-canvas'), ctx = canvas.getContext('2d');
 
             function startTypewriter(elementId, text) {
@@ -216,45 +197,26 @@
                 }, 40);
             }
 
-            function crossfade(audioOut, audioIn) {
-                let vol = 1;
-                const interval = setInterval(() => {
-                    vol -= 0.1;
-                    if (vol <= 0) {
-                        audioOut.pause(); audioOut.volume = 1;
-                        clearInterval(interval);
-                        audioIn.volume = 1; audioIn.play();
-                    } else { audioOut.volume = vol; }
-                }, 100);
-            }
-
             function changePage(index) {
                 if (index < 0 || index > 3 || estaGirando) return;
                 abaAtiva = index;
                 slider.style.transform = `translateX(-${abaAtiva * 100}vw)`;
                 
                 if (abaAtiva === 0 && !rolandoT1) { rolandoT1 = true; startTypewriter('typewriter1', TEXTO_P1); }
-                if (abaAtiva === 1) {
-                    crossfade(sotam, video); video.currentTime = 0; video.play();
-                    if(!rolandoT2) { rolandoT2 = true; setTimeout(() => startTypewriter('typewriter2', TEXTO_P2), 500); }
-                } else {
-                    video.pause();
-                    if (abaAtiva === 3) { sotam.pause(); motel.play(); } else { motel.pause(); sotam.play(); }
+                if (abaAtiva === 1) { 
+                    sotam.pause(); video.play(); 
+                    if(!rolandoT2) { rolandoT2 = true; startTypewriter('typewriter2', TEXTO_P2); }
+                } else { 
+                    video.pause(); 
+                    if(abaAtiva === 3) { sotam.pause(); motel.play(); } else { motel.pause(); sotam.play(); }
                 }
             }
 
-            // GESTOR DE NAVEGAÇÃO GLOBAL
             document.body.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; }, {passive: true});
             document.body.addEventListener('touchend', (e) => {
                 const diff = startX - e.changedTouches[0].clientX;
                 if (Math.abs(diff) > 50) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
             }, {passive: true});
-
-            document.body.addEventListener('mousedown', (e) => { startX = e.clientX; });
-            document.body.addEventListener('mouseup', (e) => {
-                const diff = startX - e.clientX;
-                if (Math.abs(diff) > 50) changePage(diff > 0 ? abaAtiva + 1 : abaAtiva - 1);
-            });
 
             function runCounters() {
                 setInterval(() => {
@@ -268,8 +230,7 @@
                     const da = DATA_1_ANO - now;
                     document.getElementById('a-days').innerText = Math.max(0, Math.floor(da / 86400000));
                     document.getElementById('a-hours').innerText = Math.max(0, Math.floor((da % 86400000) / 3600000));
-                    document.getElementById('a-mins').innerText = Math.max(0, Math.floor((da % 3600000) / 60000));
-                    document.getElementById('total-hours').innerText = Math.floor((now - DATA_CONHECIDOS) / 3600000).toLocaleString();
+                    document.getElementById('total-hours').innerText = Math.floor(diff / 3600000).toLocaleString();
                 }, 1000);
             }
 
@@ -279,29 +240,9 @@
                     ctx.beginPath(); ctx.moveTo(200, 200); ctx.arc(200, 200, 190, i * arc, (i + 1) * arc);
                     ctx.fillStyle = i % 2 === 0 ? '#FF0000' : '#00FFFF'; ctx.fill();
                     ctx.save(); ctx.translate(200, 200); ctx.rotate(i * arc + arc / 2);
-                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText(LISTA_PREMIOS[i].t, 175, 5); ctx.restore();
+                    ctx.fillStyle = i % 2 === 0 ? "#fff" : "#000"; ctx.font = "bold 15px Poppins"; ctx.textAlign = "right"; ctx.fillText("Prêmio " + (i+1), 175, 5); ctx.restore();
                 }
             }
-
-            document.getElementById('spin-button').addEventListener('click', (e) => {
-                e.stopPropagation();
-                if (estaGirando) return;
-                estaGirando = true;
-                const extra = Math.floor(Math.random() * 360) + 1800;
-                anguloAtual += extra;
-                canvas.style.transform = `rotate(${anguloAtual}deg)`;
-                document.getElementById('audio-tick').play();
-                setTimeout(() => {
-                    estaGirando = false;
-                    const normalized = (anguloAtual % 360);
-                    const idx = Math.floor(((360 - (normalized % 360) + 270) % 360) / 60);
-                    document.getElementById('prize-title').innerText = LISTA_PREMIOS[idx].t;
-                    document.getElementById('prize-desc').innerText = LISTA_PREMIOS[idx].d;
-                    document.getElementById('prize-modal').style.display = 'flex';
-                }, 5100);
-            });
-
-            document.getElementById('close-modal').onclick = (e) => { e.stopPropagation(); document.getElementById('prize-modal').style.display = 'none'; };
 
             document.getElementById('btn-start').addEventListener('click', () => {
                 document.getElementById('splash-screen').style.display = 'none';
@@ -313,7 +254,7 @@
                         clearInterval(itv); load.style.display = 'none';
                         slider.style.visibility = 'visible';
                         sotam.play(); runCounters(); drawWheel();
-                        if(!rolandoT1) { rolandoT1 = true; startTypewriter('typewriter1', TEXTO_P1); }
+                        startTypewriter('typewriter1', TEXTO_P1);
                     }
                 }, 30);
             });
