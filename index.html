@@ -15,7 +15,8 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
         body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; }
 
-        #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+        #heart-canvas { z-index: 50; }
 
         .glass-card { 
             background: rgba(255, 255, 255, 0.05); 
@@ -29,57 +30,77 @@
         }
 
         @keyframes neonPulseRed {
-            0%, 100% { text-shadow: 0 0 7px var(--neon-red), 0 0 12px var(--neon-red); filter: brightness(1); transform: scale(1); }
-            50% { text-shadow: 0 0 18px var(--neon-red), 0 0 28px var(--neon-red); filter: brightness(1.2); transform: scale(1.03); }
+            0%, 100% { text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); transform: scale(1); }
+            50% { text-shadow: 0 0 25px var(--neon-red), 0 0 35px var(--neon-red); transform: scale(1.05); }
+        }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
         }
 
         .key-red { 
             color: var(--neon-red) !important; 
-            font-weight: 700 !important; 
-            display: inline-block;
-            animation: neonPulseRed 2s infinite ease-in-out;
-            will-change: filter, transform;
+            font-weight: 900 !important; 
+            display: inline-block; 
+            animation: neonPulseRed 1.5s infinite ease-in-out;
+            text-shadow: 0 0 10px var(--neon-red);
         }
         
         .key-green { 
             color: var(--neon-green) !important; 
-            font-weight: 700 !important;
-            text-shadow: 0 0 12px var(--neon-green), 0 0 22px var(--neon-green) !important;
-            display: inline-block;
+            font-weight: 900 !important; 
+            text-shadow: 0 0 15px var(--neon-green) !important; 
+            display: inline-block; 
         }
 
-        .main-title { 
-            font-family: 'Playfair Display', serif; 
-            font-size: 2rem; 
-            color: var(--neon-red); 
-            text-align: center; 
-            margin-bottom: 20px; 
-            text-shadow: 0 0 15px rgba(255, 59, 48, 0.5); 
-        }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--neon-red); text-align: center; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 59, 48, 0.5); }
 
         #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 10; }
-        .page { width: 100vw; height: 100vh; padding: 40px 20px 100px; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
+        .page { width: 100vw; height: 100vh; padding: 40px 20px 100px; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
+        .page::-webkit-scrollbar { display: none; }
 
-        .tm-item { font-weight: 700; font-size: 1.2rem; color: var(--neon-red); text-shadow: 0 0 8px var(--neon-red); margin-bottom: 4px; }
-        .tm-desc { font-size: 0.8rem; opacity: 0.85; margin-bottom: 15px; }
+        .btn-selar {
+            background: transparent;
+            border: 2px solid var(--neon-red);
+            color: var(--neon-red);
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 900;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--neon-red);
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+        .btn-selar:active { transform: scale(0.9); box-shadow: 0 0 30px var(--neon-red); }
 
         .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
         .photo-item { width: 100%; aspect-ratio: 1; border-radius: 12px; border: 2px solid var(--neon-blue); object-fit: cover; }
 
         .dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 1000; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s; }
         .dot.active { width: 30px; background: var(--neon-blue); border-radius: 10px; }
         
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s; }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s ease; }
+        
+        video::-webkit-media-controls { display:none !important; }
+
+        .final-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 3px solid var(--neon-red);
+            animation: floating 4s ease-in-out infinite;
+        }
     </style>
 </head>
 <body>
 
 <canvas id="star-canvas"></canvas>
+<canvas id="heart-canvas"></canvas>
 <audio id="bg-music" src="foi-assim.mp3" loop></audio>
 
 <div id="splash">
-    <div onclick="shatterHeart()" style="font-size:80px; cursor:pointer; filter: drop-shadow(0 0 20px var(--neon-blue)); animation: pulse 1.5s infinite;">💙</div>
+    <div onclick="shatterHeart()" style="font-size:80px; cursor:pointer; animation: pulse 1.5s infinite;">💙</div>
 </div>
 
 <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -88,10 +109,8 @@
     <section class="page">
         <div style="display: flex; flex-direction: column; align-items: center; max-width: 450px; margin: 0 auto;">
             <h1 class="main-title">Para você meu Jacaré</h1>
-            <div style="width: 155px; height: 155px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
-            <div class="glass-card" style="width: 100%;">
-                <div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 80px;"></div>
-            </div>
+            <div style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
+            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 80px;"></div></div>
             <div style="display:flex; gap:12px; width:100%;">
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small>HORAS</small></div>
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small>SEGS</small></div>
@@ -101,86 +120,79 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <div class="glass-card">
-                <div class="timeline-container" style="text-align: left;"><div class="tm-item">08 de Maio ✨👀</div><p class="tm-desc">O dia em que nos conhecemos e tudo começou.</p></div>
-                <div class="timeline-container" style="text-align: right;"><div class="tm-item">12 de Maio 👩‍❤️‍👨💍</div><p class="tm-desc">O início oficial do nosso namoro.</p></div>
-                <div class="timeline-container" style="text-align: center; margin-top: 10px;"><div class="tm-item">Nosso Futuro 🚀🏡</div><p class="tm-desc">Onde o nosso <span class="key-red">eu te amo</span> se renova.</p></div>
+            <div class="glass-card" style="display: flex; justify-content: space-between;">
+                <div style="text-align: left;"><div style="color:var(--neon-red); font-weight:700;">08 de Maio ✨</div><p style="font-size:0.75rem; opacity:0.8;">Nosso encontro</p></div>
+                <div style="text-align: right;"><div style="color:var(--neon-red); font-weight:700;">12 de Maio 💍</div><p style="font-size:0.75rem; opacity:0.8;">Nosso Namoro</p></div>
             </div>
-            <video src="seu-video.mp4" loop playsinline controls style="width:100%; border-radius:15px; border:2px solid var(--neon-blue); margin-bottom:20px;"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem;"></div></div>
-        </div>
-    </section>
-
-    <section class="page">
-        <div style="max-width: 450px; margin: 0 auto;">
-            <h2 class="main-title" style="font-size: 1.6rem;">Nossos Momentos</h2>
-            <div class="photo-grid">
-                <img src="foto1.jpg" class="photo-item">
-                <img src="foto2.jpg" class="photo-item">
-                <img src="foto3.jpg" class="photo-item">
-                <img src="foto4.jpg" class="photo-item">
-            </div>
-            <div class="glass-card">
-                <p style="text-align: center; font-style: italic; font-size: 1.05rem;">"Cada imagem carrega um pedaço da nossa felicidade e a promessa de que o <span class="key-green">jacaré</span> mais lindo é meu."</p>
-            </div>
+            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:15px; border:2px solid var(--neon-blue); margin-bottom:20px; pointer-events:none;"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 80px;"></div></div>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; text-align: center;">
-            <h2 class="main-title" style="font-size: 1.8rem;">Uma Promessa</h2>
-            <div class="glass-card" style="padding: 45px 20px;">
-                <p style="line-height: 2.3; font-size: 1.2rem;">
-                    Eu prometo te amar, te cuidar e estar ao seu lado em cada passo. <br><br>
-                    Para sempre minha, <br>
-                    Para sempre meu <span class="key-green">jacaré</span>. <br><br>
-                    <span class="key-red" style="font-size: 2.3rem;">eu te amo</span>
-                </p>
+            <h2 class="main-title">Nossos Momentos</h2>
+            <div class="photo-grid">
+                <img src="foto1.jpg" class="photo-item"> <img src="foto2.jpg" class="photo-item">
+                <img src="foto3.jpg" class="photo-item"> <img src="foto4.jpg" class="photo-item">
             </div>
-            <div style="font-size: 60px; filter: drop-shadow(0 0 10px var(--neon-red)); margin-top: 20px;">♾️❤️</div>
+            <button class="btn-selar" onclick="spawnHearts()">Selar o Amor</button>
+        </div>
+    </section>
+
+    <section class="page">
+        <div style="max-width: 450px; margin: 0 auto; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
+            <h2 class="main-title" style="font-size: 2.2rem;">Uma Promessa</h2>
+            <div class="glass-card final-card" style="padding: 50px 20px;">
+                <p style="line-height: 2.5; font-size: 1.3rem; font-weight: 700;">
+                    Para sempre minha, <br> 
+                    Para sempre meu <br>
+                    <span class="key-green" style="font-size: 2.2rem; display: block; margin: 15px 0;">jacaré</span>
+                    <span class="key-red" style="font-size: 2.8rem; display: block;">eu te amo</span>
+                </p>
+                <div style="margin-top: 20px; font-size: 45px;">💍✨</div>
+            </div>
         </div>
     </section>
 </div>
 
 <script>
     const START = new Date("2025-05-08T20:00:00");
-    const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso. Unindo aquela data ao agora, vejo que você é a minha <span class='key-red'>melhor escolha</span>. <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "Amar você é descobrir que o tempo tem uma cadência diferente quando estamos juntos. Desde aquele dia de maio, o <span class='key-red'>meu mundo</span> ganhou cores que eu sequer sabia que existiam, e cada detalhe do nosso namoro se tornou um tesouro que guardo com o maior zelo do universo. Não preciso de palavras rebuscadas para dizer que você é a minha paz, o meu porto seguro e a razão dos meus <span class='key-red'>sorrisos sinceros</span>. Nosso laço é feito de cumplicidade, de noites de conversas infinitas e de planos que desenhamos com a certeza de quem encontrou a sua metade ideal. Olho para trás e vejo o quanto crescemos, o quanto cada risada compartilhada fortaleceu o que sentimos. Você é a pessoa que escolho todos os dias, em cada pequeno gesto e em cada silêncio confortável. Este espaço é apenas um reflexo singelo do infinito que eu sinto por você. Quero que saiba que, independentemente do que o futuro nos reserve, o meu <span class='key-red'>presente é completo</span> apenas porque você está nele. Você transborda luz e me faz querer ser alguém melhor a cada amanhecer. Obrigado por ser minha companhia, meu amor e meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> daqui até a eternidade, com toda a força que meu coração consegue carregar. Prometo cuidar de nós, proteger nosso brilho e caminhar ao seu lado, de mãos dadas, celebrando cada pequena vitória da nossa história. Você é, e sempre será, o meu melhor e mais doce destino.";
+    
+    // DEFINIÇÃO DAS PALAVRAS CHAVES COM NEON
+    const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
+    const TXT2 = "Amar você é descobrir que o tempo tem uma cadência diferente quando estamos juntos... Obrigado por ser meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> daqui até a eternidade.";
 
     let typedPages = { p1: false, p2: false };
+    const bgMusic = document.getElementById('bg-music');
+    const video = document.getElementById('main-video');
 
     function shatterHeart() {
-        const audio = document.getElementById('bg-music');
-        audio.play().catch(() => {});
+        bgMusic.volume = 1;
+        bgMusic.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
-            if(!typedPages.p1) { typeWriter(TXT1, "type-p1", 35, 'p1'); }
-            initApp(); 
+            if(!typedPages.p1) typeWriter(TXT1, "type-p1", 35, 'p1');
+            setInterval(updateCounter, 1000); setupStars(); 
         }, 800);
     }
 
-    function initApp() { 
-        setInterval(updateCounter, 1000); 
-        updateCounter(); 
-        setupStars(); 
-    }
-
-    function typeWriter(text, elementId, speed, pageKey) {
+    function typeWriter(text, elementId, speed, key) {
         let i = 0; const el = document.getElementById(elementId);
-        el.innerHTML = "";
         function type() {
             if (i < text.length) {
-                if (text[i] === '<') {
-                    let end = text.indexOf('>', i);
-                    el.innerHTML += text.substring(i, end + 1);
-                    i = end + 1;
-                } else {
-                    el.innerHTML += text[i];
-                    i++;
+                if (text[i] === '<') { 
+                    let end = text.indexOf('>', i); 
+                    el.innerHTML += text.substring(i, end + 1); 
+                    i = end + 1; 
+                }
+                else { 
+                    el.innerHTML += text[i]; 
+                    i++; 
                 }
                 setTimeout(type, speed);
-            } else { typedPages[pageKey] = true; }
+            } else { typedPages[key] = true; }
         }
         type();
     }
@@ -191,40 +203,89 @@
         document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
     }
 
+    function crossfade(toVideo) {
+        let duration = 2000;
+        let steps = 40;
+        let interval = duration / steps;
+        let volStep = 1 / steps;
+        
+        if(toVideo) {
+            video.volume = 0;
+            video.play().catch(() => {});
+            let fade = setInterval(() => {
+                if(video.volume < 0.95) video.volume += volStep;
+                if(bgMusic.volume > 0.05) bgMusic.volume -= volStep;
+                else { bgMusic.volume = 0; bgMusic.pause(); clearInterval(fade); }
+            }, interval);
+        } else {
+            bgMusic.play().catch(() => {});
+            let fade = setInterval(() => {
+                if(bgMusic.volume < 0.95) bgMusic.volume += volStep;
+                if(video.volume > 0.05) video.volume -= volStep;
+                else { video.volume = 0; video.pause(); clearInterval(fade); }
+            }, interval);
+        }
+    }
+
+    const hCanvas = document.getElementById('heart-canvas');
+    const hCtx = hCanvas.getContext('2d');
+    let hearts = [];
+    function spawnHearts() {
+        for(let i=0; i<20; i++) {
+            hearts.push({ 
+                x: Math.random()*window.innerWidth, 
+                y: window.innerHeight + 50, 
+                s: Math.random()*2+1, 
+                v: Math.random()*4+4, 
+                opacity: 1,
+                char: ["❤️", "💖", "✨", "🐊"][Math.floor(Math.random()*4)]
+            });
+        }
+    }
+    function drawHearts() {
+        hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
+        hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
+        hearts.forEach((h, i) => {
+            hCtx.font = (h.s * 25) + "px serif"; hCtx.globalAlpha = h.opacity;
+            hCtx.fillText(h.char, h.x, h.y); h.y -= h.v; h.opacity -= 0.004;
+            if(h.opacity <= 0) hearts.splice(i, 1);
+        });
+        requestAnimationFrame(drawHearts);
+    }
+    drawHearts();
+
+    let cur = 0, startX = 0;
+    document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
+    document.addEventListener('touchend', e => {
+        let diffX = startX - e.changedTouches[0].clientX;
+        if(Math.abs(diffX) > 60) {
+            let prev = cur;
+            if(diffX > 0 && cur < 3) cur++; else if(diffX < 0 && cur > 0) cur--;
+            
+            if(prev !== cur) {
+                document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
+                document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+                
+                if(cur === 1) crossfade(true);
+                else if(prev === 1) crossfade(false);
+
+                if(cur === 1 && !typedPages.p2) typeWriter(TXT2, "type-p2", 25, 'p2');
+            }
+        }
+    });
+
     function setupStars() {
         const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.2, o: Math.random() }));
+        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5 }));
         function anim() {
-            ctx.clearRect(0,0,c.width,c.height);
-            stars.forEach(s => { 
-                ctx.fillStyle = `rgba(255,255,255,${s.o})`;
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); 
-                s.y -= 0.15; if(s.y < 0) s.y = c.height; 
-            });
+            ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.2; if(s.y<0) s.y=c.height; });
             requestAnimationFrame(anim);
         }
         anim();
     }
-
-    let cur = 0, startX = 0, startY = 0;
-    document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; });
-    document.addEventListener('touchend', e => {
-        let diffX = startX - e.changedTouches[0].clientX;
-        let diffY = startY - e.changedTouches[0].clientY;
-        if(Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
-            if(diffX > 0 && cur < 3) cur++; 
-            else if(diffX < 0 && cur > 0) cur--;
-            
-            document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-            
-            if(cur === 1 && !typedPages.p2) { 
-                setTimeout(() => typeWriter(TXT2, "type-p2", 20, 'p2'), 500); 
-            }
-        }
-    });
 </script>
-<style> @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } } </style>
+<style>@keyframes pulse {0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);}}</style>
 </body>
 </html>
