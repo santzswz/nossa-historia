@@ -4,196 +4,227 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para meu Jacaré</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;900&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Montserrat:wght@400;600;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --pink: #ff2d55; --blue: #007aff; --red: #ff3b30;
-            --glass: rgba(10, 10, 15, 0.95); --border: rgba(255, 255, 255, 0.1);
+            --neon-blue: #007aff;
+            --neon-red: #ff3b30;
+            --neon-green: #39ff14;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; overflow: hidden; width: 100vw; }
+        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; }
 
-        #star-canvas { position: fixed; inset: 0; z-index: 1; opacity: 0.5; pointer-events: none; }
-        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1); position: relative; z-index: 10; }
-        .page { width: 100vw; height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 50px 25px; overflow-y: auto; }
+        #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 
         .glass-card { 
-            background: var(--glass); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--border); border-radius: 30px; width: 100%; max-width: 400px;
-            padding: 30px; margin-bottom: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            background: rgba(255, 255, 255, 0.05); 
+            border: 2px solid var(--neon-blue); 
+            border-radius: 20px; 
+            padding: 22px; 
+            margin-bottom: 20px;
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.2);
+            position: relative; 
+            z-index: 20;
         }
 
-        .main-title { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--pink); text-align: center; margin-bottom: 25px; }
-        .photo-frame { width: 150px; height: 150px; border-radius: 50%; border: 3px solid #fff; background: url('sua-foto.jpg') center/cover; margin-bottom: 25px; }
+        @keyframes neonPulseRed {
+            0%, 100% { text-shadow: 0 0 7px var(--neon-red), 0 0 12px var(--neon-red); filter: brightness(1); transform: scale(1); }
+            50% { text-shadow: 0 0 18px var(--neon-red), 0 0 28px var(--neon-red); filter: brightness(1.2); transform: scale(1.03); }
+        }
 
-        /* TIMELINE ABA 2 */
-        .custom-timeline { width: 100%; max-width: 380px; margin-bottom: 25px; }
-        .tl-point { margin-bottom: 20px; display: flex; flex-direction: column; }
+        .key-red { 
+            color: var(--neon-red) !important; 
+            font-weight: 700 !important; 
+            display: inline-block;
+            animation: neonPulseRed 2s infinite ease-in-out;
+            will-change: filter, transform;
+        }
+        
+        .key-green { 
+            color: var(--neon-green) !important; 
+            font-weight: 700 !important;
+            text-shadow: 0 0 12px var(--neon-green), 0 0 22px var(--neon-green) !important;
+            display: inline-block;
+        }
 
-        .video-box { width: 100%; aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; border: 2px solid var(--blue); margin-bottom: 20px; background: #000; }
-        video { width: 100%; height: 100%; object-fit: cover; }
+        .main-title { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 2rem; 
+            color: var(--neon-red); 
+            text-align: center; 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 15px rgba(255, 59, 48, 0.5); 
+        }
+
+        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 10; }
+        .page { width: 100vw; height: 100vh; padding: 40px 20px 100px; overflow-y: auto; overflow-x: hidden; scroll-behavior: smooth; }
+
+        .tm-item { font-weight: 700; font-size: 1.2rem; color: var(--neon-red); text-shadow: 0 0 8px var(--neon-red); margin-bottom: 4px; }
+        .tm-desc { font-size: 0.8rem; opacity: 0.85; margin-bottom: 15px; }
+
+        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
+        .photo-item { width: 100%; aspect-ratio: 1; border-radius: 12px; border: 2px solid var(--neon-blue); object-fit: cover; }
 
         .dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 1000; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s; }
-        .dot.active { width: 30px; background: var(--pink); border-radius: 10px; }
-
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        #waterfall-canvas { position: absolute; inset: 0; z-index: 5; display: none; pointer-events: none; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
+        .dot.active { width: 30px; background: var(--neon-blue); border-radius: 10px; }
+        
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s; }
     </style>
 </head>
 <body>
 
 <canvas id="star-canvas"></canvas>
+<audio id="bg-music" src="foi-assim.mp3" loop></audio>
 
-<div id="splash" onclick="initApp()">
-    <div style="font-size: 80px; cursor: pointer;">❤️</div>
-    <p style="margin-top: 20px; letter-spacing: 5px; opacity: 0.7;">TOQUE PARA ENTRAR</p>
+<div id="splash">
+    <div onclick="shatterHeart()" style="font-size:80px; cursor:pointer; filter: drop-shadow(0 0 20px var(--neon-blue)); animation: pulse 1.5s infinite;">💙</div>
 </div>
 
 <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 
 <div id="viewport">
     <section class="page">
-        <h1 class="main-title">Para você meu jacaré</h1>
-        <div class="photo-frame"></div>
-        <div class="glass-card">
-            <div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.9rem;"></div>
-        </div>
-        <div style="display:flex; gap:10px; width:100%; max-width:400px;">
-            <div class="glass-card" style="flex:1; text-align:center; padding:15px; margin:0;"><span id="h1" style="color:var(--pink); font-size:1.5rem; font-weight:900;">0</span><br><small>HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center; padding:15px; margin:0;"><span id="s1" style="color:var(--blue); font-size:1.5rem; font-weight:900;">0</span><br><small>SEGS</small></div>
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 450px; margin: 0 auto;">
+            <h1 class="main-title">Para você meu Jacaré</h1>
+            <div style="width: 155px; height: 155px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
+            <div class="glass-card" style="width: 100%;">
+                <div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 80px;"></div>
+            </div>
+            <div style="display:flex; gap:12px; width:100%;">
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small>HORAS</small></div>
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small>SEGS</small></div>
+            </div>
         </div>
     </section>
 
     <section class="page">
-        <div class="custom-timeline">
-            <div class="tl-point" style="align-items: flex-start; text-align: left;">
-                <b style="color: var(--blue);">05 de maio 🤍</b>
-                <p style="font-size: 0.75rem; opacity: 0.8;">Onde tudo começou a fazer sentido.</p>
+        <div style="max-width: 450px; margin: 0 auto;">
+            <div class="glass-card">
+                <div class="timeline-container" style="text-align: left;"><div class="tm-item">08 de Maio ✨👀</div><p class="tm-desc">O dia em que nos conhecemos e tudo começou.</p></div>
+                <div class="timeline-container" style="text-align: right;"><div class="tm-item">12 de Maio 👩‍❤️‍👨💍</div><p class="tm-desc">O início oficial do nosso namoro.</p></div>
+                <div class="timeline-container" style="text-align: center; margin-top: 10px;"><div class="tm-item">Nosso Futuro 🚀🏡</div><p class="tm-desc">Onde o nosso <span class="key-red">eu te amo</span> se renova.</p></div>
             </div>
-            <div class="tl-point" style="align-items: flex-end; text-align: right; padding-right: 15px;">
-                <b style="color: var(--pink);">08/05 💙</b>
-                <p style="font-size: 0.75rem; opacity: 0.8;">O dia que marcou nosso início.</p>
-            </div>
-            <div class="tl-point" style="align-items: center; text-align: center;">
-                <b style="color: #fff; font-size: 1rem;">12 de maio</b>
-                <span style="color: var(--pink); font-size: 0.8rem; font-weight: 900;">Quando nós se tornamos um..</span>
-                <p style="font-size: 0.75rem; opacity: 0.8;">Onde a nossa história se uniu pra sempre.</p>
-            </div>
-        </div>
-
-        <div class="video-box"><video id="v2" loop playsinline controls src="seu-video.mp4"></video></div>
-
-        <div class="glass-card" style="padding:20px; font-size:0.85rem; text-align:center;">
-            <p>"Cada memória aqui guardada é um pedaço do nosso infinito."</p>
+            <video src="seu-video.mp4" loop playsinline controls style="width:100%; border-radius:15px; border:2px solid var(--neon-blue); margin-bottom:20px;"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem;"></div></div>
         </div>
     </section>
 
-    <section class="page" style="justify-content:center;">
-        <div class="glass-card" style="text-align:center; padding:50px 20px;">
-            <div id="beats" style="font-size:4.5rem; font-weight:900; color:var(--red);">0</div>
-            <p style="font-size:0.8rem; margin:20px 0 35px;">BATIDAS DEDICADAS A TI</p>
-            <button onclick="rain()" style="background:linear-gradient(45deg, var(--pink), var(--blue)); border:none; padding:18px 40px; border-radius:50px; color:#fff; font-weight:900; cursor:pointer;">SELAR AMOR ❤️</button>
+    <section class="page">
+        <div style="max-width: 450px; margin: 0 auto;">
+            <h2 class="main-title" style="font-size: 1.6rem;">Nossos Momentos</h2>
+            <div class="photo-grid">
+                <img src="foto1.jpg" class="photo-item">
+                <img src="foto2.jpg" class="photo-item">
+                <img src="foto3.jpg" class="photo-item">
+                <img src="foto4.jpg" class="photo-item">
+            </div>
+            <div class="glass-card">
+                <p style="text-align: center; font-style: italic; font-size: 1.05rem;">"Cada imagem carrega um pedaço da nossa felicidade e a promessa de que o <span class="key-green">jacaré</span> mais lindo é meu."</p>
+            </div>
         </div>
     </section>
 
-    <section class="page" style="justify-content:center;">
-        <canvas id="waterfall-canvas"></canvas>
-        <div class="glass-card" id="card-trigger" style="text-align:center;">
-            <h2 style="font-family:'Playfair Display'; margin-bottom:15px;">O Tempo Voa...</h2>
-            <button onclick="startWaterfall()" style="margin-top:25px; padding:15px 30px; border-radius:12px; border:1px solid var(--pink); background:none; color:#fff; cursor:pointer; font-weight:900;">VER COMO O TEMPO VOA</button>
-        </div>
-        <div id="timer-ui" style="display:none; z-index:100; text-align:center;">
-            <div style="background:rgba(0,0,0,0.85); padding:30px; border-radius:25px; border:1px solid var(--blue);">
-                <div id="big-h" style="font-size:5rem; font-weight:900;">0</div>
-                <p style="letter-spacing:5px; font-size:0.7rem; color:var(--pink); font-weight:900;">HORAS JUNTOS</p>
+    <section class="page">
+        <div style="max-width: 450px; margin: 0 auto; text-align: center;">
+            <h2 class="main-title" style="font-size: 1.8rem;">Uma Promessa</h2>
+            <div class="glass-card" style="padding: 45px 20px;">
+                <p style="line-height: 2.3; font-size: 1.2rem;">
+                    Eu prometo te amar, te cuidar e estar ao seu lado em cada passo. <br><br>
+                    Para sempre minha, <br>
+                    Para sempre meu <span class="key-green">jacaré</span>. <br><br>
+                    <span class="key-red" style="font-size: 2.3rem;">eu te amo</span>
+                </p>
             </div>
+            <div style="font-size: 60px; filter: drop-shadow(0 0 10px var(--neon-red)); margin-top: 20px;">♾️❤️</div>
         </div>
     </section>
 </div>
 
 <script>
     const START = new Date("2025-05-08T20:00:00");
-    const TXT = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso. Unindo aquela data ao agora, vejo que você é a minha melhor escolha. Te amo, minha Jacaré!";
+    const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso. Unindo aquela data ao agora, vejo que você é a minha <span class='key-red'>melhor escolha</span>. <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
+    const TXT2 = "Amar você é descobrir que o tempo tem uma cadência diferente quando estamos juntos. Desde aquele dia de maio, o <span class='key-red'>meu mundo</span> ganhou cores que eu sequer sabia que existiam, e cada detalhe do nosso namoro se tornou um tesouro que guardo com o maior zelo do universo. Não preciso de palavras rebuscadas para dizer que você é a minha paz, o meu porto seguro e a razão dos meus <span class='key-red'>sorrisos sinceros</span>. Nosso laço é feito de cumplicidade, de noites de conversas infinitas e de planos que desenhamos com a certeza de quem encontrou a sua metade ideal. Olho para trás e vejo o quanto crescemos, o quanto cada risada compartilhada fortaleceu o que sentimos. Você é a pessoa que escolho todos os dias, em cada pequeno gesto e em cada silêncio confortável. Este espaço é apenas um reflexo singelo do infinito que eu sinto por você. Quero que saiba que, independentemente do que o futuro nos reserve, o meu <span class='key-red'>presente é completo</span> apenas porque você está nele. Você transborda luz e me faz querer ser alguém melhor a cada amanhecer. Obrigado por ser minha companhia, meu amor e meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> daqui até a eternidade, com toda a força que meu coração consegue carregar. Prometo cuidar de nós, proteger nosso brilho e caminhar ao seu lado, de mãos dadas, celebrando cada pequena vitória da nossa história. Você é, e sempre será, o meu melhor e mais doce destino.";
 
-    function initApp() {
+    let typedPages = { p1: false, p2: false };
+
+    function shatterHeart() {
+        const audio = document.getElementById('bg-music');
+        audio.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('splash').style.display = 'none';
-            type(TXT);
-            setInterval(update, 1000); update();
-            setupStars();
-        }, 600);
+        setTimeout(() => { 
+            document.getElementById('splash').style.display = 'none'; 
+            if(!typedPages.p1) { typeWriter(TXT1, "type-p1", 35, 'p1'); }
+            initApp(); 
+        }, 800);
     }
 
-    function type(t) {
-        let i = 0; const el = document.getElementById('type-p1');
-        const itv = setInterval(() => { el.innerHTML += t[i]; i++; if(i>=t.length) clearInterval(itv); }, 35);
+    function initApp() { 
+        setInterval(updateCounter, 1000); 
+        updateCounter(); 
+        setupStars(); 
     }
 
-    function update() {
+    function typeWriter(text, elementId, speed, pageKey) {
+        let i = 0; const el = document.getElementById(elementId);
+        el.innerHTML = "";
+        function type() {
+            if (i < text.length) {
+                if (text[i] === '<') {
+                    let end = text.indexOf('>', i);
+                    el.innerHTML += text.substring(i, end + 1);
+                    i = end + 1;
+                } else {
+                    el.innerHTML += text[i];
+                    i++;
+                }
+                setTimeout(type, speed);
+            } else { typedPages[pageKey] = true; }
+        }
+        type();
+    }
+
+    function updateCounter() {
         const diff = new Date() - START;
-        const h = Math.floor(diff / 3600000);
-        const val = h.toLocaleString();
-        document.getElementById('h1').innerText = val;
-        document.getElementById('big-h').innerText = val;
+        document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
         document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
-        document.getElementById('beats').innerText = Math.floor((diff/60000)*80).toLocaleString();
-    }
-
-    function startWaterfall() {
-        document.getElementById('card-trigger').style.display = 'none';
-        document.getElementById('timer-ui').style.display = 'block';
-        const canvas = document.getElementById('waterfall-canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.style.display = 'block';
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const txt = document.getElementById('big-h').innerText;
-        const drops = Array(Math.floor(canvas.width / 20)).fill(0);
-        setInterval(() => {
-            ctx.fillStyle = "rgba(0,0,0,0.1)"; ctx.fillRect(0,0,canvas.width,canvas.height);
-            ctx.fillStyle = "#007aff"; ctx.font = "bold 16px Montserrat";
-            drops.forEach((y, i) => {
-                ctx.fillText(txt, i*20, y*16);
-                if(y*16 > canvas.height && Math.random() > 0.98) drops[i] = 0;
-                drops[i]++;
-            });
-        }, 33);
-    }
-
-    let page = 0, startX = 0;
-    document.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
-    document.addEventListener('touchend', e => {
-        let x = startX - e.changedTouches[0].clientX;
-        if(Math.abs(x) > 50) {
-            if(x > 0 && page < 3) page++; else if(x < 0 && page > 0) page--;
-            document.getElementById('viewport').style.transform = `translateX(-${page * 100}vw)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === page));
-        }
-    });
-
-    function rain() {
-        for(let i=0; i<30; i++) {
-            const h = document.createElement('div'); h.innerHTML = '❤️';
-            h.style.cssText = `position:fixed; left:${Math.random()*100}vw; bottom:-10%; font-size:30px; z-index:2000; animation: rise ${Math.random()*2+2}s forwards;`;
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 4000);
-        }
     }
 
     function setupStars() {
-        const sc = document.getElementById('star-canvas'); const sctx = sc.getContext('2d');
-        sc.width = window.innerWidth; sc.height = window.innerHeight;
-        let stars = Array(100).fill().map(() => ({ x: Math.random()*sc.width, y: Math.random()*sc.height, s: Math.random()*1.2 }));
+        const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
+        c.width = window.innerWidth; c.height = window.innerHeight;
+        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.2, o: Math.random() }));
         function anim() {
-            sctx.clearRect(0,0,sc.width,sc.height); sctx.fillStyle = "#fff";
-            stars.forEach(s => { sctx.beginPath(); sctx.arc(s.x, s.y, s.s, 0, 7); sctx.fill(); s.y -= 0.2; if(s.y<0) s.y=sc.height; });
+            ctx.clearRect(0,0,c.width,c.height);
+            stars.forEach(s => { 
+                ctx.fillStyle = `rgba(255,255,255,${s.o})`;
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill(); 
+                s.y -= 0.15; if(s.y < 0) s.y = c.height; 
+            });
             requestAnimationFrame(anim);
         }
         anim();
     }
+
+    let cur = 0, startX = 0, startY = 0;
+    document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; startY = e.touches[0].clientY; });
+    document.addEventListener('touchend', e => {
+        let diffX = startX - e.changedTouches[0].clientX;
+        let diffY = startY - e.changedTouches[0].clientY;
+        if(Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY)) {
+            if(diffX > 0 && cur < 3) cur++; 
+            else if(diffX < 0 && cur > 0) cur--;
+            
+            document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+            
+            if(cur === 1 && !typedPages.p2) { 
+                setTimeout(() => typeWriter(TXT2, "type-p2", 20, 'p2'), 500); 
+            }
+        }
+    });
 </script>
-<style> @keyframes rise { to { transform: translateY(-120vh) rotate(360deg); opacity: 0; } } </style>
+<style> @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } } </style>
 </body>
 </html>
