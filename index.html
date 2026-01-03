@@ -120,12 +120,18 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <div class="glass-card" style="display: flex; justify-content: space-between;">
-                <div style="text-align: left;"><div style="color:var(--neon-red); font-weight:700;">08 de Maio ✨</div><p style="font-size:0.75rem; opacity:0.8;">Nosso encontro</p></div>
-                <div style="text-align: right;"><div style="color:var(--neon-red); font-weight:700;">12 de Maio 💍</div><p style="font-size:0.75rem; opacity:0.8;">Nosso Namoro</p></div>
+            <div class="glass-card" style="display: flex; justify-content: space-between; gap: 10px;">
+                <div style="text-align: left; flex: 1;">
+                    <div style="color:var(--neon-red); font-weight:900; font-size: 0.9rem;">08 MAI ✨</div>
+                    <p style="font-size:0.65rem; opacity:0.9; line-height: 1.2; margin-top: 4px;">O dia em que olhei nos teus olhos e o mundo em volta emudeceu.</p>
+                </div>
+                <div style="text-align: right; flex: 1;">
+                    <div style="color:var(--neon-red); font-weight:900; font-size: 0.9rem;">12 MAI 💍</div>
+                    <p style="font-size:0.65rem; opacity:0.9; line-height: 1.2; margin-top: 4px;">Onde a vontade de ser um só se tornou o nosso destino.</p>
+                </div>
             </div>
             <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:15px; border:2px solid var(--neon-blue); margin-bottom:20px; pointer-events:none;"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 80px;"></div></div>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 350px;"></div></div>
         </div>
     </section>
 
@@ -147,7 +153,7 @@
                 <p style="line-height: 2.5; font-size: 1.3rem; font-weight: 700;">
                     Para sempre minha, <br> 
                     Para sempre meu <br>
-                    <span class="key-green" style="font-size: 2.2rem; display: block; margin: 15px 0;">jacaré</span>
+                    <span class="key-green" style="font-size: 2.2rem; display: block; margin: 10px 0;">jacaré</span>
                     <span class="key-red" style="font-size: 2.8rem; display: block;">eu te amo</span>
                 </p>
                 <div style="margin-top: 20px; font-size: 45px;">💍✨</div>
@@ -158,10 +164,8 @@
 
 <script>
     const START = new Date("2025-05-08T20:00:00");
-    
-    // DEFINIÇÃO DAS PALAVRAS CHAVES COM NEON
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "Amar você é descobrir que o tempo tem uma cadência diferente quando estamos juntos... Obrigado por ser meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> daqui até a eternidade.";
+    const TXT2 = "Gosto de como a gente se entende sem precisar de muito esforço. Não é sobre grandes cenas, mas sobre a vontade constante de estar perto. Tem algo na sua presença que me prende, um <span class='key-red'>desejo</span> que não passa e uma paz que só encontro do seu lado. É fácil te querer porque você é real, intensa e exatamente quem eu quero ter por perto todos os dias. <br><br>Quero cada detalhe seu, desde as conversas jogadas fora até os silêncios que a gente compartilha. Não preciso de palavras difíceis pra dizer que você me completa de um jeito prático e visceral. Estar com você é o meu lugar favorito, e essa <span class='key-red'>conexão</span> é o que me faz querer construir cada vez mais ao seu lado. <br><br>Você é meu vício bom, minha parceira de todas as horas e a pessoa que eu escolho, sem dúvida nenhuma. O sentimento aqui é limpo e direto: eu quero você, hoje, amanhã e em cada plano que a gente traçar. Obrigado por ser meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> pra valer.";
 
     let typedPages = { p1: false, p2: false };
     const bgMusic = document.getElementById('bg-music');
