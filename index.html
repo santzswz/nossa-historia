@@ -24,6 +24,47 @@
             z-index: 20;
         }
 
+        /* Design Galeria Melhorada */
+        .moment-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            background: #0a0a0a;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .moment-img-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+        }
+        .moment-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .moment-overlay {
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, transparent);
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        .moment-desc { font-size: 0.85rem; line-height: 1.5; color: #eee; text-align: left; }
+        .moment-badge {
+            position: absolute;
+            top: 15px; right: 15px;
+            background: var(--neon-blue);
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-weight: 900;
+            z-index: 5;
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
         .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
         .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 30px var(--neon-red); }
         .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
@@ -50,8 +91,6 @@
 
         .p-reveal { opacity: 0; transform: translateY(15px); transition: 1s ease; }
         .p-reveal.active { opacity: 1; transform: translateY(0); }
-        .moment-img { width: 100%; border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(0, 122, 255, 0.2); }
-        .moment-desc { font-size: 0.8rem; line-height: 1.5; color: #ddd; text-align: center; }
     </style>
 </head>
 <body>
@@ -99,27 +138,37 @@
         <div style="max-width: 450px; margin: 0 auto;">
             <h2 class="main-title">Nossos Momentos</h2>
             
-            <div class="glass-card" style="padding: 12px;">
-                <img src="foto4.jpg" class="moment-img">
-                <p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p>
+            <div class="moment-card">
+                <div class="moment-badge">MEMÓRIA</div>
+                <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
+                <div class="moment-overlay">
+                    <p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p>
+                </div>
             </div>
 
-            <div class="glass-card" style="padding: 12px;">
-                <img src="foto2.jpg" class="moment-img">
-                <p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p>
+            <div class="moment-card">
+                <div class="moment-img-wrapper"><img src="foto2.jpg"></div>
+                <div class="moment-overlay">
+                    <p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p>
+                </div>
             </div>
 
-            <div class="glass-card" style="padding: 12px;">
-                <img src="foto3.jpg" class="moment-img">
-                <p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p>
+            <div class="moment-card">
+                <div class="moment-img-wrapper"><img src="foto3.jpg"></div>
+                <div class="moment-overlay">
+                    <p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p>
+                </div>
             </div>
 
-            <div class="glass-card" style="padding: 12px;">
-                <img src="foto1.jpg" class="moment-img">
-                <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
+            <div class="moment-card">
+                <div class="moment-badge">2026</div>
+                <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
+                <div class="moment-overlay">
+                    <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
+                </div>
             </div>
 
-            <button onclick="spawnHearts()" style="width:100%; background:transparent; border:2px solid var(--neon-red); color:var(--neon-red); padding:15px; border-radius:50px; font-weight:900; margin-top:10px; box-shadow: 0 0 15px var(--neon-red);">Selar o Amor</button>
+            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:18px; border-radius:50px; font-weight:900; margin-top:10px; box-shadow: 0 5px 20px rgba(255,59,48,0.4); text-transform: uppercase; letter-spacing: 1px;">Selar o Nosso Amor</button>
         </div>
     </section>
 
