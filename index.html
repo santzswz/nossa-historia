@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Para meu Jacaré</title>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Montserrat:wght@400;600;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --neon-blue: #007aff;
-            --neon-red: #ff3b30;
-            --neon-green: #39ff14;
-        }
-
+        :root { --neon-blue: #007aff; --neon-red: #ff3b30; --neon-green: #39ff14; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
         body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; }
 
@@ -20,77 +15,55 @@
 
         .glass-card { 
             background: rgba(255, 255, 255, 0.05); 
-            border: 2px solid var(--neon-blue); 
+            border: 1px solid rgba(0, 122, 255, 0.4); 
             border-radius: 20px; 
             padding: 22px; 
             margin-bottom: 20px;
-            box-shadow: 0 0 15px rgba(0, 122, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 122, 255, 0.1);
             position: relative; 
             z-index: 20;
         }
 
-        @keyframes neonPulseRed {
-            0%, 100% { text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); transform: scale(1); }
-            50% { text-shadow: 0 0 25px var(--neon-red), 0 0 35px var(--neon-red); transform: scale(1.05); }
+        /* CORAÇÃO SPLASH */
+        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
+        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 30px var(--neon-red); }
+        .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+
+        @keyframes aggressivePulse {
+            0%, 100% { transform: scale(1); filter: brightness(100%); }
+            50% { transform: scale(1.15); filter: brightness(130%); }
         }
 
-        @keyframes floating {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(3deg); }
+        /* TIMELINE DESIGN PERFEITO */
+        .timeline-wrapper { position: relative; padding: 10px 0; display: flex; justify-content: space-between; align-items: flex-start; }
+        .timeline-wrapper::before {
+            content: ''; position: absolute; top: 18px; left: 15%; right: 15%; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-red), transparent); opacity: 0.6;
         }
-
-        .key-red { 
-            color: var(--neon-red) !important; 
-            font-weight: 900 !important; 
-            display: inline-block; 
-            animation: neonPulseRed 1.5s infinite ease-in-out;
-            text-shadow: 0 0 10px var(--neon-red);
+        .t-point { position: relative; z-index: 2; text-align: center; flex: 1; }
+        .t-badge { 
+            background: #000; border: 1.5px solid var(--neon-red); color: var(--neon-red); 
+            padding: 5px 12px; border-radius: 20px; font-weight: 900; font-size: 0.75rem; 
+            display: inline-block; margin-bottom: 10px; box-shadow: 0 0 10px rgba(255,59,48,0.4);
         }
-        
-        .key-green { 
-            color: var(--neon-green) !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 15px var(--neon-green) !important; 
-            display: inline-block; 
-        }
+        .t-text { font-size: 0.62rem; color: #eee; line-height: 1.3; padding: 0 5px; font-weight: 400; }
 
-        .main-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--neon-red); text-align: center; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 59, 48, 0.5); }
+        /* CORES FIXADAS */
+        .key-red { color: var(--neon-red) !important; font-weight: 900 !important; text-shadow: 0 0 10px var(--neon-red) !important; display: inline-block; }
+        .key-green { color: var(--neon-green) !important; font-weight: 900 !important; text-shadow: 0 0 10px var(--neon-green) !important; display: inline-block; }
 
+        .main-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--neon-red); text-align: center; margin-bottom: 20px; }
         #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 10; }
         .page { width: 100vw; height: 100vh; padding: 40px 20px 100px; overflow-y: auto; overflow-x: hidden; scrollbar-width: none; }
-        .page::-webkit-scrollbar { display: none; }
-
-        .btn-selar {
-            background: transparent;
-            border: 2px solid var(--neon-red);
-            color: var(--neon-red);
-            padding: 15px 35px;
-            border-radius: 50px;
-            font-weight: 900;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 0 15px var(--neon-red);
-            transition: 0.3s;
-            margin-top: 15px;
-        }
-        .btn-selar:active { transform: scale(0.9); box-shadow: 0 0 30px var(--neon-red); }
-
-        .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 15px 0; }
-        .photo-item { width: 100%; aspect-ratio: 1; border-radius: 12px; border: 2px solid var(--neon-blue); object-fit: cover; }
-
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.8s ease; }
         .dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 1000; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s; }
-        .dot.active { width: 30px; background: var(--neon-blue); border-radius: 10px; }
-        
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1s ease; }
-        
-        video::-webkit-media-controls { display:none !important; }
+        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s; }
+        .dot.active { width: 24px; background: var(--neon-blue); border-radius: 10px; }
 
-        .final-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 3px solid var(--neon-red);
-            animation: floating 4s ease-in-out infinite;
-        }
+        .drastic-change { background: radial-gradient(circle at center, rgba(255,59,48,0.15) 0%, transparent 80%); display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .p-reveal { opacity: 0; transform: translateY(15px); transition: 1s ease; }
+        .p-reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -99,8 +72,11 @@
 <canvas id="heart-canvas"></canvas>
 <audio id="bg-music" src="foi-assim.mp3" loop></audio>
 
-<div id="splash">
-    <div onclick="shatterHeart()" style="font-size:80px; cursor:pointer; animation: pulse 1.5s infinite;">💙</div>
+<div id="splash" onclick="shatterHeart()">
+    <div class="heart-container">
+        <div class="heart-shape left"></div>
+        <div class="heart-shape right"></div>
+    </div>
 </div>
 
 <div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -109,54 +85,61 @@
     <section class="page">
         <div style="display: flex; flex-direction: column; align-items: center; max-width: 450px; margin: 0 auto;">
             <h1 class="main-title">Para você meu Jacaré</h1>
-            <div style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
+            <div style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 25px var(--neon-blue);"></div>
             <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 80px;"></div></div>
             <div style="display:flex; gap:12px; width:100%;">
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small>HORAS</small></div>
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small>SEGS</small></div>
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.7;">HORAS</small></div>
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.7;">SEGS</small></div>
             </div>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <div class="glass-card" style="display: flex; justify-content: space-between; gap: 10px;">
-                <div style="text-align: left; flex: 1;">
-                    <div style="color:var(--neon-red); font-weight:900; font-size: 0.9rem;">08 MAI ✨</div>
-                    <p style="font-size:0.65rem; opacity:0.9; line-height: 1.2; margin-top: 4px;">O dia em que olhei nos teus olhos e o mundo em volta emudeceu.</p>
-                </div>
-                <div style="text-align: right; flex: 1;">
-                    <div style="color:var(--neon-red); font-weight:900; font-size: 0.9rem;">12 MAI 💍</div>
-                    <p style="font-size:0.65rem; opacity:0.9; line-height: 1.2; margin-top: 4px;">Onde a vontade de ser um só se tornou o nosso destino.</p>
+            <div class="glass-card">
+                <div class="timeline-wrapper">
+                    <div class="t-point">
+                        <div class="t-badge">08 MAI ✨</div>
+                        <p class="t-text">O dia em que olhei nos teus olhos e o mundo em volta emudeceu.</p>
+                    </div>
+                    <div class="t-point">
+                        <div class="t-badge">12 MAI 💍</div>
+                        <p class="t-text">Onde a vontade de ser um só se tornou o nosso destino.</p>
+                    </div>
                 </div>
             </div>
-            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:15px; border:2px solid var(--neon-blue); margin-bottom:20px; pointer-events:none;"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 350px;"></div></div>
+            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:20px; pointer-events:none;"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.7; text-align: justify; font-size: 0.9rem; min-height: 300px;"></div></div>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; text-align: center;">
             <h2 class="main-title">Nossos Momentos</h2>
-            <div class="photo-grid">
-                <img src="foto1.jpg" class="photo-item"> <img src="foto2.jpg" class="photo-item">
-                <img src="foto3.jpg" class="photo-item"> <img src="foto4.jpg" class="photo-item">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+                <img src="foto1.jpg" style="width:100%; aspect-ratio:1; border-radius:10px; border:1px solid var(--neon-blue); object-fit:cover;">
+                <img src="foto2.jpg" style="width:100%; aspect-ratio:1; border-radius:10px; border:1px solid var(--neon-blue); object-fit:cover;">
+                <img src="foto3.jpg" style="width:100%; aspect-ratio:1; border-radius:10px; border:1px solid var(--neon-blue); object-fit:cover;">
+                <img src="foto4.jpg" style="width:100%; aspect-ratio:1; border-radius:10px; border:1px solid var(--neon-blue); object-fit:cover;">
             </div>
-            <button class="btn-selar" onclick="spawnHearts()">Selar o Amor</button>
+            <button onclick="spawnHearts()" style="background:transparent; border:2px solid var(--neon-red); color:var(--neon-red); padding:12px 30px; border-radius:50px; font-weight:900; box-shadow: 0 0 15px var(--neon-red); cursor:pointer;">Selar o Amor</button>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <h2 class="main-title" style="font-size: 2.2rem;">Uma Promessa</h2>
-            <div class="glass-card final-card" style="padding: 50px 20px;">
-                <p style="line-height: 2.5; font-size: 1.3rem; font-weight: 700;">
-                    Para sempre minha, <br> 
-                    Para sempre meu <br>
-                    <span class="key-green" style="font-size: 2.2rem; display: block; margin: 10px 0;">jacaré</span>
-                    <span class="key-red" style="font-size: 2.8rem; display: block;">eu te amo</span>
-                </p>
-                <div style="margin-top: 20px; font-size: 45px;">💍✨</div>
+            <div class="drastic-change">
+                <div style="width: 180px; height: 180px; border-radius: 50%; border: 1px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin-bottom: 30px; box-shadow: inset 0 0 20px var(--neon-red);">
+                    <div style="font-size: 50px;">🐊</div>
+                </div>
+                <div class="p-reveal" id="final-1">
+                    <h2 class="main-title" style="font-size: 1.5rem;">Promessa Inabalável</h2>
+                    <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6; padding: 0 15px;">No meu caos, você é o porto. No meu silêncio, você é a melodia.</p>
+                </div>
+                <div class="p-reveal" id="final-2" style="margin-top: 25px;">
+                    <span class="key-red" style="font-size: 2rem; display: block;">eu te amo</span>
+                    <span class="key-green" style="font-size: 1.1rem; display: block;">para todo o sempre</span>
+                </div>
             </div>
         </div>
     </section>
@@ -165,14 +148,13 @@
 <script>
     const START = new Date("2025-05-08T20:00:00");
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "Gosto de como a gente se entende sem precisar de muito esforço. Não é sobre grandes cenas, mas sobre a vontade constante de estar perto. Tem algo na sua presença que me prende, um <span class='key-red'>desejo</span> que não passa e uma paz que só encontro do seu lado. É fácil te querer porque você é real, intensa e exatamente quem eu quero ter por perto todos os dias. <br><br>Quero cada detalhe seu, desde as conversas jogadas fora até os silêncios que a gente compartilha. Não preciso de palavras difíceis pra dizer que você me completa de um jeito prático e visceral. Estar com você é o meu lugar favorito, e essa <span class='key-red'>conexão</span> é o que me faz querer construir cada vez mais ao seu lado. <br><br>Você é meu vício bom, minha parceira de todas as horas e a pessoa que eu escolho, sem dúvida nenhuma. O sentimento aqui é limpo e direto: eu quero você, hoje, amanhã e em cada plano que a gente traçar. Obrigado por ser meu <span class='key-green'>jacaré</span>. <span class='key-red'>eu te amo</span> pra valer.";
+    const TXT2 = "Sabe, não foi algo planejado, simplesmente aconteceu. No começo, eram apenas olhares, mas hoje vejo que cada conversa nossa construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, sem pressão, sem roteiro. Você tem esse jeito de tornar as coisas leves, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha parceira de vida, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico; é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é meu <span class='key-green'>jacaré</span>, minha teimosa favorita e a dona do sorriso que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu coração sente em cada batida.";
 
     let typedPages = { p1: false, p2: false };
     const bgMusic = document.getElementById('bg-music');
     const video = document.getElementById('main-video');
 
     function shatterHeart() {
-        bgMusic.volume = 1;
         bgMusic.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
         setTimeout(() => { 
@@ -186,15 +168,8 @@
         let i = 0; const el = document.getElementById(elementId);
         function type() {
             if (i < text.length) {
-                if (text[i] === '<') { 
-                    let end = text.indexOf('>', i); 
-                    el.innerHTML += text.substring(i, end + 1); 
-                    i = end + 1; 
-                }
-                else { 
-                    el.innerHTML += text[i]; 
-                    i++; 
-                }
+                if (text[i] === '<') { let end = text.indexOf('>', i); el.innerHTML += text.substring(i, end + 1); i = end + 1; }
+                else { el.innerHTML += text[i]; i++; }
                 setTimeout(type, speed);
             } else { typedPages[key] = true; }
         }
@@ -207,51 +182,17 @@
         document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
     }
 
-    function crossfade(toVideo) {
-        let duration = 2000;
-        let steps = 40;
-        let interval = duration / steps;
-        let volStep = 1 / steps;
-        
-        if(toVideo) {
-            video.volume = 0;
-            video.play().catch(() => {});
-            let fade = setInterval(() => {
-                if(video.volume < 0.95) video.volume += volStep;
-                if(bgMusic.volume > 0.05) bgMusic.volume -= volStep;
-                else { bgMusic.volume = 0; bgMusic.pause(); clearInterval(fade); }
-            }, interval);
-        } else {
-            bgMusic.play().catch(() => {});
-            let fade = setInterval(() => {
-                if(bgMusic.volume < 0.95) bgMusic.volume += volStep;
-                if(video.volume > 0.05) video.volume -= volStep;
-                else { video.volume = 0; video.pause(); clearInterval(fade); }
-            }, interval);
-        }
-    }
-
     const hCanvas = document.getElementById('heart-canvas');
     const hCtx = hCanvas.getContext('2d');
     let hearts = [];
     function spawnHearts() {
-        for(let i=0; i<20; i++) {
-            hearts.push({ 
-                x: Math.random()*window.innerWidth, 
-                y: window.innerHeight + 50, 
-                s: Math.random()*2+1, 
-                v: Math.random()*4+4, 
-                opacity: 1,
-                char: ["❤️", "💖", "✨", "🐊"][Math.floor(Math.random()*4)]
-            });
-        }
+        for(let i=0; i<20; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, s: Math.random()*2+1, v: Math.random()*4+4, opacity: 1, char: "❤️" });
     }
     function drawHearts() {
         hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
         hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
         hearts.forEach((h, i) => {
-            hCtx.font = (h.s * 25) + "px serif"; hCtx.globalAlpha = h.opacity;
-            hCtx.fillText(h.char, h.x, h.y); h.y -= h.v; h.opacity -= 0.004;
+            hCtx.globalAlpha = h.opacity; hCtx.fillText(h.char, h.x, h.y); h.y -= h.v; h.opacity -= 0.005;
             if(h.opacity <= 0) hearts.splice(i, 1);
         });
         requestAnimationFrame(drawHearts);
@@ -265,15 +206,14 @@
         if(Math.abs(diffX) > 60) {
             let prev = cur;
             if(diffX > 0 && cur < 3) cur++; else if(diffX < 0 && cur > 0) cur--;
-            
             if(prev !== cur) {
                 document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
                 document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-                
-                if(cur === 1) crossfade(true);
-                else if(prev === 1) crossfade(false);
-
                 if(cur === 1 && !typedPages.p2) typeWriter(TXT2, "type-p2", 25, 'p2');
+                if(cur === 3) {
+                    setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
+                    setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
+                }
             }
         }
     });
@@ -290,6 +230,5 @@
         anim();
     }
 </script>
-<style>@keyframes pulse {0%, 100% {transform: scale(1);} 50% {transform: scale(1.1);}}</style>
 </body>
 </html>
