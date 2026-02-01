@@ -12,56 +12,53 @@
 
         #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         
-        /* CARD COM BORDAS MAIS FORTES */
         .glass-card { 
-            background: rgba(10, 10, 10, 0.8); 
-            border: 1px solid rgba(0, 122, 255, 0.4); 
+            background: rgba(15, 15, 15, 0.85); 
+            border: 1px solid rgba(0, 122, 255, 0.45); 
             border-radius: 20px; 
-            padding: 22px; 
+            padding: 24px; 
             margin-bottom: 25px;
-            box-shadow: 0 0 20px rgba(0, 122, 255, 0.15);
+            box-shadow: 0 0 25px rgba(0, 122, 255, 0.2);
             position: relative; z-index: 20;
         }
 
-        /* TEXTOS NEON ULTRA INTENSOS */
-        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-red), 0 0 15px var(--neon-red); display: inline; }
-        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-blue), 0 0 15px var(--neon-blue); display: inline; }
-        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green), 0 0 25px var(--neon-green); display: inline; }
+        /* TEXTOS NEON DE ALTA INTENSIDADE */
+        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); display: inline; }
+        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); display: inline; }
+        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green), 0 0 30px var(--neon-green); display: inline; }
 
-        /* GALERIA MELHORADA */
         .moment-card {
-            position: relative; overflow: hidden; border-radius: 22px; margin-bottom: 30px;
-            border: 2px solid rgba(255, 59, 48, 0.3); background: #000;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8), 0 0 15px rgba(255, 59, 48, 0.1);
-            transform: translateZ(0);
+            position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 35px;
+            border: 2px solid rgba(255, 59, 48, 0.4); background: #000;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.15);
         }
         .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
-        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: 0.5s; }
-        .moment-card:hover .moment-img-wrapper img { filter: brightness(1.1); transform: scale(1.05); }
-        .moment-overlay { padding: 25px 20px; background: linear-gradient(to top, #000 40%, transparent); position: absolute; bottom: 0; width: 100%; }
-        .moment-desc { font-size: 0.9rem; line-height: 1.6; color: #fff; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
+        .moment-card:active img { filter: brightness(1.1); transform: scale(1.03); }
+        .moment-overlay { padding: 30px 20px; background: linear-gradient(to top, #000 50%, transparent); position: absolute; bottom: 0; width: 100%; }
+        .moment-desc { font-size: 0.92rem; line-height: 1.7; color: #fff; }
         .moment-badge {
-            position: absolute; top: 15px; right: 15px; background: var(--neon-blue);
-            padding: 6px 14px; border-radius: 30px; font-size: 0.7rem; font-weight: 900;
-            z-index: 5; box-shadow: 0 0 15px var(--neon-blue);
+            position: absolute; top: 18px; right: 18px; background: var(--neon-blue);
+            padding: 7px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 900;
+            z-index: 5; box-shadow: 0 0 18px var(--neon-blue);
         }
 
-        .main-title { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; text-shadow: 0 0 10px rgba(255,59,48,0.5); }
-        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 10; }
-        .page { width: 100vw; height: 100vh; padding: 40px 20px 120px; overflow-y: auto; scrollbar-width: none; }
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.8s; }
-        .dots { position: fixed; bottom: 35px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 1000; }
-        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s; }
-        .dot.active { width: 30px; background: var(--neon-blue); border-radius: 10px; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
+        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 10; }
+        .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.9s ease-in-out; }
+        .dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 1000; }
+        .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; }
+        .dot.active { width: 35px; background: var(--neon-blue); border-radius: 12px; }
         
-        .p-reveal { opacity: 0; transform: translateY(20px); transition: 1s ease; }
+        .p-reveal { opacity: 0; transform: translateY(25px); transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1); }
         .p-reveal.active { opacity: 1; transform: translateY(0); }
 
         .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
-        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 30px var(--neon-red); }
+        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 35px var(--neon-red); }
         .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
         .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
     </style>
 </head>
 <body>
@@ -83,19 +80,19 @@
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
             <h1 class="main-title">Para você meu Jacaré</h1>
-            <div style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 30px; box-shadow: 0 0 25px var(--neon-blue);"></div>
-            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 1rem;"></div></div>
+            <div style="width: 160px; height: 160px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 35px; box-shadow: 0 0 30px var(--neon-blue);"></div>
+            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.9; text-align: justify; font-size: 1.05rem;"></div></div>
             <div style="display:flex; gap:15px; width:100%;">
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.6;">HORAS</small></div>
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.6;">SEGS</small></div>
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">HORAS</small></div>
+                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">SEGS</small></div>
             </div>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:20px; border:2px solid var(--neon-blue); margin-bottom:25px; box-shadow: 0 0 20px rgba(0,122,255,0.3);"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 250px;"></div></div>
+            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px; box-shadow: 0 0 25px rgba(0,122,255,0.4);"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.9; text-align: justify; font-size: 1rem; min-height: 280px;"></div></div>
         </div>
     </section>
 
@@ -120,20 +117,20 @@
                 <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
                 <div class="moment-overlay"><p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p></div>
             </div>
-            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:20px; border-radius:50px; font-weight:900; margin-top:10px; box-shadow: 0 8px 25px rgba(255,59,48,0.4); text-transform: uppercase;">Selar o Nosso Amor</button>
+            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:22px; border-radius:50px; font-weight:900; margin-top:15px; box-shadow: 0 10px 30px rgba(255,59,48,0.5); text-transform: uppercase; letter-spacing: 1px;">Selar o Nosso Amor</button>
         </div>
     </section>
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <div style="width: 170px; height: 170px; border-radius: 50%; border: 2px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 40px; box-shadow: inset 0 0 30px var(--neon-red), 0 0 20px var(--neon-red);"><div style="font-size: 60px;">🐊</div></div>
+            <div style="width: 180px; height: 180px; border-radius: 50%; border: 2px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 45px; box-shadow: inset 0 0 35px var(--neon-red), 0 0 25px var(--neon-red);"><div style="font-size: 70px;">🐊</div></div>
             <div class="p-reveal" id="final-1">
                 <h2 class="main-title">Promessa Inabalável</h2>
-                <p style="font-size: 0.9rem; opacity: 0.8; line-height: 1.8;">No meu caos, você é o porto. No meu silêncio, você é a melodia.</p>
+                <p style="font-size: 1rem; opacity: 0.85; line-height: 1.9;">No meu caos, você é o porto. No meu silêncio, você é a melodia.</p>
             </div>
-            <div class="p-reveal" id="final-2" style="margin-top: 35px;">
-                <span class="key-red" style="font-size: 2.2rem; display: block;">eu te amo</span>
-                <span class="key-green" style="font-size: 1.2rem; display: block;">para todo o sempre</span>
+            <div class="p-reveal" id="final-2" style="margin-top: 40px;">
+                <span class="key-red" style="font-size: 2.5rem; display: block;">eu te amo</span>
+                <span class="key-green" style="font-size: 1.3rem; display: block;">para todo o sempre</span>
             </div>
         </div>
     </section>
@@ -199,10 +196,12 @@
                 document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
                 document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
                 
-                // GATILHO DE VÍDEO E TYPEWRITER
                 if(cur === 1) {
-                    video.play().catch(() => {});
-                    if(!typedPages.p2) typeWriter(TXT2, "type-p2", 10, 'p2');
+                    let playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => { /* Abafando erro de autoplay do navegador */ });
+                    }
+                    if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
                 } else { video.pause(); }
 
                 if(cur === 3) {
@@ -216,10 +215,10 @@
     function setupStars() {
         const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        let stars = Array(100).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5 }));
+        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.8 }));
         function anim() {
             ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.2; if(s.y<0) s.y=c.height; });
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.25; if(s.y<0) s.y=c.height; });
             requestAnimationFrame(anim);
         }
         anim();
