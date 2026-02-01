@@ -83,7 +83,7 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <video id="main-video" src="seu-video.mp4" loop playsinline muted style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px;"></video>
+            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px;"></video>
             <div class="glass-card"><div id="type-p2" style="line-height: 1.9; text-align: justify; min-height: 280px;"></div></div>
         </div>
     </section>
@@ -105,7 +105,9 @@
             </div>
             <div class="moment-card">
                 <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
-                <div class="moment-overlay"><p class="moment-desc">"Essa foto é a gente no ano novo, onde teremos mais 365 dias para sermos felizes"</p></div>
+                <div class="moment-overlay">
+                    <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
+                </div>
             </div>
             <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:22px; border-radius:50px; font-weight:900; margin-top:15px; box-shadow: 0 10px 30px rgba(255,59,48,0.5); text-transform: uppercase;">Selar o Nosso Amor</button>
         </div>
@@ -174,8 +176,20 @@
         if(prev !== cur) {
             document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
             document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-            if(cur === 1) { video.play().catch(() => {}); if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2'); }
-            else { video.pause(); }
+            
+            if(cur === 1) {
+                bgMusic.volume = 0.2;
+                video.muted = false;
+                let playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => { video.muted = true; video.play(); });
+                }
+                if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
+            } else { 
+                video.pause(); 
+                bgMusic.volume = 1.0;
+            }
+
             if(cur === 3) {
                 setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
                 setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
