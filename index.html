@@ -8,7 +8,7 @@
     <style>
         :root { --neon-blue: #007aff; --neon-red: #ff3b30; --neon-green: #39ff14; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; }
+        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; touch-action: none; }
 
         #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         
@@ -16,13 +16,12 @@
             background: rgba(15, 15, 15, 0.85); 
             border: 1px solid rgba(0, 122, 255, 0.45); 
             border-radius: 20px; 
-            padding: 24px; 
+            padding: clamp(15px, 4vw, 24px); 
             margin-bottom: 25px;
             box-shadow: 0 0 25px rgba(0, 122, 255, 0.2);
             position: relative; z-index: 20;
         }
 
-        /* TEXTOS NEON DE ALTA INTENSIDADE */
         .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); display: inline; }
         .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); display: inline; }
         .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green), 0 0 30px var(--neon-green); display: inline; }
@@ -33,32 +32,25 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.15);
         }
         .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
-        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s cubic-bezier(0.2, 1, 0.3, 1); }
-        .moment-card:active img { filter: brightness(1.1); transform: scale(1.03); }
-        .moment-overlay { padding: 30px 20px; background: linear-gradient(to top, #000 50%, transparent); position: absolute; bottom: 0; width: 100%; }
-        .moment-desc { font-size: 0.92rem; line-height: 1.7; color: #fff; }
-        .moment-badge {
-            position: absolute; top: 18px; right: 18px; background: var(--neon-blue);
-            padding: 7px 16px; border-radius: 30px; font-size: 0.7rem; font-weight: 900;
-            z-index: 5; box-shadow: 0 0 18px var(--neon-blue);
-        }
+        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s; }
+        .moment-overlay { padding: clamp(15px, 5vw, 30px) 20px; background: linear-gradient(to top, #000 50%, transparent); position: absolute; bottom: 0; width: 100%; }
+        .moment-desc { font-size: clamp(0.8rem, 2.5vw, 0.95rem); line-height: 1.7; color: #fff; }
 
-        .main-title { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
+        .main-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 6vw, 2.2rem); color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
         #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 10; }
-        .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.9s ease-in-out; }
+        .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; scrollbar-width: none; }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.9s ease; }
         .dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 1000; }
         .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; }
         .dot.active { width: 35px; background: var(--neon-blue); border-radius: 12px; }
         
-        .p-reveal { opacity: 0; transform: translateY(25px); transition: 1.2s cubic-bezier(0.2, 1, 0.3, 1); }
+        .p-reveal { opacity: 0; transform: translateY(25px); transition: 1.2s ease; }
         .p-reveal.active { opacity: 1; transform: translateY(0); }
-
         .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
         .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 35px var(--neon-red); }
         .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
         .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
     </style>
 </head>
 <body>
@@ -81,7 +73,7 @@
         <div style="max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
             <h1 class="main-title">Para você meu Jacaré</h1>
             <div style="width: 160px; height: 160px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 35px; box-shadow: 0 0 30px var(--neon-blue);"></div>
-            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.9; text-align: justify; font-size: 1.05rem;"></div></div>
+            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.9; text-align: justify;"></div></div>
             <div style="display:flex; gap:15px; width:100%;">
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">HORAS</small></div>
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">SEGS</small></div>
@@ -91,8 +83,8 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px; box-shadow: 0 0 25px rgba(0,122,255,0.4);"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.9; text-align: justify; font-size: 1rem; min-height: 280px;"></div></div>
+            <video id="main-video" src="seu-video.mp4" loop playsinline muted style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px;"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.9; text-align: justify; min-height: 280px;"></div></div>
         </div>
     </section>
 
@@ -100,7 +92,6 @@
         <div style="max-width: 450px; margin: 0 auto;">
             <h2 class="main-title">Nossos Momentos</h2>
             <div class="moment-card">
-                <div class="moment-badge">MEMÓRIA</div>
                 <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
                 <div class="moment-overlay"><p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p></div>
             </div>
@@ -113,11 +104,10 @@
                 <div class="moment-overlay"><p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p></div>
             </div>
             <div class="moment-card">
-                <div class="moment-badge">2026</div>
                 <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
-                <div class="moment-overlay"><p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p></div>
+                <div class="moment-overlay"><p class="moment-desc">"Essa foto é a gente no ano novo, onde teremos mais 365 dias para sermos felizes"</p></div>
             </div>
-            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:22px; border-radius:50px; font-weight:900; margin-top:15px; box-shadow: 0 10px 30px rgba(255,59,48,0.5); text-transform: uppercase; letter-spacing: 1px;">Selar o Nosso Amor</button>
+            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:22px; border-radius:50px; font-weight:900; margin-top:15px; box-shadow: 0 10px 30px rgba(255,59,48,0.5); text-transform: uppercase;">Selar o Nosso Amor</button>
         </div>
     </section>
 
@@ -141,9 +131,8 @@
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
     const TXT2 = "Sabe, não foi algo planejado, simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas hoje vejo que cada <span class='key-blue'>conversas</span> nossa construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, sem pressão, sem roteiro. Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>parceira de vida</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico; é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é meu <span class='key-green'>jacaré</span>, minha teimosa favorita e a dona do <span class='key-blue'>sorriso</span> que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
 
-    let typedPages = { p1: false, p2: false };
-    const bgMusic = document.getElementById('bg-music');
-    const video = document.getElementById('main-video');
+    let typedPages = { p1: false, p2: false }, cur = 0;
+    const bgMusic = document.getElementById('bg-music'), video = document.getElementById('main-video');
 
     function typeWriter(text, elementId, speed, key) {
         let i = 0; const el = document.getElementById(elementId);
@@ -156,11 +145,7 @@
                     else {
                         let closingTag = text.indexOf('</span>', tagEnd);
                         if (closingTag === -1) { el.innerHTML += fullTag; i = tagEnd + 1; }
-                        else {
-                            let content = text.substring(tagEnd + 1, closingTag);
-                            el.innerHTML += fullTag + content + "</span>";
-                            i = closingTag + 7;
-                        }
+                        else { el.innerHTML += fullTag + text.substring(tagEnd + 1, closingTag) + "</span>"; i = closingTag + 7; }
                     }
                 } else { el.innerHTML += text[i]; i++; }
                 setTimeout(type, speed);
@@ -175,57 +160,52 @@
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
             typeWriter(TXT1, "type-p1", 30, 'p1');
-            setInterval(updateCounter, 1000); setupStars(); 
+            setInterval(() => {
+                const diff = new Date() - START;
+                document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
+                document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
+            }, 1000); setupStars(); 
         }, 800);
     }
 
-    function updateCounter() {
-        const diff = new Date() - START;
-        document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
-        document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
+    function navigate(dir) {
+        let prev = cur;
+        if(dir === 'next' && cur < 3) cur++; else if(dir === 'prev' && cur > 0) cur--;
+        if(prev !== cur) {
+            document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+            if(cur === 1) { video.play().catch(() => {}); if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2'); }
+            else { video.pause(); }
+            if(cur === 3) {
+                setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
+                setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
+            }
+        }
     }
 
-    let cur = 0, startX = 0;
+    let startX = 0;
     document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
     document.addEventListener('touchend', e => {
         let diffX = startX - e.changedTouches[0].clientX;
-        if(Math.abs(diffX) > 60) {
-            let prev = cur;
-            if(diffX > 0 && cur < 3) cur++; else if(diffX < 0 && cur > 0) cur--;
-            if(prev !== cur) {
-                document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
-                document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-                
-                if(cur === 1) {
-                    let playPromise = video.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(() => { /* Abafando erro de autoplay do navegador */ });
-                    }
-                    if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
-                } else { video.pause(); }
-
-                if(cur === 3) {
-                    setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
-                    setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
-                }
-            }
-        }
+        if(Math.abs(diffX) > 50) navigate(diffX > 0 ? 'next' : 'prev');
+    });
+    document.addEventListener('keydown', e => {
+        if(e.key === 'ArrowRight') navigate('next'); if(e.key === 'ArrowLeft') navigate('prev');
     });
 
     function setupStars() {
-        const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
+        const c = document.getElementById('star-canvas'), ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.8 }));
+        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5 }));
         function anim() {
             ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.25; if(s.y<0) s.y=c.height; });
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.2; if(s.y<0) s.y=c.height; });
             requestAnimationFrame(anim);
         }
         anim();
     }
 
-    const hCanvas = document.getElementById('heart-canvas');
-    const hCtx = hCanvas.getContext('2d');
+    const hCanvas = document.getElementById('heart-canvas'), hCtx = hCanvas.getContext('2d');
     let hearts = [];
     function spawnHearts() { for(let i=0; i<15; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*3+3, opacity: 1 }); }
     function drawHearts() {
