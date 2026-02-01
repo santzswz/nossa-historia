@@ -24,7 +24,6 @@
             z-index: 20;
         }
 
-        /* Design Galeria Melhorada */
         .moment-card {
             position: relative;
             overflow: hidden;
@@ -40,11 +39,7 @@
             aspect-ratio: 4/5;
             overflow: hidden;
         }
-        .moment-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; }
         .moment-overlay {
             padding: 20px;
             background: linear-gradient(to top, rgba(0,0,0,0.95) 30%, transparent);
@@ -65,21 +60,8 @@
             box-shadow: 0 0 15px var(--neon-blue);
         }
 
-        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
-        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 30px var(--neon-red); }
-        .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
-        .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-
-        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-
-        .timeline-wrapper { position: relative; padding: 10px 0; display: flex; justify-content: space-between; align-items: flex-start; }
-        .timeline-wrapper::before { content: ''; position: absolute; top: 18px; left: 15%; right: 15%; height: 1px; background: var(--neon-red); opacity: 0.3; }
-        .t-point { position: relative; z-index: 2; text-align: center; flex: 1; }
-        .t-badge { background: #000; border: 1px solid var(--neon-red); color: var(--neon-red); padding: 5px 10px; border-radius: 20px; font-weight: 900; font-size: 0.7rem; display: inline-block; margin-bottom: 8px; box-shadow: 0 0 10px rgba(255,59,48,0.3); }
-        .t-text { font-size: 0.6rem; color: #ccc; line-height: 1.2; padding: 0 5px; }
-
-        .key-red { color: var(--neon-red) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-red) !important; }
-        .key-green { color: var(--neon-green) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-green) !important; }
+        .key-red { color: var(--neon-red) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-red); }
+        .key-green { color: var(--neon-green) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-green); }
 
         .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 20px; }
         #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 10; }
@@ -91,6 +73,12 @@
 
         .p-reveal { opacity: 0; transform: translateY(15px); transition: 1s ease; }
         .p-reveal.active { opacity: 1; transform: translateY(0); }
+
+        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
+        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 30px var(--neon-red); }
+        .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
 </head>
 <body>
@@ -113,7 +101,7 @@
         <div style="display: flex; flex-direction: column; align-items: center; max-width: 450px; margin: 0 auto;">
             <h1 class="main-title">Para você meu Jacaré</h1>
             <div style="width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
-            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem; min-height: 80px;"></div></div>
+            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.8; text-align: justify; font-size: 0.95rem;"></div></div>
             <div style="display:flex; gap:12px; width:100%;">
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.5rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.6;">HORAS</small></div>
                 <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.5rem; font-weight:900;">0</span><br><small style="font-size:0.6rem; opacity:0.6;">SEGS</small></div>
@@ -123,14 +111,8 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
-            <div class="glass-card">
-                <div class="timeline-wrapper">
-                    <div class="t-point"><div class="t-badge">08 MAI ✨</div><p class="t-text">O dia em que olhei nos teus olhos...</p></div>
-                    <div class="t-point"><div class="t-badge">12 MAI 💍</div><p class="t-text">Onde a vontade de ser um só se tornou destino.</p></div>
-                </div>
-            </div>
             <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:20px;"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 300px;"></div></div>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify; font-size: 0.92rem; min-height: 200px;"></div></div>
         </div>
     </section>
 
@@ -174,11 +156,9 @@
 
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <div style="width: 160px; height: 160px; border-radius: 50%; border: 1px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: inset 0 0 20px var(--neon-red);">
-                <div style="font-size: 50px;">🐊</div>
-            </div>
+            <div style="width: 160px; height: 160px; border-radius: 50%; border: 1px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 30px; box-shadow: inset 0 0 20px var(--neon-red);"><div style="font-size: 50px;">🐊</div></div>
             <div class="p-reveal" id="final-1">
-                <h2 class="main-title" style="font-size: 1.4rem;">Promessa Inabalável</h2>
+                <h2 class="main-title">Promessa Inabalável</h2>
                 <p style="font-size: 0.85rem; opacity: 0.8; line-height: 1.6;">No meu caos, você é o porto. No meu silêncio, você é a melodia.</p>
             </div>
             <div class="p-reveal" id="final-2" style="margin-top: 25px;">
@@ -198,45 +178,32 @@
     const bgMusic = document.getElementById('bg-music');
     const video = document.getElementById('main-video');
 
+    function typeWriter(text, elementId, speed, key) {
+        let i = 0; const el = document.getElementById(elementId);
+        function type() {
+            if (i < text.length) {
+                if (text.substring(i, i + 1) === '<') {
+                    let end = text.indexOf('>', i);
+                    el.innerHTML += text.substring(i, end + 1);
+                    i = end + 1;
+                } else {
+                    el.innerHTML += text[i];
+                    i++;
+                }
+                setTimeout(type, speed);
+            } else { typedPages[key] = true; }
+        }
+        type();
+    }
+
     function shatterHeart() {
         bgMusic.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
-            if(!typedPages.p1) typeWriter(TXT1, "type-p1", 35, 'p1');
+            typeWriter(TXT1, "type-p1", 35, 'p1');
             setInterval(updateCounter, 1000); setupStars(); 
         }, 800);
-    }
-
-    function crossfade(toVideo) {
-        let duration = 1500, steps = 20, interval = duration / steps, volStep = 0.05;
-        if(toVideo) {
-            video.volume = 0; video.play().catch(() => {});
-            let fade = setInterval(() => {
-                if(video.volume < 0.9) video.volume += volStep;
-                if(bgMusic.volume > 0.1) bgMusic.volume -= volStep;
-                else { bgMusic.volume = 0; bgMusic.pause(); clearInterval(fade); }
-            }, interval);
-        } else {
-            bgMusic.play().catch(() => {});
-            let fade = setInterval(() => {
-                if(bgMusic.volume < 0.9) bgMusic.volume += volStep;
-                if(video.volume > 0.1) video.volume -= volStep;
-                else { video.volume = 0; video.pause(); clearInterval(fade); }
-            }, interval);
-        }
-    }
-
-    function typeWriter(text, elementId, speed, key) {
-        let i = 0; const el = document.getElementById(elementId);
-        function type() {
-            if (i < text.length) {
-                if (text[i] === '<') { let end = text.indexOf('>', i); el.innerHTML += text.substring(i, end + 1); i = end + 1; }
-                else { el.innerHTML += text[i]; i++; }
-                setTimeout(type, speed);
-            } else { typedPages[key] = true; }
-        }
-        type();
     }
 
     function updateCounter() {
@@ -244,23 +211,6 @@
         document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
         document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
     }
-
-    const hCanvas = document.getElementById('heart-canvas');
-    const hCtx = hCanvas.getContext('2d');
-    let hearts = [];
-    function spawnHearts() {
-        for(let i=0; i<15; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*3+3, opacity: 1 });
-    }
-    function drawHearts() {
-        hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
-        hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
-        hearts.forEach((h, i) => {
-            hCtx.globalAlpha = h.opacity; hCtx.fillText("❤️", h.x, h.y); h.y -= h.v; h.opacity -= 0.006;
-            if(h.opacity <= 0) hearts.splice(i, 1);
-        });
-        requestAnimationFrame(drawHearts);
-    }
-    drawHearts();
 
     let cur = 0, startX = 0;
     document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
@@ -272,8 +222,7 @@
             if(prev !== cur) {
                 document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
                 document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-                if(cur === 1) crossfade(true); else if(prev === 1) crossfade(false);
-                if(cur === 1 && !typedPages.p2) typeWriter(TXT2, "type-p2", 25, 'p2');
+                if(cur === 1 && !typedPages.p2) typeWriter(TXT2, "type-p2", 15, 'p2');
                 if(cur === 3) {
                     setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
                     setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
@@ -293,6 +242,21 @@
         }
         anim();
     }
+
+    const hCanvas = document.getElementById('heart-canvas');
+    const hCtx = hCanvas.getContext('2d');
+    let hearts = [];
+    function spawnHearts() { for(let i=0; i<15; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*3+3, opacity: 1 }); }
+    function drawHearts() {
+        hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
+        hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
+        hearts.forEach((h, i) => {
+            hCtx.globalAlpha = h.opacity; hCtx.fillText("❤️", h.x, h.y); h.y -= h.v; h.opacity -= 0.006;
+            if(h.opacity <= 0) hearts.splice(i, 1);
+        });
+        requestAnimationFrame(drawHearts);
+    }
+    drawHearts();
 </script>
 </body>
 </html>
