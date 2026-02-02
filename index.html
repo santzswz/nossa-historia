@@ -12,14 +12,19 @@
 
         #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         
+        /* BARRA DE PROGRESSO NEON */
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 0%; z-index: 10000; box-shadow: 0 0 15px var(--neon-blue); transition: width 0.4s ease; }
+
         .glass-card { 
-            background: rgba(15, 15, 15, 0.85); 
+            background: rgba(15, 15, 15, 0.88); 
             border: 1px solid rgba(0, 122, 255, 0.45); 
             border-radius: 20px; 
             padding: clamp(15px, 4vw, 24px); 
             margin-bottom: 25px;
-            box-shadow: 0 0 25px rgba(0, 122, 255, 0.2);
+            box-shadow: 0 0 25px rgba(0, 122, 255, 0.15);
             position: relative; z-index: 20;
+            overflow-wrap: break-word;
+            backdrop-filter: blur(10px);
         }
 
         .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); display: inline; }
@@ -29,17 +34,21 @@
         .moment-card {
             position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 35px;
             border: 2px solid rgba(255, 59, 48, 0.4); background: #000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.15);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.1);
+            transition: transform 0.3s ease;
         }
+        .moment-card:active { transform: scale(0.98) rotate(1deg); }
+        
         .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
         .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s; }
-        .moment-overlay { padding: clamp(15px, 5vw, 30px) 20px; background: linear-gradient(to top, #000 50%, transparent); position: absolute; bottom: 0; width: 100%; }
+        .moment-overlay { padding: clamp(15px, 5vw, 30px) 20px; background: linear-gradient(to top, #000 60%, transparent); position: absolute; bottom: 0; width: 100%; }
         .moment-desc { font-size: clamp(0.8rem, 2.5vw, 0.95rem); line-height: 1.7; color: #fff; }
 
         .main-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 6vw, 2.2rem); color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
-        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1); position: relative; z-index: 10; }
+        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); position: relative; z-index: 10; }
         .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; scrollbar-width: none; }
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 0.9s ease; }
+        
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
         .dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 1000; }
         .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; }
         .dot.active { width: 35px; background: var(--neon-blue); border-radius: 12px; }
@@ -55,6 +64,7 @@
 </head>
 <body>
 
+<div class="progress-bar" id="p-bar"></div>
 <canvas id="star-canvas"></canvas>
 <canvas id="heart-canvas"></canvas>
 <audio id="bg-music" src="foi-assim.mp3" loop></audio>
@@ -134,7 +144,7 @@
     const TXT2 = "Sabe, não foi algo planejado, simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas hoje vejo que cada <span class='key-blue'>conversas</span> nossa construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, sem pressão, sem roteiro. Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>parceira de vida</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico; é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é meu <span class='key-green'>jacaré</span>, minha teimosa favorita e a dona do <span class='key-blue'>sorriso</span> que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
 
     let typedPages = { p1: false, p2: false }, cur = 0;
-    const bgMusic = document.getElementById('bg-music'), video = document.getElementById('main-video');
+    const bgMusic = document.getElementById('bg-music'), video = document.getElementById('main-video'), pBar = document.getElementById('p-bar');
 
     function typeWriter(text, elementId, speed, key) {
         let i = 0; const el = document.getElementById(elementId);
@@ -157,11 +167,18 @@
     }
 
     function shatterHeart() {
+        bgMusic.volume = 0;
         bgMusic.play().catch(() => {});
+        // Fade in da música
+        let vol = 0;
+        let fade = setInterval(() => { if(vol < 1) { vol += 0.05; bgMusic.volume = vol; } else clearInterval(fade); }, 100);
+
         document.getElementById('splash').style.opacity = '0';
+        document.getElementById('splash').style.transform = 'scale(1.5)';
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
             typeWriter(TXT1, "type-p1", 30, 'p1');
+            updatePBar();
             setInterval(() => {
                 const diff = new Date() - START;
                 document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
@@ -170,20 +187,21 @@
         }, 800);
     }
 
+    function updatePBar() { pBar.style.width = ((cur + 1) / 4) * 100 + "%"; }
+
     function navigate(dir) {
         let prev = cur;
         if(dir === 'next' && cur < 3) cur++; else if(dir === 'prev' && cur > 0) cur--;
         if(prev !== cur) {
+            updatePBar();
             document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
             document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
             
             if(cur === 1) {
-                bgMusic.volume = 0.2;
+                bgMusic.volume = 0.15;
                 video.muted = false;
                 let playPromise = video.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => { video.muted = true; video.play(); });
-                }
+                if (playPromise !== undefined) playPromise.catch(() => { video.muted = true; video.play(); });
                 if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
             } else { 
                 video.pause(); 
@@ -210,10 +228,19 @@
     function setupStars() {
         const c = document.getElementById('star-canvas'), ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        let stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5 }));
+        // Estrelas em camadas para efeito de profundidade
+        let stars = Array(150).fill().map(() => ({ 
+            x: Math.random()*c.width, 
+            y: Math.random()*c.height, 
+            s: Math.random()*1.5,
+            v: Math.random()*0.3 + 0.1 // Velocidades diferentes
+        }));
         function anim() {
             ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= 0.2; if(s.y<0) s.y=c.height; });
+            stars.forEach(s => { 
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); 
+                s.y -= s.v; if(s.y<0) s.y=c.height; 
+            });
             requestAnimationFrame(anim);
         }
         anim();
@@ -221,12 +248,12 @@
 
     const hCanvas = document.getElementById('heart-canvas'), hCtx = hCanvas.getContext('2d');
     let hearts = [];
-    function spawnHearts() { for(let i=0; i<15; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*3+3, opacity: 1 }); }
+    function spawnHearts() { for(let i=0; i<20; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*4+2, opacity: 1, size: Math.random()*20+10 }); }
     function drawHearts() {
         hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
         hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
         hearts.forEach((h, i) => {
-            hCtx.globalAlpha = h.opacity; hCtx.fillText("❤️", h.x, h.y); h.y -= h.v; h.opacity -= 0.006;
+            hCtx.globalAlpha = h.opacity; hCtx.font = h.size + "px serif"; hCtx.fillText("❤️", h.x, h.y); h.y -= h.v; h.opacity -= 0.005;
             if(h.opacity <= 0) hearts.splice(i, 1);
         });
         requestAnimationFrame(drawHearts);
