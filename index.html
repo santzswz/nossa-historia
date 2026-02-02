@@ -11,8 +11,6 @@
         body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; touch-action: none; }
 
         #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        
-        /* BARRA DE PROGRESSO NEON */
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 0%; z-index: 10000; box-shadow: 0 0 15px var(--neon-blue); transition: width 0.4s ease; }
 
         .glass-card { 
@@ -35,9 +33,9 @@
             position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 35px;
             border: 2px solid rgba(255, 59, 48, 0.4); background: #000;
             box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.1);
-            transition: transform 0.3s ease;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform;
         }
-        .moment-card:active { transform: scale(0.98) rotate(1deg); }
         
         .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
         .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s; }
@@ -101,19 +99,19 @@
     <section class="page">
         <div style="max-width: 450px; margin: 0 auto;">
             <h2 class="main-title">Nossos Momentos</h2>
-            <div class="moment-card">
+            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(-2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
                 <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
                 <div class="moment-overlay"><p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p></div>
             </div>
-            <div class="moment-card">
+            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
                 <div class="moment-img-wrapper"><img src="foto2.jpg"></div>
                 <div class="moment-overlay"><p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p></div>
             </div>
-            <div class="moment-card">
+            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(-2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
                 <div class="moment-img-wrapper"><img src="foto3.jpg"></div>
                 <div class="moment-overlay"><p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p></div>
             </div>
-            <div class="moment-card">
+            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
                 <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
                 <div class="moment-overlay">
                     <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
@@ -167,14 +165,10 @@
     }
 
     function shatterHeart() {
-        bgMusic.volume = 0;
+        bgMusic.volume = 1;
         bgMusic.play().catch(() => {});
-        // Fade in da música
-        let vol = 0;
-        let fade = setInterval(() => { if(vol < 1) { vol += 0.05; bgMusic.volume = vol; } else clearInterval(fade); }, 100);
-
         document.getElementById('splash').style.opacity = '0';
-        document.getElementById('splash').style.transform = 'scale(1.5)';
+        document.getElementById('splash').style.transform = 'scale(1.2)';
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
             typeWriter(TXT1, "type-p1", 30, 'p1');
@@ -198,16 +192,14 @@
             document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
             
             if(cur === 1) {
-                bgMusic.volume = 0.15;
+                bgMusic.volume = 0.1; // Volume mínimo instantâneo
                 video.muted = false;
-                let playPromise = video.play();
-                if (playPromise !== undefined) playPromise.catch(() => { video.muted = true; video.play(); });
+                video.play().catch(() => { video.muted = true; video.play(); });
                 if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
             } else { 
                 video.pause(); 
-                bgMusic.volume = 1.0;
+                bgMusic.volume = 1.0; // Restaura volume
             }
-
             if(cur === 3) {
                 setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
                 setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
@@ -228,19 +220,10 @@
     function setupStars() {
         const c = document.getElementById('star-canvas'), ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        // Estrelas em camadas para efeito de profundidade
-        let stars = Array(150).fill().map(() => ({ 
-            x: Math.random()*c.width, 
-            y: Math.random()*c.height, 
-            s: Math.random()*1.5,
-            v: Math.random()*0.3 + 0.1 // Velocidades diferentes
-        }));
+        let stars = Array(150).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5, v: Math.random()*0.3 + 0.1 }));
         function anim() {
             ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { 
-                ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); 
-                s.y -= s.v; if(s.y<0) s.y=c.height; 
-            });
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= s.v; if(s.y<0) s.y=c.height; });
             requestAnimationFrame(anim);
         }
         anim();
