@@ -11,22 +11,36 @@
         body, html { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100%; width: 100%; overflow: hidden; position: fixed; }
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 25%; z-index: 10000; transition: width 0.4s ease; }
-        .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 5; overflow-y: auto; }
+        
+        .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 5; }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
+        #p3 { overflow-y: auto; display: block; padding-bottom: 100px; } /* Scroll apenas na p3 */
+
         .glass-card { background: rgba(15, 15, 15, 0.9); border: 1px solid rgba(0, 122, 255, 0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); width: 100%; max-width: 450px; }
         .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-red); }
         .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-blue); }
         .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-green); }
         .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 8px var(--gold); }
-        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; }
+        
+        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; width: 100%; }
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        
         .nav-controls { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 30px; z-index: 10001; pointer-events: none; }
         .nav-btn { background: rgba(0, 122, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-weight: 900; pointer-events: auto; }
         .dot-container { display: flex; gap: 10px; }
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
         .dot.active { background: var(--neon-blue); transform: scale(1.4); }
-        .moment-card { border-radius: 20px; overflow: hidden; border: 1px solid var(--neon-blue); background: #000; margin-bottom: 20px; width: 100%; max-width: 450px; }
-        .moment-card img { width: 100%; height: 280px; object-fit: cover; }
+
+        /* Grid de Momentos */
+        .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 450px; margin: 0 auto; }
+        .thumb { width: 100%; aspect-ratio: 1; border-radius: 15px; border: 1px solid var(--neon-blue); object-fit: cover; cursor: pointer; }
+
+        /* Modal Pop-up */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: none; flex-direction: column; align-items: center; padding: 20px; overflow-y: auto; }
+        .modal-content { width: 100%; max-width: 500px; position: relative; }
+        .modal-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-blue); margin-bottom: 20px; }
+        .close-modal { position: absolute; top: 10px; right: 10px; background: var(--neon-red); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20001; }
+
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
 </head>
@@ -50,6 +64,14 @@
     <button class="nav-btn" onclick="nav(1)">→</button>
 </div>
 
+<div id="photo-modal" class="modal">
+    <div class="modal-content">
+        <button class="close-modal" onclick="closeModal()">X</button>
+        <img id="modal-img" class="modal-img" src="">
+        <div class="glass-card" id="modal-text" style="font-size: 0.9rem; text-align: center;"></div>
+    </div>
+</div>
+
 <div id="pages-container">
     <section class="page active">
         <h1 class="main-title">Para você meu Jacaré</h1>
@@ -66,12 +88,14 @@
         <div class="glass-card"><div id="type-p2" style="line-height: 1.7; text-align: justify; font-size: 0.85rem;"></div></div>
     </section>
 
-    <section class="page">
+    <section class="page" id="p3">
         <h2 class="main-title">Nossos Momentos</h2>
-        <div class="moment-card"><img src="foto4.jpg"><div style="padding:15px; font-size:0.8rem; text-align:center;">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</div></div>
-        <div class="moment-card"><img src="foto2.jpg"><div style="padding:15px; font-size:0.8rem; text-align:center;">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</div></div>
-        <div class="moment-card"><img src="foto3.jpg"><div style="padding:15px; font-size:0.8rem; text-align:center;">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</div></div>
-        <div class="moment-card"><img src="foto1.jpg"><div style="padding:15px; font-size:0.8rem; text-align:center;">"Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️"</div></div>
+        <div class="moments-grid">
+            <img src="foto4.jpg" class="thumb" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
+            <img src="foto2.jpg" class="thumb" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
+            <img src="foto3.jpg" class="thumb" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
+            <img src="foto1.jpg" class="thumb" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+        </div>
     </section>
 
     <section class="page">
@@ -97,12 +121,10 @@
     function init() {
         document.getElementById('splash').style.display = 'none';
         document.getElementById('controls').style.display = 'flex';
-        bgMusic.volume = 0.6;
-        bgMusic.play().catch(() => {});
+        bgMusic.volume = 0.6; bgMusic.play().catch(() => {});
         typeWriter(TXT1, "type-p1", 40);
         setInterval(updateCounter, 1000);
-        setupDots();
-        initStars();
+        setupDots(); initStars();
     }
 
     function setupDots() {
@@ -122,39 +144,33 @@
         pages[current].classList.add('active');
         document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
         document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-        if(current === 1) {
-            fadeAudio(bgMusic, 0.1);
-            video.play();
-            if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; }
-        } else {
-            video.pause();
-            fadeAudio(bgMusic, 0.6);
-        }
+        if(current === 1) { fadeAudio(bgMusic, 0.1); video.play(); if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } }
+        else { video.pause(); fadeAudio(bgMusic, 0.6); }
     }
+
+    function openModal(imgSrc, text) {
+        document.getElementById('modal-img').src = imgSrc;
+        document.getElementById('modal-text').innerText = text;
+        document.getElementById('photo-modal').style.display = 'flex';
+    }
+
+    function closeModal() { document.getElementById('photo-modal').style.display = 'none'; }
 
     function fadeAudio(audio, target) {
         const step = 0.02;
-        const interval = 50;
         const fade = setInterval(() => {
             if (audio.volume > target + 0.02) audio.volume -= step;
             else if (audio.volume < target - 0.02) audio.volume += step;
             else { audio.volume = target; clearInterval(fade); }
-        }, interval);
+        }, 50);
     }
 
     function typeWriter(text, elId, speed) {
         let i = 0, el = document.getElementById(elId);
-        el.innerHTML = "";
         function type() {
             if (i < text.length) {
-                if (text[i] === '<') {
-                    let end = text.indexOf('>', i);
-                    el.innerHTML += text.substring(i, end + 1);
-                    i = end + 1;
-                } else {
-                    el.innerHTML += text[i];
-                    i++;
-                }
+                if (text[i] === '<') { let end = text.indexOf('>', i); el.innerHTML += text.substring(i, end + 1); i = end + 1; }
+                else { el.innerHTML += text[i]; i++; }
                 setTimeout(type, speed);
             }
         }
@@ -168,8 +184,7 @@
     }
 
     function initStars() {
-        const c = document.getElementById('star-canvas');
-        const ctx = c.getContext('2d');
+        const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
         const stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.2 }));
         function draw() {
@@ -183,6 +198,7 @@
     let startX;
     document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
     document.addEventListener('touchend', e => {
+        if(document.getElementById('photo-modal').style.display === 'flex') return;
         let diff = startX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) nav(diff > 0 ? 1 : -1);
     });
