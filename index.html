@@ -8,7 +8,16 @@
     <style>
         :root { --neon-blue: #007aff; --neon-red: #ff3b30; --neon-green: #39ff14; --gold: #ffd700; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100vh; width: 100vw; overflow: hidden; touch-action: pan-y; }
+        
+        body { 
+            background: #000; 
+            color: #fff; 
+            font-family: 'Montserrat', sans-serif; 
+            height: 100vh; 
+            height: 100svh;
+            width: 100vw; 
+            overflow: hidden; 
+        }
 
         #star-canvas, #heart-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 0%; z-index: 10000; box-shadow: 0 0 15px var(--neon-blue); transition: width 0.4s ease; }
@@ -17,65 +26,73 @@
             background: rgba(15, 15, 15, 0.88); 
             border: 1px solid rgba(0, 122, 255, 0.45); 
             border-radius: 20px; 
-            padding: clamp(15px, 4vw, 24px); 
-            margin-bottom: 25px;
+            padding: 20px; 
+            margin-bottom: 20px;
             box-shadow: 0 0 25px rgba(0, 122, 255, 0.15);
-            position: relative; z-index: 20;
-            overflow-wrap: break-word;
             backdrop-filter: blur(10px);
         }
 
-        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red); display: inline; }
-        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); display: inline; }
-        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green), 0 0 30px var(--neon-green); display: inline; }
-        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 10px var(--gold), 0 0 20px #b8860b; display: inline; }
+        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
+        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
+        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
+        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 10px var(--gold); }
 
-        .moments-container {
+        #viewport { 
+            height: 100%; 
+            width: 100%; 
+            position: relative; 
+            z-index: 10; 
+        }
+
+        .page { 
+            position: absolute;
+            inset: 0;
+            width: 100vw; 
+            height: 100%; 
+            padding: 20px 20px 100px; 
+            overflow-y: auto; 
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .page.active { opacity: 1; visibility: visible; }
+
+        .moments-grid {
             display: grid;
             grid-template-columns: 1fr;
             gap: 20px;
             width: 100%;
             max-width: 450px;
-            margin: 0 auto;
         }
 
         @media (min-width: 1024px) {
-            .moments-container {
-                grid-template-columns: 1fr 1fr;
-                max-width: 900px;
-            }
+            .moments-grid { grid-template-columns: 1fr 1fr; max-width: 800px; }
         }
 
         .moment-card {
-            position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 15px;
-            border: 2px solid rgba(0, 122, 255, 0.3); background: #000;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border-radius: 20px; overflow: hidden; border: 1px solid var(--neon-blue); background: #000;
         }
-        
-        .moment-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
-        
-        .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
-        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: 0.6s; }
-        .moment-overlay { padding: 20px; background: linear-gradient(to top, rgba(0,0,0,1) 40%, transparent); position: absolute; bottom: 0; width: 100%; }
-        .moment-desc { font-size: 0.85rem; line-height: 1.6; color: #fff; text-align: center; font-weight: 600; }
+        .moment-img-wrapper img { width: 100%; aspect-ratio: 4/5; object-fit: cover; }
+        .moment-overlay { padding: 15px; background: #0a0a0a; font-size: 0.85rem; text-align: center; }
 
-        .main-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 6vw, 2.2rem); color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
-        #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); position: relative; z-index: 10; }
-        .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; }
+
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .dots { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 1000; }
+        .dot { width: 10px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.4s; }
+        .dot.active { width: 30px; background: var(--neon-blue); border-radius: 10px; }
+
+        .heart-container { position: relative; width: 80px; height: 70px; animation: pulse 1s infinite; }
+        .heart-shape { position: absolute; width: 40px; height: 65px; background: var(--neon-red); border-radius: 40px 40px 0 0; }
+        .heart-left { left: 40px; transform: rotate(-45deg); transform-origin: 0 100%; }
+        .heart-right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
-        .dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 1000; }
-        .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; cursor: pointer; }
-        .dot.active { width: 35px; background: var(--neon-blue); border-radius: 12px; }
-        
-        .p-reveal { opacity: 0; transform: translateY(25px); transition: 1.2s ease; }
-        .p-reveal.active { opacity: 1; transform: translateY(0); }
-        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; }
-        .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 35px var(--neon-red); }
-        .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
-        .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
-        @keyframes aggressivePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .nav-btn { position: fixed; bottom: 20px; right: 20px; background: var(--neon-blue); border: none; color: #fff; padding: 12px 20px; border-radius: 50px; z-index: 1001; font-weight: 900; display: none; }
     </style>
 </head>
 <body>
@@ -87,99 +104,89 @@
 
 <div id="splash" onclick="shatterHeart()">
     <div class="heart-container">
-        <div class="heart-shape left"></div>
-        <div class="heart-shape right"></div>
+        <div class="heart-shape heart-left"></div>
+        <div class="heart-shape heart-right"></div>
     </div>
+    <p style="margin-top: 20px; font-size: 0.7rem; letter-spacing: 2px;">CLIQUE PARA ENTRAR</p>
 </div>
 
-<div class="dots">
-    <div class="dot active" onclick="jumpTo(0)"></div>
-    <div class="dot" onclick="jumpTo(1)"></div>
-    <div class="dot" onclick="jumpTo(2)"></div>
-    <div class="dot" onclick="jumpTo(3)"></div>
-</div>
+<div class="dots" id="dot-container"></div>
+<button class="nav-btn" id="next-btn" onclick="navigate(1)">PRÓXIMO</button>
 
 <div id="viewport">
-    <section class="page">
-        <div style="max-width: 450px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
-            <h1 class="main-title">Para você meu Jacaré</h1>
-            <div style="width: 160px; height: 160px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 35px; box-shadow: 0 0 30px var(--neon-blue);"></div>
-            <div class="glass-card" style="width: 100%;"><div id="type-p1" style="line-height: 1.9; text-align: justify;"></div></div>
-            <div style="display:flex; gap:15px; width:100%;">
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">HORAS</small></div>
-                <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.7rem; font-weight:900;">0</span><br><small style="font-size:0.65rem; opacity:0.7;">SEGS</small></div>
-            </div>
+    <section class="page active">
+        <h1 class="main-title">Para você meu Jacaré</h1>
+        <div style="width: 140px; height: 140px; border-radius: 50%; border: 3px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px; box-shadow: 0 0 20px var(--neon-blue);"></div>
+        <div class="glass-card" style="width: 100%; max-width: 450px;"><div id="type-p1" style="line-height: 1.8; text-align: justify;"></div></div>
+        <div style="display:flex; gap:15px; width:100%; max-width: 450px;">
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.5rem; font-weight:900;">0</span><br><small>HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.5rem; font-weight:900;">0</span><br><small>SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <div style="max-width: 450px; margin: 0 auto;">
-            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:22px; border:2px solid var(--neon-blue); margin-bottom:30px;"></video>
-            <div class="glass-card"><div id="type-p2" style="line-height: 1.9; text-align: justify; min-height: 280px;"></div></div>
-        </div>
-    </section>
-
-    <section class="page" style="background: radial-gradient(circle at center, rgba(0, 122, 255, 0.05) 0%, transparent 70%);">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <h2 class="main-title">Nossos Momentos</h2>
-            <div class="moments-container">
-                <div class="moment-card">
-                    <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
-                    <div class="moment-overlay"><p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p></div>
-                </div>
-                <div class="moment-card">
-                    <div class="moment-img-wrapper"><img src="foto2.jpg"></div>
-                    <div class="moment-overlay"><p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p></div>
-                </div>
-                <div class="moment-card">
-                    <div class="moment-img-wrapper"><img src="foto3.jpg"></div>
-                    <div class="moment-overlay"><p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p></div>
-                </div>
-                <div class="moment-card">
-                    <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
-                    <div class="moment-overlay">
-                        <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
-                    </div>
-                </div>
-            </div>
-            <button onclick="spawnHearts()" style="width:100%; max-width: 450px; display: block; margin: 25px auto; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:20px; border-radius:50px; font-weight:900; box-shadow: 0 10px 30px rgba(255,59,48,0.4); cursor: pointer; text-transform: uppercase;">Selar o Nosso Amor</button>
+        <div style="width: 100%; max-width: 450px;">
+            <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; border-radius:20px; border:2px solid var(--neon-blue); margin-bottom:20px;"></video>
+            <div class="glass-card"><div id="type-p2" style="line-height: 1.8; text-align: justify;"></div></div>
         </div>
     </section>
 
     <section class="page">
-        <div style="max-width: 450px; margin: 0 auto; text-align: center; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-            <div style="width: 180px; height: 180px; border-radius: 50%; border: 2px solid var(--neon-red); display: flex; align-items: center; justify-content: center; margin: 0 auto 45px; box-shadow: inset 0 0 35px var(--neon-red), 0 0 25px var(--neon-red);"><div style="font-size: 70px;">🐊</div></div>
-            <div class="p-reveal" id="final-1">
-                <h2 class="main-title">Promessa Inabalável</h2>
-                <p style="font-size: 1rem; opacity: 0.85; line-height: 1.9;">No meu caos, você é o porto. No meu silêncio, você é a melodia.</p>
-            </div>
-            <div class="p-reveal" id="final-2" style="margin-top: 40px;">
-                <span class="key-red" style="font-size: 2.5rem; display: block;">eu te amo</span>
-                <span class="key-green" style="font-size: 1.3rem; display: block;">para todo o sempre</span>
-            </div>
+        <h2 class="main-title">Nossos Momentos</h2>
+        <div class="moments-grid">
+            <div class="moment-card"><div class="moment-img-wrapper"><img src="foto4.jpg"></div><div class="moment-overlay">Quarto mês 🥹</div></div>
+            <div class="moment-card"><div class="moment-img-wrapper"><img src="foto2.jpg"></div><div class="moment-overlay">Nossa primeira volta 😅</div></div>
+            <div class="moment-card"><div class="moment-img-wrapper"><img src="foto3.jpg"></div><div class="moment-overlay">Primeiro Natal juntos 🫠</div></div>
+            <div class="moment-card"><div class="moment-img-wrapper"><img src="foto1.jpg"></div><div class="moment-overlay">365 dias para sermos felizes</div></div>
+        </div>
+        <button onclick="spawnHearts()" style="width:100%; max-width: 450px; background:var(--neon-red); border:none; color:#fff; padding:18px; border-radius:50px; font-weight:900; margin-top:30px; cursor: pointer;">SEMBRAR AMOR ❤️</button>
+    </section>
+
+    <section class="page">
+        <div style="text-align: center; margin-top: 50px;">
+            <div style="font-size: 80px; margin-bottom: 30px;">🐊</div>
+            <h2 class="main-title">Promessa Inabalável</h2>
+            <p style="margin-bottom: 40px; opacity: 0.8;">No meu caos, você é o porto.</p>
+            <p class="key-red" style="font-size: 2.5rem; display: block;">eu te amo</p>
+            <p class="key-green" style="font-size: 1.2rem;">para todo o sempre</p>
         </div>
     </section>
 </div>
 
 <script>
-    const START = new Date("2025-05-08T20:00:00");
+    const START_DATE = new Date("2025-05-08T20:00:00");
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='key-golden'>intensidade</span> as nossas <span class='key-blue'>conversas</span> construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, se entende, se desculpa e se \"sente\" Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e do jeito que eu te irrrito, de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='key-golden'>ouro</span>. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>Princesa</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico, é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é minha a <span class='key-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='key-blue'>sorriso</span> e que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
+    const TXT2 = "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida... as nossas <span class='key-blue'>conversas</span> construíram algo que eu nem sabia que precisava tanto. <span class='key-golden'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar.";
 
-    let typedPages = { p1: false, p2: false }, cur = 0, isWheeling = false;
-    const bgMusic = document.getElementById('bg-music'), video = document.getElementById('main-video'), pBar = document.getElementById('p-bar');
+    let currentPage = 0;
+    const pages = document.querySelectorAll('.page');
+    const dotsContainer = document.getElementById('dot-container');
+    const bgMusic = document.getElementById('bg-music');
+    const video = document.getElementById('main-video');
 
-    function typeWriter(text, elementId, speed, key) {
+    // Inicializar Dots
+    pages.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = `dot ${i === 0 ? 'active' : ''}`;
+        dotsContainer.appendChild(d);
+    });
+
+    function typeWriter(text, elementId, speed) {
         let i = 0; const el = document.getElementById(elementId);
+        if (!el) return;
+        el.innerHTML = "";
         function type() {
             if (i < text.length) {
                 if (text[i] === '<') {
-                    let tagEnd = text.indexOf('>', i);
-                    let fullTag = text.substring(i, tagEnd + 1);
-                    el.innerHTML += fullTag; i = tagEnd + 1;
-                } else { el.innerHTML += text[i]; i++; }
+                    let end = text.indexOf('>', i);
+                    el.innerHTML += text.substring(i, end + 1);
+                    i = end + 1;
+                } else {
+                    el.innerHTML += text[i];
+                    i++;
+                }
                 setTimeout(type, speed);
-            } else { typedPages[key] = true; }
+            }
         }
         type();
     }
@@ -187,83 +194,82 @@
     function shatterHeart() {
         bgMusic.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
-        setTimeout(() => { 
-            document.getElementById('splash').style.display = 'none'; 
-            typeWriter(TXT1, "type-p1", 30, 'p1');
-            updatePBar();
-            setInterval(updateCounter, 1000); setupStars(); 
-        }, 800);
+        setTimeout(() => {
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'block';
+            typeWriter(TXT1, "type-p1", 40);
+            updateCounter();
+            setInterval(updateCounter, 1000);
+            renderStars();
+        }, 600);
     }
 
     function updateCounter() {
-        const diff = new Date() - START;
+        const diff = new Date() - START_DATE;
         document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
         document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
     }
 
-    function updatePBar() { pBar.style.width = ((cur + 1) / 4) * 100 + "%"; }
+    function navigate(step) {
+        const next = currentPage + step;
+        if (next >= 0 && next < pages.length) {
+            pages[currentPage].classList.remove('active');
+            currentPage = next;
+            pages[currentPage].classList.add('active');
+            
+            // UI Updates
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === currentPage));
+            document.getElementById('p-bar').style.width = ((currentPage + 1) / pages.length) * 100 + "%";
+            
+            // Video/Music Logic
+            if (currentPage === 1) {
+                bgMusic.volume = 0.2;
+                video.play();
+                typeWriter(TXT2, "type-p2", 25);
+            } else {
+                video.pause();
+                bgMusic.volume = 1;
+            }
 
-    function jumpTo(idx) { cur = idx; applyNavigation(); }
-
-    function navigate(dir) {
-        if(dir === 'next' && cur < 3) cur++; else if(dir === 'prev' && cur > 0) cur--;
-        applyNavigation();
-    }
-
-    function applyNavigation() {
-        updatePBar();
-        document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
-        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-        if(cur === 1) {
-            bgMusic.volume = 0.1;
-            video.play().catch(() => {});
-            if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
-        } else { video.pause(); bgMusic.volume = 1.0; }
-        if(cur === 3) {
-            setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
-            setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
+            document.getElementById('next-btn').innerText = currentPage === pages.length - 1 ? "INÍCIO" : "PRÓXIMO";
+            if(currentPage === pages.length - 1) document.getElementById('next-btn').onclick = () => location.reload();
         }
     }
 
-    // Touch Navigation
-    let startX = 0;
-    document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
-    document.addEventListener('touchend', e => {
-        let diffX = startX - e.changedTouches[0].clientX;
-        if(Math.abs(diffX) > 70) navigate(diffX > 0 ? 'next' : 'prev');
-    });
-
-    // Mouse Wheel Navigation
-    window.addEventListener('wheel', e => {
-        if(isWheeling) return;
-        if(Math.abs(e.deltaX) > 30) {
-            isWheeling = true;
-            navigate(e.deltaX > 0 ? 'next' : 'prev');
-            setTimeout(() => isWheeling = false, 800);
-        }
-    }, { passive: true });
-
-    function setupStars() {
-        const c = document.getElementById('star-canvas'), ctx = c.getContext('2d');
-        c.width = window.innerWidth; c.height = window.innerHeight;
-        let stars = Array(150).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, s: Math.random()*1.5, v: Math.random()*0.3 + 0.1 }));
+    // Canvas Estrelas
+    function renderStars() {
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const stars = Array(100).fill().map(() => ({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*1.2 }));
         function anim() {
-            ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, 7); ctx.fill(); s.y -= s.v; if(s.y<0) s.y=c.height; });
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            ctx.fillStyle = "#fff";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill();
+                s.y -= 0.2; if(s.y < 0) s.y = canvas.height;
+            });
             requestAnimationFrame(anim);
         }
         anim();
     }
 
-    const hCanvas = document.getElementById('heart-canvas'), hCtx = hCanvas.getContext('2d');
+    // Canvas Corações
+    const hCanvas = document.getElementById('heart-canvas');
+    const hCtx = hCanvas.getContext('2d');
     let hearts = [];
-    function spawnHearts() { for(let i=0; i<20; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight+50, v: Math.random()*4+2, opacity: 1, size: Math.random()*20+10 }); }
+    function spawnHearts() {
+        for(let i=0; i<15; i++) hearts.push({ x: Math.random()*window.innerWidth, y: window.innerHeight, v: Math.random()*3+2, o: 1 });
+    }
     function drawHearts() {
-        hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
         hCanvas.width = window.innerWidth; hCanvas.height = window.innerHeight;
+        hCtx.clearRect(0,0,hCanvas.width,hCanvas.height);
         hearts.forEach((h, i) => {
-            hCtx.globalAlpha = h.opacity; hCtx.font = h.size + "px serif"; hCtx.fillText("❤️", h.x, h.y); h.y -= h.v; h.opacity -= 0.005;
-            if(h.opacity <= 0) hearts.splice(i, 1);
+            hCtx.globalAlpha = h.o;
+            hCtx.font = "20px serif";
+            hCtx.fillText("❤️", h.x, h.y);
+            h.y -= h.v; h.o -= 0.01;
+            if(h.o <= 0) hearts.splice(i, 1);
         });
         requestAnimationFrame(drawHearts);
     }
