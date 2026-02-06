@@ -29,31 +29,49 @@
         .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue); display: inline; }
         .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green), 0 0 30px var(--neon-green); display: inline; }
 
+        /* AJUSTE GALERIA HÍBRIDA */
+        .moments-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1024px) {
+            .moments-container {
+                grid-template-columns: 1fr 1fr;
+                max-width: 900px;
+            }
+        }
+
         .moment-card {
-            position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 35px;
-            border: 2px solid rgba(255, 59, 48, 0.4); background: #000;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 20px rgba(255, 59, 48, 0.1);
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: transform;
+            position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 15px;
+            border: 2px solid rgba(0, 122, 255, 0.3); background: #000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: transform 0.3s ease, border-color 0.3s ease;
         }
         
+        .moment-card:hover { border-color: var(--neon-blue); transform: translateY(-5px); }
+        
         .moment-img-wrapper { position: relative; width: 100%; aspect-ratio: 4/5; overflow: hidden; }
-        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.85); transition: 0.6s; }
-        .moment-overlay { padding: clamp(15px, 5vw, 30px) 20px; background: linear-gradient(to top, #000 60%, transparent); position: absolute; bottom: 0; width: 100%; }
-        .moment-desc { font-size: clamp(0.8rem, 2.5vw, 0.95rem); line-height: 1.7; color: #fff; }
+        .moment-img-wrapper img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); transition: 0.6s; }
+        .moment-overlay { padding: 20px; background: linear-gradient(to top, rgba(0,0,0,1) 40%, transparent); position: absolute; bottom: 0; width: 100%; }
+        .moment-desc { font-size: 0.85rem; line-height: 1.6; color: #fff; text-align: center; font-weight: 600; }
 
         .main-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 6vw, 2.2rem); color: var(--neon-red); text-align: center; margin-bottom: 30px; text-shadow: 0 0 12px rgba(255,59,48,0.6); }
         #viewport { display: flex; width: 400vw; height: 100%; transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1); position: relative; z-index: 10; }
         .page { width: 100vw; height: 100vh; padding: 40px 20px 140px; overflow-y: auto; scrollbar-width: none; }
         
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; align-items: center; justify-content: center; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; }
         .dots { position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; gap: 14px; z-index: 1000; }
-        .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; }
+        .dot { width: 11px; height: 11px; background: rgba(255,255,255,0.25); border-radius: 50%; transition: 0.4s; cursor: pointer; }
         .dot.active { width: 35px; background: var(--neon-blue); border-radius: 12px; }
         
         .p-reveal { opacity: 0; transform: translateY(25px); transition: 1.2s ease; }
         .p-reveal.active { opacity: 1; transform: translateY(0); }
-        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; cursor: pointer; }
+        .heart-container { position: relative; width: 100px; height: 90px; animation: aggressivePulse 1s infinite; }
         .heart-shape { position: absolute; top: 0; width: 52px; height: 80px; background: var(--neon-red); border-radius: 50px 50px 0 0; box-shadow: 0 0 35px var(--neon-red); }
         .heart-shape.left { left: 50px; transform: rotate(-45deg); transform-origin: 0 100%; }
         .heart-shape.right { left: 0; transform: rotate(45deg); transform-origin: 100% 100%; }
@@ -74,7 +92,12 @@
     </div>
 </div>
 
-<div class="dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+<div class="dots">
+    <div class="dot active" onclick="jumpTo(0)"></div>
+    <div class="dot" onclick="jumpTo(1)"></div>
+    <div class="dot" onclick="jumpTo(2)"></div>
+    <div class="dot" onclick="jumpTo(3)"></div>
+</div>
 
 <div id="viewport">
     <section class="page">
@@ -96,28 +119,30 @@
         </div>
     </section>
 
-    <section class="page">
-        <div style="max-width: 450px; margin: 0 auto;">
+    <section class="page" style="background: radial-gradient(circle at center, rgba(0, 122, 255, 0.05) 0%, transparent 70%);">
+        <div style="max-width: 900px; margin: 0 auto;">
             <h2 class="main-title">Nossos Momentos</h2>
-            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(-2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
-                <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
-                <div class="moment-overlay"><p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p></div>
-            </div>
-            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
-                <div class="moment-img-wrapper"><img src="foto2.jpg"></div>
-                <div class="moment-overlay"><p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p></div>
-            </div>
-            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(-2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
-                <div class="moment-img-wrapper"><img src="foto3.jpg"></div>
-                <div class="moment-overlay"><p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p></div>
-            </div>
-            <div class="moment-card" ontouchstart="this.style.transform='scale(0.96) rotate(2deg)'" ontouchend="this.style.transform='scale(1) rotate(0deg)'">
-                <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
-                <div class="moment-overlay">
-                    <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
+            <div class="moments-container">
+                <div class="moment-card">
+                    <div class="moment-img-wrapper"><img src="foto4.jpg"></div>
+                    <div class="moment-overlay"><p class="moment-desc">"Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹"</p></div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-img-wrapper"><img src="foto2.jpg"></div>
+                    <div class="moment-overlay"><p class="moment-desc">"Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅"</p></div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-img-wrapper"><img src="foto3.jpg"></div>
+                    <div class="moment-overlay"><p class="moment-desc">"Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠"</p></div>
+                </div>
+                <div class="moment-card">
+                    <div class="moment-img-wrapper"><img src="foto1.jpg"></div>
+                    <div class="moment-overlay">
+                        <p class="moment-desc">"Essa foto é a gente no ano novoo, onde eu infelizmente não acordei ao seu lado na cama em 1 de janeiro, mas estive presente ao seu lado no mesmo. Representa não só ano novo, mas representa que passamos 2 aniversários, 8 meses e clr, a virada, onde teremos mais 365 dias para sermos felizes"</p>
+                    </div>
                 </div>
             </div>
-            <button onclick="spawnHearts()" style="width:100%; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:22px; border-radius:50px; font-weight:900; margin-top:15px; box-shadow: 0 10px 30px rgba(255,59,48,0.5); text-transform: uppercase;">Selar o Nosso Amor</button>
+            <button onclick="spawnHearts()" style="width:100%; max-width: 450px; display: block; margin: 25px auto; background:linear-gradient(45deg, var(--neon-red), #ff7b72); border:none; color:#fff; padding:20px; border-radius:50px; font-weight:900; box-shadow: 0 10px 30px rgba(255,59,48,0.4); cursor: pointer; text-transform: uppercase;">Selar o Nosso Amor</button>
         </div>
     </section>
 
@@ -139,7 +164,7 @@
 <script>
     const START = new Date("2025-05-08T20:00:00");
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "Sabe, não foi algo planejado, simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas hoje vejo que cada <span class='key-blue'>conversas</span> nossa construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, sem pressão, sem roteiro. Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>parceira de vida</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico; é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é meu <span class='key-green'>jacaré</span>, minha teimosa favorita e a dona do <span class='key-blue'>sorriso</span> que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
+    const TXT2 = "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='key-golden'>intensidade</span> as nossas <span class='key-blue'>conversas</span> construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, se entende, se desculpa e se "sente" Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e do jeito que eu te irrrito, de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='key-golden'>ouro</span>. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>Princesa</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico, é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é minha a <span class='key-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='key-blue'>sorriso</span> e que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
 
     let typedPages = { p1: false, p2: false }, cur = 0;
     const bgMusic = document.getElementById('bg-music'), video = document.getElementById('main-video'), pBar = document.getElementById('p-bar');
@@ -151,12 +176,7 @@
                 if (text[i] === '<') {
                     let tagEnd = text.indexOf('>', i);
                     let fullTag = text.substring(i, tagEnd + 1);
-                    if (fullTag.includes('/')) { el.innerHTML += fullTag; i = tagEnd + 1; }
-                    else {
-                        let closingTag = text.indexOf('</span>', tagEnd);
-                        if (closingTag === -1) { el.innerHTML += fullTag; i = tagEnd + 1; }
-                        else { el.innerHTML += fullTag + text.substring(tagEnd + 1, closingTag) + "</span>"; i = closingTag + 7; }
-                    }
+                    el.innerHTML += fullTag; i = tagEnd + 1;
                 } else { el.innerHTML += text[i]; i++; }
                 setTimeout(type, speed);
             } else { typedPages[key] = true; }
@@ -165,45 +185,49 @@
     }
 
     function shatterHeart() {
-        bgMusic.volume = 1;
         bgMusic.play().catch(() => {});
         document.getElementById('splash').style.opacity = '0';
-        document.getElementById('splash').style.transform = 'scale(1.2)';
         setTimeout(() => { 
             document.getElementById('splash').style.display = 'none'; 
             typeWriter(TXT1, "type-p1", 30, 'p1');
             updatePBar();
-            setInterval(() => {
-                const diff = new Date() - START;
-                document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
-                document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
-            }, 1000); setupStars(); 
+            setInterval(updateCounter, 1000); setupStars(); 
         }, 800);
+    }
+
+    function updateCounter() {
+        const diff = new Date() - START;
+        document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
+        document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
     }
 
     function updatePBar() { pBar.style.width = ((cur + 1) / 4) * 100 + "%"; }
 
+    function jumpTo(idx) {
+        cur = idx;
+        applyNavigation();
+    }
+
     function navigate(dir) {
-        let prev = cur;
         if(dir === 'next' && cur < 3) cur++; else if(dir === 'prev' && cur > 0) cur--;
-        if(prev !== cur) {
-            updatePBar();
-            document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
-            
-            if(cur === 1) {
-                bgMusic.volume = 0.1; // Volume mínimo instantâneo
-                video.muted = false;
-                video.play().catch(() => { video.muted = true; video.play(); });
-                if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
-            } else { 
-                video.pause(); 
-                bgMusic.volume = 1.0; // Restaura volume
-            }
-            if(cur === 3) {
-                setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
-                setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
-            }
+        applyNavigation();
+    }
+
+    function applyNavigation() {
+        updatePBar();
+        document.getElementById('viewport').style.transform = `translateX(-${cur * 100}vw)`;
+        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+        
+        if(cur === 1) {
+            bgMusic.volume = 0.1;
+            video.play().catch(() => {});
+            if(!typedPages.p2) typeWriter(TXT2, "type-p2", 8, 'p2');
+        } else { 
+            video.pause(); bgMusic.volume = 1.0; 
+        }
+        if(cur === 3) {
+            setTimeout(() => document.getElementById('final-1').classList.add('active'), 300);
+            setTimeout(() => document.getElementById('final-2').classList.add('active'), 1200);
         }
     }
 
@@ -212,9 +236,6 @@
     document.addEventListener('touchend', e => {
         let diffX = startX - e.changedTouches[0].clientX;
         if(Math.abs(diffX) > 50) navigate(diffX > 0 ? 'next' : 'prev');
-    });
-    document.addEventListener('keydown', e => {
-        if(e.key === 'ArrowRight') navigate('next'); if(e.key === 'ArrowLeft') navigate('prev');
     });
 
     function setupStars() {
