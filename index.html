@@ -14,13 +14,15 @@
         
         .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 5; }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
-        #p3 { overflow-y: auto; display: block; padding-bottom: 100px; } /* Scroll apenas na p3 */
+        #p3 { overflow-y: auto !important; display: block; -webkit-overflow-scrolling: touch; }
 
         .glass-card { background: rgba(15, 15, 15, 0.9); border: 1px solid rgba(0, 122, 255, 0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); width: 100%; max-width: 450px; }
-        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-red); }
-        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-blue); }
-        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-green); }
-        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 8px var(--gold); }
+        
+        /* CORES CORRETAS E DEFINIDAS */
+        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
+        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
+        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
+        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 10px var(--gold); }
         
         .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; width: 100%; }
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
@@ -31,15 +33,16 @@
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
         .dot.active { background: var(--neon-blue); transform: scale(1.4); }
 
-        /* Grid de Momentos */
-        .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 450px; margin: 0 auto; }
+        .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 450px; margin: 0 auto; padding-bottom: 120px; }
         .thumb { width: 100%; aspect-ratio: 1; border-radius: 15px; border: 1px solid var(--neon-blue); object-fit: cover; cursor: pointer; }
 
-        /* Modal Pop-up */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 20000; display: none; flex-direction: column; align-items: center; padding: 20px; overflow-y: auto; }
-        .modal-content { width: 100%; max-width: 500px; position: relative; }
-        .modal-img { width: 100%; border-radius: 20px; border: 2px solid var(--neon-blue); margin-bottom: 20px; }
-        .close-modal { position: absolute; top: 10px; right: 10px; background: var(--neon-red); color: #fff; border: none; width: 35px; height: 35px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20001; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
+        .modal-content { width: 95%; height: 90%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .modal-img { width: 100%; max-height: 80%; border-radius: 20px; border: 2px solid var(--neon-blue); object-fit: contain; }
+        
+        .inner-pop-text { position: absolute; bottom: 2%; left: 50%; transform: translateX(-50%); width: 90%; background: rgba(10, 10, 10, 0.95); border: 2px solid var(--neon-blue); border-radius: 15px; padding: 15px; text-align: center; font-size: 0.9rem; box-shadow: 0 0 20px rgba(0, 122, 255, 0.4); }
+        
+        .close-modal { position: absolute; top: 0; right: 0; background: var(--neon-red); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20002; }
 
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
@@ -68,7 +71,7 @@
     <div class="modal-content">
         <button class="close-modal" onclick="closeModal()">X</button>
         <img id="modal-img" class="modal-img" src="">
-        <div class="glass-card" id="modal-text" style="font-size: 0.9rem; text-align: center;"></div>
+        <div class="inner-pop-text" id="modal-text"></div>
     </div>
 </div>
 
