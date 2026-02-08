@@ -6,84 +6,96 @@
     <title>Para meu Jacaré</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root { --neon-blue: #007aff; --neon-red: #ff3b30; --neon-green: #39ff14; --gold: #ffd700; }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; }
-        body, html { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100%; width: 100%; overflow: hidden; position: fixed; }
+        :root { 
+            --neon-blue: #007aff; 
+            --neon-red: #ff3b30; 
+            --neon-green: #39ff14; 
+            --gold: #ffd700; 
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
         
-        /* Fundo Estrelado */
+        body, html { 
+            background: #000; 
+            color: #fff; 
+            font-family: 'Montserrat', sans-serif; 
+            height: 100dvh; 
+            width: 100%; 
+            overflow: hidden; 
+            position: fixed; 
+        }
+
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        
-        /* Barra de Progresso */
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 25%; z-index: 10000; transition: width 0.4s ease; }
         
-        /* Páginas */
-        .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.6s ease; z-index: 5; }
+        .page { 
+            position: absolute; 
+            inset: 0; 
+            width: 100%; 
+            height: 100dvh; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center;
+            opacity: 0; 
+            visibility: hidden; 
+            transition: opacity 0.5s ease; 
+            z-index: 5; 
+        }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
         
-        /* Estilos Gerais de Texto e Cards */
-        .glass-card { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(12px); width: 100%; max-width: 450px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
-        .main-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; text-align: center; margin-bottom: 30px; width: 100%; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-
-        /* Cores Neon */
-        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-red); }
-        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-blue); }
-        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green); }
-        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 12px var(--gold); }
-
-        /* --- TELA DE ENTRADA (SPLASH) PREMIUM --- */
-        #splash { position: fixed; inset: 0; background: radial-gradient(circle at center, #1a0000 0%, #000 70%); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.8s ease, transform 0.8s ease; }
-        
-        .heart-container { width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; animation: heartbeat-real 1.5s infinite; filter: drop-shadow(0 0 15px var(--neon-red)); }
-        .heart-svg { width: 100%; height: 100%; fill: var(--neon-red); }
-        
-        .enter-text { margin-top: 40px; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 4px; color: rgba(255, 255, 255, 0.8); text-transform: uppercase; animation: breathe 3s infinite ease-in-out; }
-
-        @keyframes heartbeat-real {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); }
-            15% { transform: scale(1.15); filter: drop-shadow(0 0 25px var(--neon-red)); }
-            30% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); }
-            45% { transform: scale(1.15); filter: drop-shadow(0 0 25px var(--neon-red)); }
-            60% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); }
+        .glass-card { 
+            background: rgba(10, 10, 10, 0.9); 
+            border: 1px solid rgba(255, 255, 255, 0.15); 
+            border-radius: 20px; 
+            padding: 15px; 
+            margin-bottom: 15px; 
+            backdrop-filter: blur(15px); 
+            width: 100%; 
+            max-width: 400px; 
         }
+
+        /* Classes de Cores Forçadas */
+        .key-red { color: #ff3b30 !important; font-weight: 900 !important; text-shadow: 0 0 10px #ff3b30 !important; }
+        .key-blue { color: #007aff !important; font-weight: 900 !important; text-shadow: 0 0 10px #007aff !important; }
+        .key-green { color: #39ff14 !important; font-weight: 900 !important; text-shadow: 0 0 10px #39ff14 !important; }
+        .key-golden { color: #ffd700 !important; font-weight: 900 !important; text-shadow: 0 0 10px #ffd700 !important; }
         
-        @keyframes breathe { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); } }
-        
-        /* --- Animação da Foto na P1 --- */
-        .cover-container { margin-bottom: 30px; position: relative; }
-        .cover-photo { width: 180px; height: 180px; border-radius: 50%; border: 3px solid var(--neon-red); background: url('foto-capa.jpg') center/cover; animation: pulse-soft 3s infinite ease-in-out; box-shadow: 0 0 20px rgba(255, 59, 48, 0.4); }
-        @keyframes pulse-soft { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        
-        /* --- Navigation --- */
-        .nav-controls { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 30px; z-index: 10001; pointer-events: none; }
-        .nav-btn { background: rgba(0, 122, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-weight: 900; pointer-events: auto; backdrop-filter: blur(5px); transition: 0.2s; }
-        .nav-btn:active { transform: scale(0.9); background: var(--neon-blue); }
-        .dot-container { display: flex; gap: 10px; }
-        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
-        .dot.active { background: var(--neon-blue); transform: scale(1.4); box-shadow: 0 0 10px var(--neon-blue); }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
 
-        /* --- EXPLOSÃO (PÁGINA 3) --- */
-        #p3 { display: flex; justify-content: center; align-items: center; }
-        .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 400px; margin-bottom: 60px; }
-        .photo-pop { width: 100%; aspect-ratio: 1; border-radius: 20px; border: 2px solid #fff; object-fit: cover; cursor: pointer; opacity: 0; transform: scale(0); box-shadow: 0 0 15px rgba(255,255,255,0.2); transition: transform 0.2s; }
-        .photo-pop:active { transform: scale(0.95) !important; }
+        /* TELA DE ENTRADA */
+        #splash { position: fixed; inset: 0; background: radial-gradient(circle, #200 0%, #000 100%); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 15%, 45% { transform: scale(1.2); } }
 
-        .page.active .photo-pop { animation: explodeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
-        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: var(--neon-blue); box-shadow: 0 0 25px var(--neon-blue); }
-        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: var(--neon-red); box-shadow: 0 0 25px var(--neon-red); }
-        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: var(--gold); box-shadow: 0 0 25px var(--gold); }
-        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: var(--neon-green); box-shadow: 0 0 25px var(--neon-green); }
+        /* GRID DE EXPLOSÃO */
+        .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
+        .photo-pop { 
+            width: 100%; 
+            aspect-ratio: 1/1; 
+            border-radius: 15px; 
+            object-fit: cover; 
+            border: 2px solid #fff; 
+            transform: scale(0); 
+            opacity: 0;
+        }
+        .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
+        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue); }
+        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: var(--neon-red); box-shadow: 0 0 15px var(--neon-red); }
+        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green); }
+        @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        @keyframes explodeIn { 0% { opacity: 0; transform: scale(0) rotate(-10deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
+        /* MODAL FULLSCREEN */
+        #photo-modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; align-items: center; justify-content: center; }
+        .modal-img { width: 100%; height: 100%; object-fit: contain; }
+        .inner-pop-text { position: absolute; bottom: 30px; width: 90%; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border-top: 1px solid var(--neon-blue); text-align: center; font-size: 0.9rem; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; font-size: 20px; z-index: 100001; }
 
-        /* --- MODAL FULLSCREEN --- */
-        .modal { position: fixed; inset: 0; background: #000; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.4s ease; }
-        .modal.show { opacity: 1; }
-        .modal-content { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; height: 100%; object-fit: contain; display: block; }
-        .inner-pop-text { position: absolute; bottom: 40px; width: 90%; max-width: 600px; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); border-top: 1px solid var(--neon-blue); border-radius: 15px; padding: 25px; text-align: center; font-size: 1rem; line-height: 1.6; color: #fff; box-shadow: 0 10px 40px rgba(0,0,0,0.9); animation: slideUp 0.6s ease; }
-        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        .close-modal { position: absolute; top: 25px; right: 25px; background: rgba(0,0,0,0.5); color: #fff; border: 2px solid #fff; width: 45px; height: 45px; border-radius: 50%; font-size: 20px; font-weight: 900; cursor: pointer; z-index: 100000; }
+        .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
+        .nav-btn { background: rgba(0,122,255,0.2); border: 1px solid var(--neon-blue); color: #fff; width: 45px; height: 45px; border-radius: 50%; font-weight: bold; }
+        .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: var(--neon-blue); transform: scale(1.5); }
     </style>
 </head>
 <body>
@@ -93,44 +105,36 @@
 <audio id="bg-music" src="foi-assim.mp3" loop></audio>
 
 <div id="splash" onclick="startJourney()">
-    <div class="heart-container">
-        <svg class="heart-svg" viewBox="0 0 24 24">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-        </svg>
-    </div>
-    <p class="enter-text">Toque para iniciar</p>
+    <svg class="heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <p style="margin-top:20px; letter-spacing:3px; font-size:0.7rem; opacity:0.7;">TOQUE PARA ENTRAR</p>
 </div>
 
-<div class="nav-controls" id="controls" style="display: none;">
+<div class="nav-controls" id="controls" style="display:none">
     <button class="nav-btn" onclick="nav(-1)">←</button>
-    <div class="dot-container" id="dots"></div>
+    <div id="dots" style="display:flex; gap:8px"></div>
     <button class="nav-btn" onclick="nav(1)">→</button>
 </div>
 
-<div id="photo-modal" class="modal">
-    <div class="modal-content">
-        <button class="close-modal" onclick="closeModal()">✕</button>
-        <img id="modal-img" class="modal-img" src="">
-        <div class="inner-pop-text" id="modal-text"></div>
-    </div>
+<div id="photo-modal">
+    <button class="close-modal" onclick="closeModal()">✕</button>
+    <img id="modal-img" src="">
+    <div id="modal-text" class="inner-pop-text"></div>
 </div>
 
 <div id="pages-container">
     <section class="page active">
-        <h1 class="main-title">Para você meu <span style="color:var(--neon-green)">Jacaré</span></h1>
-        <div class="cover-container"><div class="cover-photo"></div></div>
-        <div class="glass-card" style="border: 1px solid var(--neon-red); box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);">
-            <div id="type-p1" style="line-height: 1.7; text-align: justify; font-size: 0.95rem;"></div>
-        </div>
-        <div style="display:flex; gap:15px; width:100%; max-width: 450px;">
-            <div class="glass-card" style="flex:1; text-align:center; padding: 15px; margin-bottom:0;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small style="color:#aaa; letter-spacing:1px;">HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center; padding: 15px; margin-bottom:0;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small style="color:#aaa; letter-spacing:1px;">SEGS</small></div>
+        <h1 class="main-title">Para meu <span class="key-green">Jacaré</span></h1>
+        <div style="width:150px; height:150px; border-radius:50%; border:3px solid var(--neon-red); background:url('foto-capa.jpg') center/cover; margin-bottom:20px; box-shadow: 0 0 20px rgba(255,59,48,0.3);"></div>
+        <div class="glass-card"><div id="type-p1" style="font-size:0.9rem; text-align:justify;"></div></div>
+        <div style="display:flex; gap:10px; width:100%; max-width:400px;">
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.5rem">0</span><br><small>HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.5rem">0</span><br><small>SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width: 400px; border-radius:15px; border:1px solid var(--neon-blue); box-shadow: 0 0 20px rgba(0,122,255,0.3); margin-bottom:20px;"></video>
-        <div class="glass-card"><div id="type-p2" style="line-height: 1.7; text-align: justify; font-size: 0.85rem;"></div></div>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:15px;"></video>
+        <div class="glass-card"><div id="type-p2" style="font-size:0.8rem; text-align:justify;"></div></div>
     </section>
 
     <section class="page" id="p3">
@@ -143,11 +147,11 @@
     </section>
 
     <section class="page">
-        <div style="text-align: center; margin: auto 0;">
-            <div style="font-size: 60px; margin-bottom: 20px;">🐊</div>
+        <div style="text-align:center">
+            <div style="font-size:50px">🐊</div>
             <h2 class="main-title">Promessa Inabalável</h2>
-            <p class="key-red" style="font-size: 2.2rem; display: block; text-shadow: 0 0 30px var(--neon-red);">eu te amo</p>
-            <p class="key-green" style="font-size: 1.1rem; margin-top: 15px; letter-spacing: 2px;">para todo o sempre</p>
+            <p class="key-red" style="font-size:2rem">eu te amo</p>
+            <p class="key-green" style="margin-top:10px">para todo o sempre</p>
         </div>
     </section>
 </div>
@@ -155,7 +159,7 @@
 <script>
     const START_DATE = new Date("2025-05-08T20:00:00");
     const TXT1 = "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='key-red'>eu te amo</span>, minha <span class='key-green'>jacaré</span>! 🐊❤️";
-    const TXT2 = "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='key-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='key-golden'>intensidade</span> as nossas <span class='key-blue'>conversas</span> construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, se entende, se desculpa e se \"sente\" Você tem esse jeito de tornar as coisas <span class='key-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e do jeito que eu te irrrito, de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='key-golden'>ouro</span>. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='key-red'>Princesa</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico, é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é minha a <span class='key-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='key-blue'>sorriso</span> e que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='key-red'>coração</span> sente em cada batida.";
+    const TXT2 = "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida... <br><br>Você é minha a <span class='key-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='key-blue'>sorriso</span>. <span class='key-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar.";
 
     let current = 0, hasTypedP2 = false;
     const bgMusic = document.getElementById('bg-music');
@@ -163,25 +167,12 @@
     const pages = document.querySelectorAll('.page');
 
     function startJourney() {
-        const splash = document.getElementById('splash');
-        const heart = splash.querySelector('.heart-container');
-        
-        // Efeito de explosão no coração antes de sair
-        heart.style.transform = "scale(20)";
-        heart.style.opacity = "0";
-        heart.style.transition = "transform 0.8s cubic-bezier(0.5, 0, 0, 1), opacity 0.5s ease";
-        
-        splash.style.opacity = '0';
-        splash.style.pointerEvents = 'none';
-        
-        setTimeout(() => {
-            splash.style.display = 'none';
-            document.getElementById('controls').style.display = 'flex';
-            bgMusic.volume = 0.6; bgMusic.play().catch(() => {});
-            typeWriter(TXT1, "type-p1", 40);
-            setInterval(updateCounter, 1000);
-            setupDots(); initStars();
-        }, 800);
+        document.getElementById('splash').style.display = 'none';
+        document.getElementById('controls').style.display = 'flex';
+        bgMusic.play();
+        typeWriter(TXT1, "type-p1", 40);
+        setInterval(updateCounter, 1000);
+        setupDots(); initStars();
     }
 
     function setupDots() {
@@ -202,44 +193,30 @@
         document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
         document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
         
-        if (current !== 2) {
-            const pops = document.querySelectorAll('.photo-pop');
-            pops.forEach(p => { p.style.animation = 'none'; p.offsetHeight; p.style.animation = null; }); 
-        }
-
-        if(current === 1) { fadeAudio(bgMusic, 0.1); video.play(); if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } }
-        else { video.pause(); fadeAudio(bgMusic, 0.6); }
+        if(current === 1) { video.play(); if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } }
+        else video.pause();
     }
 
-    function openModal(imgSrc, text) {
-        document.getElementById('modal-img').src = imgSrc;
-        document.getElementById('modal-text').innerHTML = text;
-        const modal = document.getElementById('photo-modal');
-        modal.style.display = 'flex';
-        setTimeout(() => modal.classList.add('show'), 10);
+    function openModal(src, txt) {
+        document.getElementById('modal-img').src = src;
+        document.getElementById('modal-text').innerHTML = txt;
+        document.getElementById('photo-modal').style.display = 'flex';
     }
 
-    function closeModal() { 
-        const modal = document.getElementById('photo-modal');
-        modal.classList.remove('show');
-        setTimeout(() => modal.style.display = 'none', 400);
-    }
-
-    function fadeAudio(audio, target) {
-        const step = 0.02;
-        const fade = setInterval(() => {
-            if (audio.volume > target + 0.02) audio.volume -= step;
-            else if (audio.volume < target - 0.02) audio.volume += step;
-            else { audio.volume = target; clearInterval(fade); }
-        }, 50);
-    }
+    function closeModal() { document.getElementById('photo-modal').style.display = 'none'; }
 
     function typeWriter(text, elId, speed) {
         let i = 0, el = document.getElementById(elId);
         function type() {
             if (i < text.length) {
-                if (text[i] === '<') { let end = text.indexOf('>', i); el.innerHTML += text.substring(i, end + 1); i = end + 1; }
-                else { el.innerHTML += text[i]; i++; }
+                if (text[i] === '<') { 
+                    let end = text.indexOf('>', i); 
+                    el.innerHTML += text.substring(i, end + 1); 
+                    i = end + 1; 
+                } else { 
+                    el.innerHTML += text[i]; 
+                    i++; 
+                }
                 setTimeout(type, speed);
             }
         }
@@ -255,10 +232,10 @@
     function initStars() {
         const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        const stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.2 }));
+        const stars = Array(100).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.5 }));
         function draw() {
-            ctx.clearRect(0, 0, c.width, c.height); ctx.fillStyle = "#fff";
-            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y -= 0.2; if(s.y < 0) s.y = c.height; });
+            ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff";
+            stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y-=0.3; if(s.y<0) s.y=c.height; });
             requestAnimationFrame(draw);
         }
         draw();
@@ -269,7 +246,7 @@
     document.addEventListener('touchend', e => {
         if(document.getElementById('photo-modal').style.display === 'flex') return;
         let diff = startX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) nav(diff > 0 ? 1 : -1);
+        if (Math.abs(diff) > 60) nav(diff > 0 ? 1 : -1);
     });
 </script>
 </body>
