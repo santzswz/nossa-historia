@@ -12,35 +12,45 @@
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
         .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 25%; z-index: 10000; transition: width 0.4s ease; }
         
-        .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease; z-index: 5; }
+        .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.4s ease; z-index: 5; }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
         
-        .glass-card { background: rgba(15, 15, 15, 0.9); border: 1px solid rgba(0, 122, 255, 0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); width: 100%; max-width: 450px; }
+        .glass-card { background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(12px); width: 100%; max-width: 450px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); }
         
         /* Cores Neon */
-        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
-        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
-        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
-        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 10px var(--gold); }
+        .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-red); }
+        .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-blue); }
+        .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 12px var(--neon-green); }
+        .key-golden { color: var(--gold) !important; font-weight: 900; text-shadow: 0 0 12px var(--gold); }
         
-        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--neon-red); text-align: center; margin-bottom: 25px; width: 100%; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: #fff; text-align: center; margin-bottom: 30px; width: 100%; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        
+        /* ESTILO TELA INICIAL (P1) MELHORADO */
+        .cover-container { margin-bottom: 30px; position: relative; }
+        .cover-photo { width: 180px; height: 180px; border-radius: 50%; border: 3px solid var(--neon-red); background: url('foto-capa.jpg') center/cover; animation: heartbeat 2s infinite ease-in-out; }
+        @keyframes heartbeat {
+            0% { transform: scale(1); box-shadow: 0 0 15px var(--neon-red); }
+            50% { transform: scale(1.05); box-shadow: 0 0 30px var(--neon-red), 0 0 50px var(--neon-red); }
+            100% { transform: scale(1); box-shadow: 0 0 15px var(--neon-red); }
+        }
+        
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
         
         .nav-controls { position: fixed; bottom: 30px; left: 0; right: 0; display: flex; justify-content: center; align-items: center; gap: 30px; z-index: 10001; pointer-events: none; }
-        .nav-btn { background: rgba(0, 122, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-weight: 900; pointer-events: auto; }
+        .nav-btn { background: rgba(0, 122, 255, 0.2); border: 1px solid var(--neon-blue); color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-weight: 900; pointer-events: auto; backdrop-filter: blur(5px); }
         .dot-container { display: flex; gap: 10px; }
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
-        .dot.active { background: var(--neon-blue); transform: scale(1.4); }
+        .dot.active { background: var(--neon-blue); transform: scale(1.4); box-shadow: 0 0 10px var(--neon-blue); }
 
         /* --- ESTILO DA EXPLOSÃO (PÁGINA 3) --- */
         #p3 { display: flex; justify-content: center; align-items: center; }
         .explosion-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 15px; 
+            gap: 20px; 
             width: 100%; 
             max-width: 400px; 
-            margin-bottom: 50px; /* Espaço para nav */
+            margin-bottom: 60px;
         }
         
         .photo-pop { 
@@ -48,35 +58,61 @@
             aspect-ratio: 1; 
             border-radius: 20px; 
             border: 2px solid #fff; 
-            box-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue); /* Neon chamativo */
             object-fit: cover; 
             cursor: pointer; 
             opacity: 0; 
-            transform: scale(0); /* Estado inicial para explosão */
-            transition: transform 0.2s;
+            transform: scale(0);
         }
 
         /* Animação de entrada (Explosão) */
-        .page.active .photo-pop { animation: explodeIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: var(--neon-blue); box-shadow: 0 0 20px var(--neon-blue); }
-        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: var(--neon-red); box-shadow: 0 0 20px var(--neon-red); }
-        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: var(--gold); box-shadow: 0 0 20px var(--gold); }
-        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: var(--neon-green); box-shadow: 0 0 20px var(--neon-green); }
+        .page.active .photo-pop { animation: explodeIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: var(--neon-blue); box-shadow: 0 0 25px var(--neon-blue); }
+        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: var(--neon-red); box-shadow: 0 0 25px var(--neon-red); }
+        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: var(--gold); box-shadow: 0 0 25px var(--gold); }
+        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: var(--neon-green); box-shadow: 0 0 25px var(--neon-green); }
 
         @keyframes explodeIn {
-            0% { opacity: 0; transform: scale(0); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { opacity: 0; transform: scale(0) rotate(-10deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
         }
 
-        /* Modal Pop-up Individual */
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
-        .modal-content { width: 100%; max-width: 500px; height: 90%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; max-height: 75%; border-radius: 20px; border: 2px solid var(--neon-blue); object-fit: contain; }
+        /* --- MODAL FULLSCREEN --- */
+        .modal { position: fixed; inset: 0; background: #000; z-index: 99999; display: none; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .modal.show { opacity: 1; }
         
-        /* Legenda escondida que aparece no modal */
-        .inner-pop-text { position: absolute; bottom: 2%; width: 95%; background: rgba(10, 10, 10, 0.95); border: 2px solid var(--neon-blue); border-radius: 15px; padding: 15px; text-align: center; font-size: 0.85rem; line-height: 1.5; box-shadow: 0 0 20px rgba(0, 122, 255, 0.4); }
+        .modal-content { width: 100vw; height: 100vh; position: relative; display: flex; align-items: center; justify-content: center; }
         
-        .close-modal { position: absolute; top: 0; right: 0; background: var(--neon-red); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20002; margin: 10px; }
+        /* Imagem ocupando tudo na proporção certa */
+        .modal-img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            display: block;
+        }
+        
+        /* Legenda flutuante no rodapé */
+        .inner-pop-text { 
+            position: absolute; 
+            bottom: 40px; 
+            width: 90%; 
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7); 
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--neon-blue);
+            border-radius: 15px; 
+            padding: 20px; 
+            text-align: center; 
+            font-size: 1rem; 
+            line-height: 1.6; 
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        .close-modal { position: absolute; top: 20px; right: 20px; background: rgba(0,0,0,0.5); color: #fff; border: 2px solid #fff; width: 45px; height: 45px; border-radius: 50%; font-size: 20px; font-weight: 900; cursor: pointer; z-index: 100000; transition: 0.3s; }
+        .close-modal:active { transform: scale(0.9); background: var(--neon-red); border-color: var(--neon-red); }
 
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
@@ -103,7 +139,7 @@
 
 <div id="photo-modal" class="modal">
     <div class="modal-content">
-        <button class="close-modal" onclick="closeModal()">X</button>
+        <button class="close-modal" onclick="closeModal()">✕</button>
         <img id="modal-img" class="modal-img" src="">
         <div class="inner-pop-text" id="modal-text"></div>
     </div>
@@ -111,17 +147,23 @@
 
 <div id="pages-container">
     <section class="page active">
-        <h1 class="main-title">Para você meu Jacaré</h1>
-        <div style="width: 140px; height: 140px; border-radius: 50%; border: 2px solid var(--neon-blue); background: url('foto-capa.jpg') center/cover; margin-bottom: 25px;"></div>
-        <div class="glass-card"><div id="type-p1" style="line-height: 1.7; text-align: justify;"></div></div>
-        <div style="display:flex; gap:10px; width:100%; max-width: 450px;">
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" style="color:var(--neon-red); font-size:1.4rem; font-weight:900;">0</span><br><small>HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" style="color:var(--neon-blue); font-size:1.4rem; font-weight:900;">0</span><br><small>SEGS</small></div>
+        <h1 class="main-title">Para você meu <span style="color:var(--neon-green)">Jacaré</span></h1>
+        <div class="cover-container">
+            <div class="cover-photo"></div>
+        </div>
+        
+        <div class="glass-card" style="border: 1px solid var(--neon-red); box-shadow: 0 0 15px rgba(255, 59, 48, 0.15);">
+            <div id="type-p1" style="line-height: 1.7; text-align: justify; font-size: 0.95rem;"></div>
+        </div>
+        
+        <div style="display:flex; gap:15px; width:100%; max-width: 450px;">
+            <div class="glass-card" style="flex:1; text-align:center; padding: 15px; margin-bottom:0;"><span id="h1" style="color:var(--neon-red); font-size:1.6rem; font-weight:900;">0</span><br><small style="color:#aaa; letter-spacing:1px;">HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center; padding: 15px; margin-bottom:0;"><span id="s1" style="color:var(--neon-blue); font-size:1.6rem; font-weight:900;">0</span><br><small style="color:#aaa; letter-spacing:1px;">SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width: 400px; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:20px;"></video>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width: 400px; border-radius:15px; border:1px solid var(--neon-blue); box-shadow: 0 0 20px rgba(0,122,255,0.3); margin-bottom:20px;"></video>
         <div class="glass-card"><div id="type-p2" style="line-height: 1.7; text-align: justify; font-size: 0.85rem;"></div></div>
     </section>
 
@@ -138,8 +180,8 @@
         <div style="text-align: center; margin: auto 0;">
             <div style="font-size: 60px; margin-bottom: 20px;">🐊</div>
             <h2 class="main-title">Promessa Inabalável</h2>
-            <p class="key-red" style="font-size: 2.2rem; display: block;">eu te amo</p>
-            <p class="key-green" style="font-size: 1rem; margin-top: 10px;">para todo o sempre</p>
+            <p class="key-red" style="font-size: 2.2rem; display: block; text-shadow: 0 0 30px var(--neon-red);">eu te amo</p>
+            <p class="key-green" style="font-size: 1.1rem; margin-top: 15px; letter-spacing: 2px;">para todo o sempre</p>
         </div>
     </section>
 </div>
@@ -181,10 +223,10 @@
         document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
         document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
         
-        // Logica para resetar animação da pagina 3 se sair dela
+        // Reset animação p3
         if (current !== 2) {
             const pops = document.querySelectorAll('.photo-pop');
-            pops.forEach(p => { p.style.animation = 'none'; p.offsetHeight; /* trigger reflow */ p.style.animation = null; }); 
+            pops.forEach(p => { p.style.animation = 'none'; p.offsetHeight; p.style.animation = null; }); 
         }
 
         if(current === 1) { fadeAudio(bgMusic, 0.1); video.play(); if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } }
@@ -193,11 +235,18 @@
 
     function openModal(imgSrc, text) {
         document.getElementById('modal-img').src = imgSrc;
-        document.getElementById('modal-text').innerHTML = text; // innerHTML para permitir formatação se necessário
-        document.getElementById('photo-modal').style.display = 'flex';
+        document.getElementById('modal-text').innerHTML = text;
+        const modal = document.getElementById('photo-modal');
+        modal.style.display = 'flex';
+        // Pequeno delay para a opacidade funcionar (fade in)
+        setTimeout(() => modal.classList.add('show'), 10);
     }
 
-    function closeModal() { document.getElementById('photo-modal').style.display = 'none'; }
+    function closeModal() { 
+        const modal = document.getElementById('photo-modal');
+        modal.classList.remove('show');
+        setTimeout(() => modal.style.display = 'none', 300);
+    }
 
     function fadeAudio(audio, target) {
         const step = 0.02;
