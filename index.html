@@ -14,11 +14,11 @@
         
         .page { position: absolute; inset: 0; width: 100%; height: 100%; padding: 40px 20px; display: flex; flex-direction: column; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.5s ease; z-index: 5; }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
-        #p3 { overflow-y: auto !important; display: block; -webkit-overflow-scrolling: touch; }
+        
+        /* Scrolling na aba de fotos */
+        #p3 { overflow-y: auto !important; display: block; padding-top: 20px; -webkit-overflow-scrolling: touch; }
 
         .glass-card { background: rgba(15, 15, 15, 0.9); border: 1px solid rgba(0, 122, 255, 0.4); border-radius: 20px; padding: 20px; margin-bottom: 20px; backdrop-filter: blur(10px); width: 100%; max-width: 450px; }
-        
-        /* CORES CORRETAS E DEFINIDAS */
         .key-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
         .key-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
         .key-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
@@ -33,16 +33,19 @@
         .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
         .dot.active { background: var(--neon-blue); transform: scale(1.4); }
 
-        .moments-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; max-width: 450px; margin: 0 auto; padding-bottom: 120px; }
-        .thumb { width: 100%; aspect-ratio: 1; border-radius: 15px; border: 1px solid var(--neon-blue); object-fit: cover; cursor: pointer; }
+        /* Hall de Entrada e Grid */
+        .hall-header { text-align: center; margin-bottom: 30px; border-bottom: 1px solid var(--neon-blue); padding-bottom: 15px; width: 100%; max-width: 450px; margin-inline: auto; }
+        .moments-grid { display: grid; grid-template-columns: 1fr; gap: 25px; width: 100%; max-width: 450px; margin: 0 auto; padding-bottom: 150px; }
+        .thumb-container { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--neon-blue); transition: 0.3s; cursor: pointer; }
+        .thumb-container img { width: 100%; height: 250px; object-fit: cover; display: block; }
+        .thumb-overlay { position: absolute; inset: 0; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; align-items: flex-end; padding: 15px; font-weight: 600; font-size: 0.8rem; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
-        .modal-content { width: 95%; height: 90%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; max-height: 80%; border-radius: 20px; border: 2px solid var(--neon-blue); object-fit: contain; }
-        
-        .inner-pop-text { position: absolute; bottom: 2%; left: 50%; transform: translateX(-50%); width: 90%; background: rgba(10, 10, 10, 0.95); border: 2px solid var(--neon-blue); border-radius: 15px; padding: 15px; text-align: center; font-size: 0.9rem; box-shadow: 0 0 20px rgba(0, 122, 255, 0.4); }
-        
-        .close-modal { position: absolute; top: 0; right: 0; background: var(--neon-red); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20002; }
+        /* Modal Pop-up Individual */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { width: 100%; max-width: 500px; height: 90%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .modal-img { width: 100%; max-height: 75%; border-radius: 20px; border: 2px solid var(--neon-blue); object-fit: contain; }
+        .inner-pop-text { position: absolute; bottom: 2%; width: 95%; background: rgba(10, 10, 10, 0.95); border: 2px solid var(--neon-blue); border-radius: 15px; padding: 15px; text-align: center; font-size: 0.85rem; line-height: 1.5; box-shadow: 0 0 20px rgba(0, 122, 255, 0.4); }
+        .close-modal { position: absolute; top: -10px; right: -10px; background: var(--neon-red); color: #fff; border: none; width: 40px; height: 40px; border-radius: 50%; font-weight: 900; cursor: pointer; z-index: 20002; }
 
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
     </style>
@@ -92,12 +95,23 @@
     </section>
 
     <section class="page" id="p3">
-        <h2 class="main-title">Nossos Momentos</h2>
+        <div class="hall-header">
+            <h2 class="main-title" style="margin-bottom: 5px;">Hall de Memórias</h2>
+            <p style="font-size: 0.7rem; color: var(--neon-blue);">Role para explorar nossa história</p>
+        </div>
         <div class="moments-grid">
-            <img src="foto4.jpg" class="thumb" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
-            <img src="foto2.jpg" class="thumb" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
-            <img src="foto3.jpg" class="thumb" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
-            <img src="foto1.jpg" class="thumb" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+            <div class="thumb-container" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
+                <img src="foto4.jpg"><div class="thumb-overlay">Abril/2025</div>
+            </div>
+            <div class="thumb-container" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
+                <img src="foto2.jpg"><div class="thumb-overlay">O Início</div>
+            </div>
+            <div class="thumb-container" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
+                <img src="foto3.jpg"><div class="thumb-overlay">Natal/2025</div>
+            </div>
+            <div class="thumb-container" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+                <img src="foto1.jpg"><div class="thumb-overlay">Ano Novo/2026</div>
+            </div>
         </div>
     </section>
 
