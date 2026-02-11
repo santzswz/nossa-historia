@@ -15,7 +15,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent; }
         
         body, html { 
-            background: #000; 
+            background: #000 !important; 
             color: #fff; 
             font-family: 'Montserrat', sans-serif; 
             height: 100dvh; 
@@ -45,7 +45,7 @@
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
         
         .glass-card { 
-            background: rgba(10, 10, 10, 0.92); 
+            background: rgba(5, 5, 5, 0.95); 
             border: 1px solid rgba(255, 255, 255, 0.15); 
             border-radius: 20px; 
             padding: 18px; 
@@ -57,40 +57,48 @@
             max-height: 50dvh;
         }
 
-        /* Cores Neon Estáveis */
-        .key-red { color: #ff3b30 !important; font-weight: 900 !important; text-shadow: 0 0 10px #ff3b30 !important; }
-        .key-blue { color: #007aff !important; font-weight: 900 !important; text-shadow: 0 0 10px #007aff !important; }
-        .key-green { color: #39ff14 !important; font-weight: 900 !important; text-shadow: 0 0 10px #39ff14 !important; }
-        .key-golden { color: #ffd700 !important; font-weight: 900 !important; text-shadow: 0 0 10px #ffd700 !important; }
+        /* Cores Neon Reforçadas */
+        .key-red { 
+            color: #ff3b30 !important; 
+            font-weight: 900 !important; 
+            text-shadow: 0 0 8px #ff3b30, 0 0 15px rgba(255,59,48,0.6) !important;
+        }
+        .key-blue { 
+            color: #007aff !important; 
+            font-weight: 900 !important; 
+            text-shadow: 0 0 8px #007aff, 0 0 15px rgba(0,122,255,0.6) !important;
+        }
+        .key-green { 
+            color: #39ff14 !important; 
+            font-weight: 900 !important; 
+            text-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57,255,20,0.6) !important;
+        }
+        .key-golden { 
+            color: #ffd700 !important; 
+            font-weight: 900 !important; 
+            text-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255,215,0,0.6) !important;
+        }
         
-        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
 
-        /* Splash Screen */
-        #splash { position: fixed; inset: 0; background: radial-gradient(circle at center, #200000 0%, #000 100%); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .heart-svg { width: 110px; height: 110px; fill: #ff3b30; filter: drop-shadow(0 0 25px #ff3b30); animation: heartbeat 1.3s infinite cubic-bezier(0.215, 0.61, 0.355, 1); }
-        @keyframes heartbeat { 0% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.25); } 100% { transform: scale(1); } }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* Grid de Fotos */
         .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
         .photo-pop { width: 100%; aspect-ratio: 1; border-radius: 15px; object-fit: cover; border: 2px solid #fff; transform: scale(0); opacity: 0; }
-        .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: #007aff; box-shadow: 0 0 15px #007aff; }
-        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: #ff3b30; box-shadow: 0 0 15px #ff3b30; }
-        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: #ffd700; box-shadow: 0 0 15px #ffd700; }
-        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: #39ff14; box-shadow: 0 0 15px #39ff14; }
+        .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        /* Modal */
-        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .modal-img { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
-        .inner-pop-text { position: absolute; bottom: 40px; width: 85%; background: rgba(10,10,10,0.8); padding: 20px; border-radius: 15px; border: 1px solid #007aff; text-align: center; font-size: 0.9rem; line-height: 1.5; }
-        .close-modal { position: absolute; top: 30px; right: 30px; background: #ff3b30; border: none; color: #fff; width: 45px; height: 45px; border-radius: 50%; font-weight: 900; font-size: 22px; z-index: 100001; box-shadow: 0 0 15px rgba(255,59,48,0.5); }
+        #photo-modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; align-items: center; justify-content: center; }
+        .modal-img { width: 100%; height: 100%; object-fit: contain; }
+        .inner-pop-text { position: absolute; bottom: 30px; width: 90%; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border: 1px solid #007aff; text-align: center; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
-        /* Controles */
-        .nav-controls { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 25px; z-index: 10001; }
-        .nav-btn { background: rgba(0,122,255,0.15); border: 1px solid #007aff; color: #fff; width: 50px; height: 50px; border-radius: 50%; font-weight: bold; backdrop-filter: blur(5px); }
-        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .dot.active { background: #007aff; transform: scale(1.6); box-shadow: 0 0 10px #007aff; }
+        .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
+        .nav-btn { background: rgba(0,122,255,0.2); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
+        .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: #007aff; transform: scale(1.5); }
     </style>
 </head>
 <body>
@@ -101,12 +109,12 @@
 
 <div id="splash" onclick="startJourney()">
     <svg class="heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <p style="margin-top:25px; letter-spacing:4px; font-size:0.75rem; font-weight:600; color:rgba(255,255,255,0.6)">CLIQUE PARA ENTRAR</p>
+    <p style="margin-top:20px; letter-spacing:3px; font-size:0.7rem; opacity:0.7;">ENTRAR</p>
 </div>
 
 <div class="nav-controls" id="controls" style="display:none">
     <button class="nav-btn" onclick="nav(-1)">←</button>
-    <div id="dots" style="display:flex; gap:10px"></div>
+    <div id="dots" style="display:flex; gap:8px"></div>
     <button class="nav-btn" onclick="nav(1)">→</button>
 </div>
 
@@ -119,34 +127,34 @@
 <div id="pages-container">
     <section class="page active">
         <h1 class="main-title">Para meu <span class="key-green">Jacaré</span></h1>
-        <div style="width:160px; height:160px; border-radius:50%; border:3px solid #ff3b30; background:url('foto-capa.jpg') center/cover; margin-bottom:20px; box-shadow: 0 0 25px rgba(255,59,48,0.4);"></div>
-        <div class="glass-card"><div id="type-p1" style="font-size:0.95rem; text-align:justify; line-height:1.6"></div></div>
-        <div style="display:flex; gap:12px; width:100%; max-width:400px;">
-            <div class="glass-card" style="flex:1; text-align:center; margin-bottom:0;"><span id="h1" class="key-red" style="font-size:1.6rem">0</span><br><small style="opacity:0.6; font-size:0.6rem; letter-spacing:1px">HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center; margin-bottom:0;"><span id="s1" class="key-blue" style="font-size:1.6rem">0</span><br><small style="opacity:0.6; font-size:0.6rem; letter-spacing:1px">SEGS</small></div>
+        <div style="width:150px; height:150px; border-radius:50%; border:3px solid #ff3b30; background:url('foto-capa.jpg') center/cover; margin-bottom:20px;"></div>
+        <div class="glass-card"><div id="type-p1" style="font-size:0.9rem; text-align:justify;"></div></div>
+        <div style="display:flex; gap:10px; width:100%; max-width:400px;">
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.5rem">0</span><br><small>HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.5rem">0</span><br><small>SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid #007aff; margin-bottom:15px; box-shadow: 0 0 20px rgba(0,122,255,0.3);"></video>
-        <div class="glass-card"><div id="type-p2" style="font-size:0.85rem; text-align:justify; line-height:1.6"></div></div>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid #007aff; margin-bottom:15px;"></video>
+        <div class="glass-card"><div id="type-p2" style="font-size:0.8rem; text-align:justify;"></div></div>
     </section>
 
-    <section class="page" id="p3">
+    <section class="page">
         <div class="explosion-grid">
-            <img src="foto4.jpg" class="photo-pop" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
-            <img src="foto2.jpg" class="photo-pop" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
-            <img src="foto3.jpg" class="photo-pop" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
-            <img src="foto1.jpg" class="photo-pop" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+            <img src="foto4.jpg" class="photo-pop" style="border-color:#007aff; box-shadow: 0 0 15px #007aff;" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
+            <img src="foto2.jpg" class="photo-pop" style="border-color:#ff3b30; box-shadow: 0 0 15px #ff3b30;" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas...')">
+            <img src="foto3.jpg" class="photo-pop" style="border-color:#ffd700; box-shadow: 0 0 15px #ffd700;" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto...')">
+            <img src="foto1.jpg" class="photo-pop" style="border-color:#39ff14; box-shadow: 0 0 15px #39ff14;" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo...')">
         </div>
     </section>
 
     <section class="page">
         <div style="text-align:center">
-            <div style="font-size:60px; margin-bottom:10px">🐊</div>
+            <div style="font-size:50px">🐊</div>
             <h2 class="main-title">Promessa Inabalável</h2>
-            <p class="key-red" style="font-size:2.2rem">eu te amo</p>
-            <p class="key-green" style="margin-top:15px; letter-spacing:2px; font-weight:600">para todo o sempre</p>
+            <p class="key-red" style="font-size:2rem">eu te amo</p>
+            <p class="key-green" style="margin-top:10px">para todo o sempre</p>
         </div>
     </section>
 </div>
@@ -162,16 +170,12 @@
     const pages = document.querySelectorAll('.page');
 
     function startJourney() {
-        document.getElementById('splash').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('splash').style.display = 'none';
-            document.getElementById('controls').style.display = 'flex';
-            bgMusic.volume = 0.6;
-            bgMusic.play().catch(e => console.log("Interação necessária"));
-            typeWriter(TXT1, "type-p1", 40);
-            setInterval(updateCounter, 1000);
-            setupDots(); initStars();
-        }, 500);
+        document.getElementById('splash').style.display = 'none';
+        document.getElementById('controls').style.display = 'flex';
+        bgMusic.volume = 0.6; bgMusic.play();
+        typeWriter(TXT1, "type-p1", 40);
+        setInterval(updateCounter, 1000);
+        setupDots(); initStars();
     }
 
     function setupDots() {
@@ -191,25 +195,47 @@
         pages[current].classList.add('active');
         document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
         document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-        
         if(current === 1) { 
-            fadeAudio(bgMusic, 0.1);
-            video.play(); 
+            fadeAudio(bgMusic, 0.1); video.play(); 
             if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } 
-        } else {
-            video.pause();
-            fadeAudio(bgMusic, 0.6);
-        }
+        } else { video.pause(); fadeAudio(bgMusic, 0.6); }
     }
 
     function fadeAudio(audio, target) {
         clearInterval(fadeInterval);
-        const step = 0.05;
         fadeInterval = setInterval(() => {
-            if (audio.volume < target - step) audio.volume += step;
-            else if (audio.volume > target + step) audio.volume -= step;
+            if (audio.volume < target - 0.05) audio.volume += 0.05;
+            else if (audio.volume > target + 0.05) audio.volume -= 0.05;
             else { audio.volume = target; clearInterval(fadeInterval); }
         }, 50);
+    }
+
+    function typeWriter(text, elId, speed) {
+        let i = 0, el = document.getElementById(elId), target = el;
+        function type() {
+            if (i < text.length) {
+                if (text[i] === '<') {
+                    let end = text.indexOf('>', i);
+                    let tag = text.substring(i, end + 1);
+                    i = end + 1;
+                    if (tag.startsWith('</')) { target = el; } 
+                    else if (tag.includes('br')) { el.innerHTML += '<br>'; }
+                    else {
+                        let span = document.createElement('span');
+                        let match = tag.match(/class=['"]([^'"]+)['"]/);
+                        if (match) span.className = match[1];
+                        el.appendChild(span);
+                        target = span;
+                    }
+                    type();
+                } else {
+                    target.innerHTML += text[i];
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+        }
+        type();
     }
 
     function openModal(src, txt) {
@@ -220,24 +246,6 @@
 
     function closeModal() { document.getElementById('photo-modal').style.display = 'none'; }
 
-    function typeWriter(text, elId, speed) {
-        let i = 0, el = document.getElementById(elId);
-        function type() {
-            if (i < text.length) {
-                if (text[i] === '<') { 
-                    let end = text.indexOf('>', i); 
-                    el.innerHTML += text.substring(i, end + 1); 
-                    i = end + 1; 
-                } else { 
-                    el.innerHTML += text[i]; 
-                    i++; 
-                }
-                setTimeout(type, speed);
-            }
-        }
-        type();
-    }
-
     function updateCounter() {
         const diff = new Date() - START_DATE;
         document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
@@ -247,7 +255,7 @@
     function initStars() {
         const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
         c.width = window.innerWidth; c.height = window.innerHeight;
-        const stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.4 }));
+        const stars = Array(100).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.5 }));
         function draw() {
             ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff";
             stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y-=0.3; if(s.y<0) s.y=c.height; });
@@ -257,12 +265,12 @@
     }
 
     let startX;
-    document.addEventListener('touchstart', e => startX = e.touches[0].clientX, {passive: true});
+    document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
     document.addEventListener('touchend', e => {
         if(document.getElementById('photo-modal').style.display === 'flex') return;
         let diff = startX - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 60) nav(diff > 0 ? 1 : -1);
-    }, {passive: true});
+    });
 </script>
 </body>
 </html>
