@@ -68,14 +68,12 @@
         .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        /* Grade de fotos com proporção real e sem ocupar tudo */
         .explosion-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 12px; 
             width: 90%; 
             max-width: 320px; 
-            max-height: 60dvh;
         }
         .photo-pop { 
             width: 100%; 
@@ -90,9 +88,34 @@
         .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100000; display: none; align-items: center; justify-content: center; }
-        .modal-img { max-width: 90%; max-height: 70%; object-fit: contain; border-radius: 10px; }
-        .inner-pop-text { position: absolute; bottom: 30px; width: 85%; background: rgba(10,10,10,0.9); padding: 15px; border-radius: 15px; border: 1px solid #007aff; text-align: center; font-size: 0.85rem; }
+        /* Ajuste de proporção no Modal para não ocupar a tela inteira */
+        #photo-modal { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.92); 
+            z-index: 100000; 
+            display: none; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+        }
+        .modal-img { 
+            max-width: 85%; 
+            max-height: 60%; 
+            object-fit: contain; 
+            border-radius: 10px; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        .inner-pop-text { 
+            margin-top: 20px;
+            width: 85%; 
+            background: rgba(15, 15, 15, 0.9); 
+            padding: 15px; 
+            border-radius: 15px; 
+            border: 1px solid #007aff; 
+            text-align: center; 
+            font-size: 0.85rem; 
+        }
         .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
         .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
