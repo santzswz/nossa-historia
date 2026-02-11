@@ -54,33 +54,13 @@
             width: 100%; 
             max-width: 400px; 
             overflow-y: auto;
-            max-height: 50dvh;
+            max-height: 45dvh;
         }
 
-        .key-red { 
-            color: #ff3b30 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #ff3b30, 0 0 15px rgba(255,59,48,0.5) !important;
-            display: inline-block;
-        }
-        .key-blue { 
-            color: #007aff !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #007aff, 0 0 15px rgba(0,122,255,0.5) !important;
-            display: inline-block;
-        }
-        .key-green { 
-            color: #39ff14 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57,255,20,0.6) !important;
-            display: inline-block;
-        }
-        .key-golden { 
-            color: #ffd700 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255,215,0,0.6) !important;
-            display: inline-block;
-        }
+        .key-red { color: #ff3b30 !important; font-weight: 900 !important; text-shadow: 0 0 8px #ff3b30, 0 0 15px rgba(255,59,48,0.5) !important; display: inline-block; }
+        .key-blue { color: #007aff !important; font-weight: 900 !important; text-shadow: 0 0 8px #007aff, 0 0 15px rgba(0,122,255,0.5) !important; display: inline-block; }
+        .key-green { color: #39ff14 !important; font-weight: 900 !important; text-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57,255,20,0.6) !important; display: inline-block; }
+        .key-golden { color: #ffd700 !important; font-weight: 900 !important; text-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255,215,0,0.6) !important; display: inline-block; }
         
         .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
 
@@ -88,18 +68,35 @@
         .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
 
-        .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
-        .photo-pop { width: 100%; aspect-ratio: 1; border-radius: 15px; object-fit: cover; border: 2px solid #fff; transform: scale(0); opacity: 0; }
+        /* Grade de fotos com proporção real e sem ocupar tudo */
+        .explosion-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+            width: 90%; 
+            max-width: 320px; 
+            max-height: 60dvh;
+        }
+        .photo-pop { 
+            width: 100%; 
+            height: 140px; 
+            border-radius: 12px; 
+            object-fit: contain; 
+            background: rgba(255,255,255,0.05);
+            border: 2px solid #fff; 
+            transform: scale(0); 
+            opacity: 0; 
+        }
         .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        #photo-modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; height: 100%; object-fit: contain; }
-        .inner-pop-text { position: absolute; bottom: 30px; width: 90%; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border: 1px solid #007aff; text-align: center; }
+        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100000; display: none; align-items: center; justify-content: center; }
+        .modal-img { max-width: 90%; max-height: 70%; object-fit: contain; border-radius: 10px; }
+        .inner-pop-text { position: absolute; bottom: 30px; width: 85%; background: rgba(10,10,10,0.9); padding: 15px; border-radius: 15px; border: 1px solid #007aff; text-align: center; font-size: 0.85rem; }
         .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
         .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
-        .nav-btn { background: rgba(0,122,255,0.2); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
+        .nav-btn { background: rgba(0,122,255,0.1); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
         .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
         .dot.active { background: #007aff; transform: scale(1.5); }
     </style>
@@ -130,33 +127,33 @@
 <div id="pages-container">
     <section class="page active">
         <h1 class="main-title">Para meu <span class="key-green">Jacaré</span></h1>
-        <div style="width:150px; height:150px; border-radius:50%; border:3px solid #ff3b30; background:url('foto-capa.jpg') center/cover; margin-bottom:20px;"></div>
+        <div style="width:140px; height:140px; border-radius:50%; border:3px solid #ff3b30; background:url('foto-capa.jpg') center/cover; margin-bottom:20px;"></div>
         <div class="glass-card"><div id="type-p1" style="font-size:0.9rem; text-align:justify;"></div></div>
         <div style="display:flex; gap:10px; width:100%; max-width:400px;">
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.5rem">0</span><br><small>HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.5rem">0</span><br><small>SEGS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.4rem">0</span><br><small>HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.4rem">0</span><br><small>SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid #007aff; margin-bottom:15px;"></video>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:300px; border-radius:15px; border:1px solid #007aff; margin-bottom:15px;"></video>
         <div class="glass-card"><div id="type-p2" style="font-size:0.8rem; text-align:justify;"></div></div>
     </section>
 
     <section class="page">
         <div class="explosion-grid">
-            <img src="foto4.jpg" class="photo-pop" style="border-color:#007aff; box-shadow: 0 0 15px #007aff;" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
-            <img src="foto2.jpg" class="photo-pop" style="border-color:#ff3b30; box-shadow: 0 0 15px #ff3b30;" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
-            <img src="foto3.jpg" class="photo-pop" style="border-color:#ffd700; box-shadow: 0 0 15px #ffd700;" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
-            <img src="foto1.jpg" class="photo-pop" style="border-color:#39ff14; box-shadow: 0 0 15px #39ff14;" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+            <img src="foto4.jpg" class="photo-pop" style="border-color:#007aff; box-shadow: 0 0 12px #007aff;" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
+            <img src="foto2.jpg" class="photo-pop" style="border-color:#ff3b30; box-shadow: 0 0 12px #ff3b30;" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
+            <img src="foto3.jpg" class="photo-pop" style="border-color:#ffd700; box-shadow: 0 0 12px #ffd700;" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
+            <img src="foto1.jpg" class="photo-pop" style="border-color:#39ff14; box-shadow: 0 0 12px #39ff14;" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
         </div>
     </section>
 
     <section class="page">
         <div style="text-align:center">
-            <div style="font-size:50px">🐊</div>
+            <div style="font-size:45px">🐊</div>
             <h2 class="main-title">Promessa Inabalável</h2>
-            <p class="key-red" style="font-size:2rem">eu te amo</p>
+            <p class="key-red" style="font-size:1.8rem">eu te amo</p>
             <p class="key-green" style="margin-top:10px">para todo o sempre</p>
         </div>
     </section>
@@ -212,11 +209,9 @@
                     let end = text.indexOf('>', i);
                     let tag = text.substring(i, end + 1);
                     i = end + 1;
-                    if (tag.startsWith('</')) { 
-                        activeTarget = el; 
-                    } else if (tag.includes('br')) { 
-                        el.innerHTML += '<br>'; 
-                    } else {
+                    if (tag.startsWith('</')) { activeTarget = el; } 
+                    else if (tag.includes('br')) { el.innerHTML += '<br>'; }
+                    else {
                         let span = document.createElement('span');
                         let match = tag.match(/class=['"]([^'"]+)['"]/);
                         if (match) span.className = match[1];
