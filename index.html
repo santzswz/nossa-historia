@@ -52,10 +52,10 @@
         }
 
         /* Cores Vibrantes */
-        .c-red { color: var(--neon-red); font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
-        .c-blue { color: var(--neon-blue); font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
-        .c-green { color: var(--neon-green); font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
-        .c-gold { color: var(--neon-gold); font-weight: 900; text-shadow: 0 0 10px var(--neon-gold); }
+        .c-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-red); }
+        .c-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-blue); }
+        .c-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
+        .c-gold { color: var(--neon-gold) !important; font-weight: 900; text-shadow: 0 0 10px var(--neon-gold); }
 
         /* Animações */
         @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); } 50% { transform: scale(1.1); filter: drop-shadow(0 0 30px var(--neon-red)); } 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--neon-red)); } }
@@ -137,7 +137,7 @@
         const CONFIG = {
             date: new Date("2025-05-08T20:00:00"),
             txt1: "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='c-red'>eu te amo</span>, minha <span class='c-green'>jacaré</span>! 🐊❤️",
-            txt2: "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida... <span class='c-blue'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='c-red'>coração</span> sente em cada batida."
+            txt2: "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='c-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='c-gold'>intensidade</span>. Nossas <span class='c-blue'>conversas</span> construíram algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa. Você tem esse jeito de tornar as coisas <span class='c-blue'>leves</span>. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='c-gold'>ouro</span>. Quero te dar o meu melhor. Você é minha <span class='c-red'>Princesa</span>, minha <span class='c-green'>menina</span> teimosa favorita e a dona do meu <span class='c-blue'>sorriso</span>. <span class='c-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='c-red'>coração</span> sente em cada batida."
         };
 
         let current = 0, hasTyped = false;
@@ -154,8 +154,14 @@
             let i = 0; const el = document.getElementById(id);
             function run() {
                 if (i < text.length) {
-                    if (text[i] === '<') { const end = text.indexOf('>', i); el.innerHTML += text.substring(i, end + 1); i = end + 1; }
-                    else { el.innerHTML += text[i]; i++; }
+                    if (text[i] === '<') { 
+                        let end = text.indexOf('>', i); 
+                        el.innerHTML += text.substring(i, end + 1); 
+                        i = end + 1; 
+                    } else { 
+                        el.innerHTML += text[i]; 
+                        i++; 
+                    }
                     setTimeout(run, speed);
                 }
             }
@@ -169,12 +175,10 @@
                 document.getElementById('controls').style.display = 'flex';
                 audio.play(); setInterval(update, 1000);
                 type(CONFIG.txt1, "type-p1", 40);
-                // Estrelas
                 const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
                 c.width = window.innerWidth; c.height = window.innerHeight;
                 const stars = Array(150).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.5 }));
                 function draw() { ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); s.y-=0.4; if(s.y<0) s.y=c.height; }); requestAnimationFrame(draw); } draw();
-                // Dots
                 const dots = document.getElementById('dots'); pages.forEach((_, i) => { const d = document.createElement('div'); d.className = `dot ${i===0?'active':''}`; dots.appendChild(d); });
             },
             nav: (dir) => {
