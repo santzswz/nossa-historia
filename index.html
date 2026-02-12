@@ -50,7 +50,7 @@
 <div id="pages-container">
     <section class="page active">
         <h1 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:15px;">Para meu <span class="c-green">Jacaré</span></h1>
-        <img src="foto-home.jpg" class="foto-destaque" alt="Nossa Foto">
+        <img src="foto4.jpg" class="foto-destaque" alt="Nossa Foto">
         <div class="glass-card" style="text-align:center; border-color:var(--neon-gold); padding: 10px;">
             <div class="c-gold" style="font-size:1.4rem;">9 MESES <span style="animation: spin 4s infinite linear; display:inline-block;">⏳</span></div>
         </div>
@@ -71,7 +71,7 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:400px;">
             <img src="foto4.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-blue); object-fit:cover;" onclick="app.openModal('foto4.jpg', 'Nossa primeira foto 🥹')">
             <img src="foto2.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-red); object-fit:cover;" onclick="app.openModal('foto2.jpg', 'Nossa primeira volta juntos 😅')">
-            <img src="foto3.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-gold); object-fit:cover;" onclick="app.openModal('foto3.jpg', 'Natal magnífico 🫠')">
+            <img src="foto3.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-gold); object-fit:cover;" onclick="app.openModal('foto3.jpg', 'Primeiro natal juntos..🫠')">
             <img src="foto1.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-green); object-fit:cover;" onclick="app.openModal('foto1.jpg', 'Virada de ano 2026 ❤️')">
         </div>
     </section>
@@ -107,36 +107,45 @@
 
         let current = 0, hasTyped = false;
         const pages = document.querySelectorAll('.page');
+        const music = document.getElementById('bg-music');
+        const video = document.getElementById('main-video');
+
+        function fadeAudio(audio, target, duration) {
+            const initial = audio.volume;
+            const step = (target - initial) / (duration / 50);
+            const interval = setInterval(() => {
+                let next = audio.volume + step;
+                if ((step > 0 && next >= target) || (step < 0 && next <= target)) {
+                    audio.volume = target;
+                    clearInterval(interval);
+                } else { audio.volume = next; }
+            }, 50);
+        }
 
         function type(text, id, speed) {
             const el = document.getElementById(id);
-            let i = 0;
-            el.innerHTML = "";
+            let i = 0; el.innerHTML = "";
             function run() {
                 if (i < text.length) {
                     if (text.slice(i).startsWith("<span")) {
                         let endTag = text.indexOf("</span>", i) + 7;
                         let fullTag = text.substring(i, endTag);
                         let opening = fullTag.substring(0, fullTag.indexOf(">") + 1);
-                        let closing = "</span>";
                         let content = fullTag.substring(opening.length, fullTag.length - 7);
                         let charIndex = 0;
                         function typeInside() {
                             if (charIndex <= content.length) {
-                                el.innerHTML = text.substring(0, i) + opening + content.substring(0, charIndex) + closing;
-                                charIndex++;
-                                setTimeout(typeInside, speed);
+                                el.innerHTML = text.substring(0, i) + opening + content.substring(0, charIndex) + "</span>";
+                                charIndex++; setTimeout(typeInside, speed);
                             } else { i = endTag; run(); }
                         }
                         typeInside();
                     } else if (text[i] === '<') {
                         let end = text.indexOf('>', i);
                         el.innerHTML += text.substring(i, end + 1);
-                        i = end + 1;
-                        run();
+                        i = end + 1; run();
                     } else {
-                        el.innerHTML += text[i];
-                        i++;
+                        el.innerHTML += text[i]; i++;
                         setTimeout(run, speed);
                     }
                 }
@@ -153,7 +162,7 @@
         return {
             start: () => {
                 document.getElementById('splash').style.display = 'none';
-                document.getElementById('bg-music').play().catch(()=>{});
+                music.volume = 1; music.play().catch(()=>{});
                 setInterval(update, 1000);
                 type(CONFIG.txt1, "type-p1", 40);
                 const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
@@ -162,14 +171,18 @@
                 function draw() { ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); s.y-=0.2; if(s.y<0) s.y=c.height; }); requestAnimationFrame(draw); } draw();
             },
             nav: (dir) => {
+                let prev = current;
                 pages[current].classList.remove('active');
                 current = Math.max(0, Math.min(pages.length - 1, current + dir));
                 pages[current].classList.add('active');
                 document.getElementById('p-bar').style.width = ((current + 1)/pages.length)*100 + "%";
+                
                 if(current === 1) { 
-                    document.getElementById('main-video').play(); 
+                    fadeAudio(music, 0, 1000); video.play(); 
                     if(!hasTyped) { type(CONFIG.txt2, "type-p2", 20); hasTyped = true; } 
-                } else document.getElementById('main-video').pause();
+                } else if(prev === 1) {
+                    video.pause(); fadeAudio(music, 1, 1500);
+                }
             },
             openModal: (s, t) => { document.getElementById('modal-img').src = s; document.getElementById('modal-text').innerText = t; document.getElementById('photo-modal').style.display = 'flex'; },
             closeModal: () => document.getElementById('photo-modal').style.display = 'none'
