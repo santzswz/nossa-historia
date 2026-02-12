@@ -87,7 +87,7 @@
         .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        /* Modal com foto menor e sem esticar */
+        /* Ajuste de Encaixe Perfeito sem Zoom */
         #photo-modal { 
             position: fixed; 
             inset: 0; 
@@ -99,20 +99,22 @@
             justify-content: center; 
         }
         .modal-img { 
-            width: 65%; 
-            height: 65%; 
-            object-fit: contain; /* Garante que não estique */
-            border-radius: 8px;
+            width: auto;
+            height: auto;
+            max-width: 90%; 
+            max-height: 70%; 
+            object-fit: contain; 
+            border-radius: 4px;
         }
         .inner-pop-text { 
-            margin-top: 15px;
+            margin-top: 20px;
             width: 85%; 
-            background: rgba(10, 10, 10, 0.9); 
-            padding: 12px; 
+            background: rgba(15, 15, 15, 0.95); 
+            padding: 15px; 
             border-radius: 12px; 
             border: 1px solid var(--neon-blue); 
             text-align: center; 
-            font-size: 0.8rem; 
+            font-size: 0.85rem; 
         }
         .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
