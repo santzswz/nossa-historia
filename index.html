@@ -11,95 +11,139 @@
             --neon-green: #4cd964; --neon-gold: #ffcc00; 
             --bg-dark: #050505; --glass: rgba(15, 15, 15, 0.9);
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body, html { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; width: 100%; overflow: hidden; position: fixed; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
+        body, html { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; width: 100%; overflow: hidden; position: fixed; touch-action: none; }
         
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.6; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green)); z-index: 1000; transition: width 0.6s ease; width: 0%; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green)); z-index: 1000; transition: width 0.4s ease; width: 0%; }
         
-        .c-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-red); }
-        .c-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-blue); }
-        .c-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-green); }
-        .c-gold { color: var(--neon-gold) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-gold); }
+        /* Cores */
+        .c-red { color: var(--neon-red); font-weight: 900; text-shadow: 0 0 8px var(--neon-red); }
+        .c-blue { color: var(--neon-blue); font-weight: 900; text-shadow: 0 0 8px var(--neon-blue); }
+        .c-green { color: var(--neon-green); font-weight: 900; text-shadow: 0 0 8px var(--neon-green); }
+        .c-gold { color: var(--neon-gold); font-weight: 900; text-shadow: 0 0 8px var(--neon-gold); }
 
-        #pages-container { position: relative; z-index: 10; height: 100%; width: 100%; }
-        .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: scale(0.95); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .page.active { opacity: 1; visibility: visible; transform: scale(1); }
-        .glass-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 15px; margin-bottom: 12px; width: 100%; max-width: 400px; }
+        /* Estrutura de Páginas */
+        #pages-container { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 10; pointer-events: none; }
+        .page { 
+            position: absolute; inset: 0; padding: 20px 20px 80px 20px; /* Padding bottom extra para nav */
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            opacity: 0; visibility: hidden; transform: scale(0.95); 
+            transition: opacity 0.5s ease, transform 0.5s ease; 
+            pointer-events: none;
+        }
+        .page.active { opacity: 1; visibility: visible; transform: scale(1); pointer-events: auto; }
         
-        .foto-destaque { width: 100%; max-width: 250px; aspect-ratio: 1/1; border-radius: 20px; border: 3px solid var(--neon-green); object-fit: cover; box-shadow: 0 0 20px var(--neon-green); margin-bottom: 15px; }
+        /* Cards */
+        .glass-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 15px; margin-bottom: 10px; width: 100%; max-width: 380px; box-shadow: 0 4px 30px rgba(0,0,0,0.5); backdrop-filter: blur(5px); }
+        
+        /* Imagens e Vídeo */
+        .foto-destaque { width: 180px; height: 180px; border-radius: 20px; border: 3px solid var(--neon-green); object-fit: cover; box-shadow: 0 0 15px var(--neon-green); margin-bottom: 15px; }
+        video { width: 100%; max-height: 40vh; border-radius: 15px; border: 2px solid var(--neon-blue); margin-bottom: 10px; background: #000; }
 
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.6s ease, visibility 0.6s; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        /* Splash Screen */
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
-        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .modal-img { max-width: 100%; max-height: 60vh; border-radius: 15px; border: 2px solid var(--neon-blue); object-fit: contain; }
+        /* Galeria Grid Mobile */
+        .grid-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; max-width: 380px; }
+        .grid-gallery img { width: 100%; aspect-ratio: 4/5; border-radius: 12px; object-fit: cover; border: 1px solid #333; }
+
+        /* Modal */
+        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 10000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(10px); }
+        .modal-img { max-width: 100%; max-height: 60vh; border-radius: 15px; border: 2px solid var(--neon-blue); object-fit: contain; box-shadow: 0 0 30px rgba(0,210,255,0.3); }
+
+        /* Navegação */
+        .nav-container { 
+            position: fixed; bottom: 20px; left: 0; right: 0; 
+            display: flex; justify-content: center; gap: 40px; 
+            z-index: 5000; pointer-events: none; opacity: 0; transition: opacity 0.5s;
+        }
+        .nav-container.show { pointer-events: auto; opacity: 1; }
+        .btn-nav { 
+            width: 60px; height: 60px; border-radius: 50%; 
+            background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.2); 
+            font-size: 1.5rem; display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(10px); box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .btn-nav:active { transform: scale(0.9); background: rgba(255,255,255,0.3); }
         
-        .nav-container { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 100; opacity: 0; pointer-events: none; transition: 0.5s; }
-        .nav-container.show { opacity: 1; pointer-events: auto; }
-        .btn-nav { width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); color: white; border: none; backdrop-filter: blur(10px); font-size: 1.2rem; cursor: pointer; }
+        /* Scroll texto */
+        .scroll-text { max-height: 35vh; overflow-y: auto; text-align: justify; font-size: 0.9rem; padding-right: 5px; }
     </style>
 </head>
 <body>
 
-<audio id="bg-music" src="foi-assim.mp3" loop></audio>
+<audio id="bg-music" src="foi-assim.mp3" loop preload="auto"></audio>
 <canvas id="star-canvas"></canvas>
 <div class="progress-bar" id="p-bar"></div>
 
 <div id="splash" onclick="app.start()">
-    <div style="font-size:70px; filter: drop-shadow(0 0 20px var(--neon-red)); animation: pulse 1.2s infinite;">❤️</div>
-    <p style="margin-top:20px; letter-spacing:5px; font-weight:700; color:var(--neon-blue); font-size: 0.7rem;">TOQUE PARA ENTRAR</p>
+    <div style="font-size:80px; filter: drop-shadow(0 0 25px var(--neon-red)); animation: pulse 1.5s infinite;">❤️</div>
+    <p style="margin-top:20px; letter-spacing:4px; font-weight:700; color:var(--neon-blue); font-size: 0.8rem;">TOQUE PARA COMEÇAR</p>
 </div>
 
 <div id="pages-container">
     <section class="page">
-        <h1 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:15px;">Para meu <span class="c-green">Jacaré</span></h1>
-        <img src="foto-capa.jpg" class="foto-destaque" alt="Nossa Foto">
-        <div class="glass-card" style="text-align:center; border-color:var(--neon-gold); padding: 10px;">
-            <div class="c-gold" style="font-size:1.4rem;">9 MESES <span style="animation: spin 4s infinite linear; display:inline-block;">⏳</span></div>
+        <h1 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:10px;">Para meu <span class="c-green">Jacaré</span></h1>
+        <img src="foto-capa.jpg" class="foto-destaque" alt="Capa">
+        
+        <div class="glass-card" style="text-align:center; border-color:var(--neon-gold); padding:8px;">
+            <div class="c-gold" style="font-size:1.2rem; font-weight:bold;">9 MESES <span style="display:inline-block;">⏳</span></div>
         </div>
-        <div class="glass-card"><div id="type-p1" style="font-size:0.85rem; line-height:1.5;"></div></div>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; width:100%; max-width:400px;">
-            <div class="glass-card" style="margin:0; text-align:center; padding: 10px;"><span id="h1" class="c-red" style="font-size:1.3rem">0</span><div style="font-size:0.6rem;">HORAS</div></div>
-            <div class="glass-card" style="margin:0; text-align:center; padding: 10px;"><span id="s1" class="c-blue" style="font-size:1.3rem">0</span><div style="font-size:0.6rem;">SEGUNDOS</div></div>
+
+        <div class="glass-card" style="min-height: 80px; display:flex; align-items:center;">
+            <div id="type-p1" style="font-size:0.85rem; line-height:1.4; width:100%;"></div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; width:100%; max-width:380px;">
+            <div class="glass-card" style="margin:0; text-align:center; padding: 10px;">
+                <span id="h1" class="c-red" style="font-size:1.2rem">0</span>
+                <div style="font-size:0.6rem; letter-spacing:1px; margin-top:3px;">HORAS</div>
+            </div>
+            <div class="glass-card" style="margin:0; text-align:center; padding: 10px;">
+                <span id="s1" class="c-blue" style="font-size:1.2rem">0</span>
+                <div style="font-size:0.6rem; letter-spacing:1px; margin-top:3px;">SEGUNDOS</div>
+            </div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:20px; border:2px solid var(--neon-blue); margin-bottom:15px;"></video>
-        <div class="glass-card" style="max-height:45dvh; overflow-y:auto; scrollbar-width: none;"><div id="type-p2" style="font-size:0.85rem; line-height:1.6; text-align: justify;"></div></div>
+        <video id="main-video" src="seu-video.mp4" loop playsinline preload="auto"></video>
+        <div class="glass-card">
+            <div id="type-p2" class="scroll-text"></div>
+        </div>
     </section>
 
     <section class="page">
-        <h2 style="font-size:1.6rem; margin-bottom:20px;" class="c-blue">Nossas Memórias</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; width:100%; max-width:400px;">
-            <img src="foto1.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-blue); object-fit:cover;" onclick="app.openModal('foto1.jpg', 'nossa primeira foto juntos, onde registramos o carinho do nosso quarto mês.🥺')">
-            <img src="foto2.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-red); object-fit:cover;" onclick="app.openModal('foto2.jpg', 'nossaa primeiraaa voltinhaa juntoo, aqui nos fomos ver o pôr do soll juntinhos cheio de vergonha, mãos reciosas e sorrisos envergonhados mas já apaixonados.. As pessoas mandando eu te agarrar kakakak, lembraaa mohhh?')">
-            <img src="foto3.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-gold); object-fit:cover;" onclick="app.openModal('foto3.jpg', 'nesta foto foi nossooo natalll juntinhooo, devemos uma volta, onde eu te dei a correntinha e que você estava magnífica com aquele vestido vermelho😩')">
-            <img src="foto4.jpg" style="width:100%; aspect-ratio:4/5; border-radius:15px; border:1px solid var(--neon-green); object-fit:cover;" onclick="app.openModal('foto4.jpg', 'aqui foi onde completamos nosso sétimo mês, nosso primeiro ano novo e nosso primeiro de janeiro. Infelizmente eu n pude acordar ao seu lado em 1 de janeiro, mas estive ao seu lado no mesmo, passamos por diversas dificuldades até chegar ali, mas chegamoss apenas no sétimo, hoje completamos 9🥹!')">
+        <h2 style="font-size:1.5rem; margin-bottom:15px;" class="c-blue">Nossas Memórias</h2>
+        <div class="grid-gallery">
+            <img src="foto1.jpg" style="border-color:var(--neon-blue)" onclick="app.openModal('foto1.jpg', 'nossa primeira foto juntos, onde registramos o carinho do nosso quarto mês.🥺')">
+            <img src="foto2.jpg" style="border-color:var(--neon-red)" onclick="app.openModal('foto2.jpg', 'nossaa primeiraaa voltinhaa juntoo, aqui nos fomos ver o pôr do soll juntinhos cheio de vergonha, mãos reciosas e sorrisos envergonhados mas já apaixonados.. As pessoas mandando eu te agarrar kakakak, lembraaa mohhh?')">
+            <img src="foto3.jpg" style="border-color:var(--neon-gold)" onclick="app.openModal('foto3.jpg', 'nesta foto foi nossooo natalll juntinhooo, devemos uma volta, onde eu te dei a correntinha e que você estava magnífica com aquele vestido vermelho😩')">
+            <img src="foto4.jpg" style="border-color:var(--neon-green)" onclick="app.openModal('foto4.jpg', 'aqui foi onde completamos nosso sétimo mês, nosso primeiro ano novo e nosso primeiro de janeiro. Infelizmente eu n pude acordar ao seu lado em 1 de janeiro, mas estive ao seu lado no mesmo, passamos por diversas dificuldades até chegar ali, mas chegamoss apenas no sétimo, hoje completamos 9🥹!')">
         </div>
     </section>
 
     <section class="page">
         <div style="text-align:center;">
-            <div style="font-size:90px; filter: drop-shadow(0 0 30px var(--neon-green)); margin-bottom: 15px;">🐊</div>
-            <h2 style="font-family:'Playfair Display'; font-size:2.2rem;">Promessa Inabalável</h2>
-            <p class="c-red" style="font-size:3.5rem; letter-spacing: -2px; animation: pulse 2s infinite;">eu te amo</p>
-            <p class="c-green" style="font-size: 0.9rem; letter-spacing: 6px; font-weight: 900;">PARA TODO O SEMPRE</p>
+            <div style="font-size:80px; filter: drop-shadow(0 0 20px var(--neon-green)); margin-bottom: 20px;">🐊</div>
+            <h2 style="font-family:'Playfair Display'; font-size:2rem;">Promessa</h2>
+            <p class="c-red" style="font-size:3rem; margin: 10px 0; font-weight:900;">eu te amo</p>
+            <p class="c-green" style="font-size: 0.8rem; letter-spacing: 4px; font-weight: 900;">PARA TODO O SEMPRE</p>
         </div>
     </section>
-</div>
-
-<div id="photo-modal">
-    <button style="position:absolute; top:30px; right:30px; background:var(--neon-red); border:none; color:white; width:45px; height:45px; border-radius:50%;" onclick="app.closeModal()">✕</button>
-    <img id="modal-img" class="modal-img" src="">
-    <div id="modal-text" style="background:#111; border:1px solid var(--neon-blue); padding:15px; border-radius:15px; text-align:center; max-width:400px; margin-top:10px; font-size:0.9rem;"></div>
 </div>
 
 <div class="nav-container" id="nav-btns">
     <button class="btn-nav" onclick="app.nav(-1)">←</button>
     <button class="btn-nav" onclick="app.nav(1)">→</button>
+</div>
+
+<div id="photo-modal">
+    <button style="position:absolute; top:20px; right:20px; background:var(--neon-red); color:white; width:50px; height:50px; border-radius:50%; border:none; font-size:1.5rem; z-index:10001;" onclick="app.closeModal()">✕</button>
+    <img id="modal-img" class="modal-img" src="">
+    <div id="modal-text" style="background:rgba(0,0,0,0.8); border:1px solid var(--neon-blue); padding:20px; border-radius:15px; text-align:center; width:90%; margin-top:15px; font-size:0.95rem; line-height:1.4;"></div>
 </div>
 
 <script>
@@ -114,28 +158,31 @@
         const pages = document.querySelectorAll('.page');
         const music = document.getElementById('bg-music');
         const video = document.getElementById('main-video');
+        const splash = document.getElementById('splash');
 
-        function fadeAudio(audio, target) {
+        function fadeAudio(target) {
             clearInterval(fadeInterval);
-            const step = target > audio.volume ? 0.05 : -0.05;
+            const step = target > music.volume ? 0.05 : -0.05;
             fadeInterval = setInterval(() => {
-                let next = audio.volume + step;
+                let next = music.volume + step;
                 if ((step > 0 && next >= target) || (step < 0 && next <= target)) {
-                    audio.volume = target;
+                    music.volume = target;
                     clearInterval(fadeInterval);
                 } else {
-                    audio.volume = Math.min(1, Math.max(0, next));
+                    music.volume = Math.min(1, Math.max(0, next));
                 }
             }, 50);
         }
 
         function type(text, id, speed) {
             const el = document.getElementById(id);
+            if(!el || el.innerHTML.length > 10) return; // Prevent re-type
             let i = 0; el.innerHTML = "";
             function run() {
                 if (i < text.length) {
                     if (text.slice(i).startsWith("<span")) {
                         let endTag = text.indexOf("</span>", i) + 7;
+                        if(endTag === 6) endTag = text.length; 
                         let fullTag = text.substring(i, endTag);
                         let opening = fullTag.substring(0, fullTag.indexOf(">") + 1);
                         let content = fullTag.substring(opening.length, fullTag.length - 7);
@@ -168,23 +215,28 @@
 
         return {
             start: () => {
-                const splash = document.getElementById('splash');
+                // Prepara áudio e vídeo no clique do usuário (Mobile fix)
+                music.volume = 1; music.play().catch(()=>{});
+                video.pause(); video.currentTime = 0; // Preload logic
+                
+                // Animação de saída
                 splash.style.opacity = '0';
+                
                 setTimeout(() => { 
-                    splash.style.visibility = 'hidden'; 
+                    splash.style.display = 'none'; 
                     document.getElementById('nav-btns').classList.add('show');
                     pages[0].classList.add('active');
                     document.getElementById('p-bar').style.width = "25%";
                     type(CONFIG.txt1, "type-p1", 40);
-                }, 600);
-                
-                music.volume = 1; music.play().catch(()=>{});
+                }, 500);
+
                 setInterval(updateCounter, 1000);
                 
+                // Background
                 const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
                 c.width = window.innerWidth; c.height = window.innerHeight;
-                const stars = Array(100).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.1 }));
-                function draw() { ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); s.y-=0.2; if(s.y<0) s.y=c.height; }); requestAnimationFrame(draw); } draw();
+                const stars = Array(80).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random() }));
+                function draw() { ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); s.y-=0.3; if(s.y<0) s.y=c.height; }); requestAnimationFrame(draw); } draw();
             },
             nav: (dir) => {
                 let prev = current;
@@ -194,10 +246,11 @@
                 document.getElementById('p-bar').style.width = ((current + 1)/pages.length)*100 + "%";
                 
                 if(current === 1) { 
-                    fadeAudio(music, 0); video.volume = 1; video.play(); 
-                    if(!hasTypedP2) { type(CONFIG.txt2, "type-p2", 20); hasTypedP2 = true; } 
-                } else if (prev === 1) {
-                    video.pause(); fadeAudio(music, 1);
+                    fadeAudio(0); 
+                    video.volume = 1; video.play(); 
+                    if(!hasTypedP2) { type(CONFIG.txt2, "type-p2", 15); hasTypedP2 = true; } 
+                } else {
+                    if(prev === 1) { video.pause(); fadeAudio(1); }
                 }
             },
             openModal: (s, t) => { 
