@@ -24,22 +24,22 @@
             position: fixed; 
         }
 
-        #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: #007aff; width: 25%; z-index: 10000; transition: width 0.4s ease; }
+        #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.8; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--neon-blue); width: 25%; z-index: 10000; transition: width 0.4s ease; }
         
         .page { 
             position: absolute; 
             inset: 0; 
             width: 100%; 
             height: 100dvh; 
-            padding: 20px; 
+            padding: 15px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
             justify-content: center;
             opacity: 0; 
             visibility: hidden; 
-            transition: opacity 0.5s ease; 
+            transition: opacity 0.6s ease; 
             z-index: 5; 
         }
         .page.active { opacity: 1; visibility: visible; z-index: 10; }
@@ -50,59 +50,75 @@
             border-radius: 20px; 
             padding: 18px; 
             margin-bottom: 15px; 
-            backdrop-filter: blur(20px); 
+            backdrop-filter: blur(25px); 
             width: 100%; 
             max-width: 400px; 
             overflow-y: auto;
-            max-height: 50dvh;
+            max-height: 35dvh;
         }
 
-        /* Cores Neon - Forçadas para o Texto */
-        .key-red { 
-            color: #ff3b30 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #ff3b30, 0 0 15px rgba(255,59,48,0.5) !important;
-            display: inline-block;
-        }
-        .key-blue { 
-            color: #007aff !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #007aff, 0 0 15px rgba(0,122,255,0.5) !important;
-            display: inline-block;
-        }
-        .key-green { 
-            color: #39ff14 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #39ff14, 0 0 15px rgba(57,255,20,0.6) !important;
-            display: inline-block;
-        }
-        .key-golden { 
-            color: #ffd700 !important; 
-            font-weight: 900 !important; 
-            text-shadow: 0 0 8px #ffd700, 0 0 15px rgba(255,215,0,0.6) !important;
-            display: inline-block;
-        }
+        .key-red { color: var(--neon-red) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-red), 0 0 15px rgba(255,59,48,0.5) !important; display: inline-block; }
+        .key-blue { color: var(--neon-blue) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-blue), 0 0 15px rgba(0,122,255,0.5) !important; display: inline-block; }
+        .key-green { color: var(--neon-green) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--neon-green), 0 0 15px rgba(57,255,20,0.6) !important; display: inline-block; }
+        .key-golden { color: var(--gold) !important; font-weight: 900 !important; text-shadow: 0 0 8px var(--gold), 0 0 15px rgba(255,215,0,0.6) !important; display: inline-block; }
         
         .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
 
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .heart-svg { width: 100px; height: 100px; fill: var(--neon-red); filter: drop-shadow(0 0 20px var(--neon-red)); animation: heartbeat 1.2s infinite; }
 
-        .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; width: 100%; max-width: 350px; }
-        .photo-pop { width: 100%; aspect-ratio: 1; border-radius: 15px; object-fit: cover; border: 2px solid #fff; transform: scale(0); opacity: 0; }
+        .explosion-grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 10px; 
+            width: 95%; 
+            max-width: 500px; 
+        }
+        .photo-pop { 
+            width: 100%; 
+            aspect-ratio: 4/5;
+            border-radius: 12px; 
+            object-fit: cover; 
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.2); 
+            transform: scale(0); 
+            opacity: 0; 
+        }
         .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
-        #photo-modal { position: fixed; inset: 0; background: #000; z-index: 100000; display: none; align-items: center; justify-content: center; }
-        .modal-img { width: 100%; height: 100%; object-fit: contain; }
-        .inner-pop-text { position: absolute; bottom: 30px; width: 90%; background: rgba(0,0,0,0.8); padding: 15px; border-radius: 15px; border: 1px solid #007aff; text-align: center; }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
+        #photo-modal { 
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.98); 
+            z-index: 100000; 
+            display: none; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center; 
+        }
+        .modal-img { 
+            width: auto; height: auto;
+            max-width: 90%; max-height: 70%; 
+            object-fit: contain; 
+            border-radius: 4px;
+        }
+        .inner-pop-text { 
+            margin-top: 20px;
+            width: 85%; 
+            background: rgba(15, 15, 15, 0.95); 
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid var(--neon-blue); 
+            text-align: center; 
+            font-size: 0.85rem; 
+        }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: var(--neon-red); border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
         .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
-        .nav-btn { background: rgba(0,122,255,0.2); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
+        .nav-btn { background: rgba(0,122,255,0.1); border: 1px solid var(--neon-blue); color: #fff; width: 45px; height: 45px; border-radius: 50%; }
         .dot { width: 7px; height: 7px; background: rgba(255,255,255,0.3); border-radius: 50%; transition: 0.3s; }
-        .dot.active { background: #007aff; transform: scale(1.5); }
+        .dot.active { background: var(--neon-blue); transform: scale(1.5); }
     </style>
 </head>
 <body>
@@ -131,34 +147,34 @@
 <div id="pages-container">
     <section class="page active">
         <h1 class="main-title">Para meu <span class="key-green">Jacaré</span></h1>
-        <div style="width:150px; height:150px; border-radius:50%; border:3px solid #ff3b30; background:url('foto-capa.jpg') center/cover; margin-bottom:20px;"></div>
+        <div style="width:140px; height:140px; border-radius:50%; border:3px solid var(--neon-red); background:url('foto-capa.jpg') center/cover; margin-bottom:20px;"></div>
         <div class="glass-card"><div id="type-p1" style="font-size:0.9rem; text-align:justify;"></div></div>
         <div style="display:flex; gap:10px; width:100%; max-width:400px;">
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.5rem">0</span><br><small>HORAS</small></div>
-            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.5rem">0</span><br><small>SEGS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="h1" class="key-red" style="font-size:1.4rem">0</span><br><small>HORAS</small></div>
+            <div class="glass-card" style="flex:1; text-align:center;"><span id="s1" class="key-blue" style="font-size:1.4rem">0</span><br><small>SEGS</small></div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid #007aff; margin-bottom:15px;"></video>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:300px; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:15px;"></video>
         <div class="glass-card"><div id="type-p2" style="font-size:0.8rem; text-align:justify;"></div></div>
     </section>
 
     <section class="page">
         <div class="explosion-grid">
-            <img src="foto4.jpg" class="photo-pop" style="border-color:#007aff; box-shadow: 0 0 15px #007aff;" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
-            <img src="foto2.jpg" class="photo-pop" style="border-color:#ff3b30; box-shadow: 0 0 15px #ff3b30;" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas...')">
-            <img src="foto3.jpg" class="photo-pop" style="border-color:#ffd700; box-shadow: 0 0 15px #ffd700;" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto...')">
-            <img src="foto1.jpg" class="photo-pop" style="border-color:#39ff14; box-shadow: 0 0 15px #39ff14;" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo...')">
+            <img src="foto4.jpg" class="photo-pop" style="border-color:var(--neon-blue); box-shadow: 0 0 12px var(--neon-blue);" onclick="openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
+            <img src="foto2.jpg" class="photo-pop" style="border-color:var(--neon-red); box-shadow: 0 0 12px var(--neon-red);" onclick="openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
+            <img src="foto3.jpg" class="photo-pop" style="border-color:var(--gold); box-shadow: 0 0 12px var(--gold);" onclick="openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
+            <img src="foto1.jpg" class="photo-pop" style="border-color:var(--neon-green); box-shadow: 0 0 12px var(--neon-green);" onclick="openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
         </div>
     </section>
 
     <section class="page">
-        <div style="text-align:center">
-            <div style="font-size:50px">🐊</div>
-            <h2 class="main-title">Promessa Inabalável</h2>
-            <p class="key-red" style="font-size:2rem">eu te amo</p>
-            <p class="key-green" style="margin-top:10px">para todo o sempre</p>
+        <div style="text-align:center; transform: translateY(-20px);">
+            <div style="font-size:70px; filter: drop-shadow(0 0 20px var(--neon-green)); margin-bottom: 20px;">🐊</div>
+            <h2 class="main-title" style="font-size: 2.2rem; margin-bottom: 10px;">Promessa Inabalável</h2>
+            <p class="key-red" style="font-size:3rem; margin: 15px 0; display: block;">eu te amo</p>
+            <p class="key-green" style="font-size: 1rem; letter-spacing: 4px; font-weight: 600; opacity: 0.9;">PARA TODO O SEMPRE</p>
         </div>
     </section>
 </div>
@@ -176,33 +192,14 @@
     function startJourney() {
         document.getElementById('splash').style.display = 'none';
         document.getElementById('controls').style.display = 'flex';
-        bgMusic.volume = 0.6; bgMusic.play();
+        bgMusic.volume = 0; bgMusic.play();
+        let volInterval = setInterval(() => {
+            if (bgMusic.volume < 0.55) bgMusic.volume += 0.05;
+            else { bgMusic.volume = 0.6; clearInterval(volInterval); }
+        }, 250);
         typeWriter(TXT1, "type-p1", 40);
         setInterval(updateCounter, 1000);
         setupDots(); initStars();
-    }
-
-    function setupDots() {
-        const container = document.getElementById('dots');
-        pages.forEach((_, i) => {
-            let d = document.createElement('div');
-            d.className = `dot ${i===0?'active':''}`;
-            container.appendChild(d);
-        });
-    }
-
-    function nav(dir) {
-        const next = Math.max(0, Math.min(pages.length - 1, current + dir));
-        if (next === current) return;
-        pages[current].classList.remove('active');
-        current = next;
-        pages[current].classList.add('active');
-        document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
-        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-        if(current === 1) { 
-            video.play(); 
-            if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } 
-        } else { video.pause(); }
     }
 
     function typeWriter(text, elId, speed) {
@@ -213,11 +210,9 @@
                     let end = text.indexOf('>', i);
                     let tag = text.substring(i, end + 1);
                     i = end + 1;
-                    if (tag.startsWith('</')) { 
-                        activeTarget = el; 
-                    } else if (tag.includes('br')) { 
-                        el.innerHTML += '<br>'; 
-                    } else {
+                    if (tag.startsWith('</')) { activeTarget = el; } 
+                    else if (tag.includes('br')) { el.innerHTML += '<br>'; }
+                    else {
                         let span = document.createElement('span');
                         let match = tag.match(/class=['"]([^'"]+)['"]/);
                         if (match) span.className = match[1];
@@ -259,6 +254,29 @@
             requestAnimationFrame(draw);
         }
         draw();
+    }
+
+    function setupDots() {
+        const container = document.getElementById('dots');
+        pages.forEach((_, i) => {
+            let d = document.createElement('div');
+            d.className = `dot ${i===0?'active':''}`;
+            container.appendChild(d);
+        });
+    }
+
+    function nav(dir) {
+        const next = Math.max(0, Math.min(pages.length - 1, current + dir));
+        if (next === current) return;
+        pages[current].classList.remove('active');
+        current = next;
+        pages[current].classList.add('active');
+        document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
+        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+        if(current === 1) { 
+            video.play(); 
+            if(!hasTypedP2) { typeWriter(TXT2, "type-p2", 20); hasTypedP2 = true; } 
+        } else { video.pause(); }
     }
 
     let startX;
