@@ -14,135 +14,63 @@
             --c-bg: #000000;
             --c-glass: rgba(20, 20, 20, 0.85);
             --c-border: rgba(255, 255, 255, 0.12);
-            
             --ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
-            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
-            
-            --z-back: 1;
-            --z-page: 10;
-            --z-ui: 100;
-            --z-modal: 1000;
-            --z-splash: 9999;
         }
 
-        /* Reset & Base */
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body, html { background: var(--c-bg); color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; width: 100%; overflow: hidden; position: fixed; }
 
-        /* Background FX */
-        #star-canvas { position: fixed; inset: 0; z-index: var(--z-back); opacity: 0.6; pointer-events: none; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--c-blue); width: 25%; z-index: var(--z-ui); transition: width 0.6s var(--ease-out); box-shadow: 0 2px 10px var(--c-blue); }
+        #star-canvas { position: fixed; inset: 0; z-index: 1; opacity: 0.6; pointer-events: none; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--c-blue); width: 25%; z-index: 100; transition: width 0.6s var(--ease-out); }
 
-        /* Splash Screen (Hall de Entrada) */
         #splash { 
-            position: fixed; inset: 0; background: #000; z-index: var(--z-splash); 
+            position: fixed; inset: 0; background: #000; z-index: 9999; 
             display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            cursor: pointer; transition: opacity 0.8s ease, transform 0.8s ease;
+            cursor: pointer; transition: opacity 0.8s ease;
         }
-        .heart-container { position: relative; width: 120px; height: 120px; display: flex; align-items: center; justify-content: center; }
-        .heart-svg { 
-            width: 80px; height: 80px; fill: var(--c-red); 
-            filter: drop-shadow(0 0 25px rgba(255, 69, 58, 0.6)); 
-            animation: heartbeat 1.5s infinite ease-in-out; 
-            z-index: 2;
-        }
-        .pulse-ring {
-            position: absolute; width: 100%; height: 100%; border-radius: 50%;
-            border: 2px solid var(--c-red); opacity: 0;
-            animation: ripple 2s infinite linear;
-        }
-        .splash-text { 
-            margin-top: 30px; letter-spacing: 4px; font-size: 0.75rem; 
-            text-transform: uppercase; opacity: 0.6; font-weight: 600; 
-            animation: fadeIn 2s ease-in-out infinite alternate;
-        }
+        .heart-svg { width: 80px; height: 80px; fill: var(--c-red); filter: drop-shadow(0 0 20px var(--c-red)); animation: heartbeat 1.5s infinite; }
 
-        /* Pages System */
         .page { 
-            position: absolute; inset: 0; padding: 20px 20px 80px 20px; /* Padding bottom for nav */
+            position: absolute; inset: 0; padding: 20px; 
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden; transform: scale(0.95) translateY(10px);
-            transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out), visibility 0.6s; 
-            z-index: var(--z-page); 
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: all 0.6s var(--ease-out); z-index: 10; 
         }
-        .page.active { opacity: 1; visibility: visible; transform: scale(1) translateY(0); }
+        .page.active { opacity: 1; visibility: visible; transform: translateY(0); }
 
-        /* Components */
         .glass-card { 
             background: var(--c-glass); border: 1px solid var(--c-border); 
             border-radius: 24px; padding: 20px; margin-bottom: 15px; 
-            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            width: 100%; max-width: 420px; box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+            backdrop-filter: blur(20px); width: 100%; max-width: 420px;
         }
 
-        /* Typography Highlights */
-        .text-glow-red { color: var(--c-red); font-weight: 800; text-shadow: 0 0 12px rgba(255, 69, 58, 0.4); }
-        .text-glow-blue { color: var(--c-blue); font-weight: 800; text-shadow: 0 0 12px rgba(10, 132, 255, 0.4); }
-        .text-glow-green { color: var(--c-green); font-weight: 800; text-shadow: 0 0 12px rgba(48, 209, 88, 0.4); }
-        .text-glow-gold { color: var(--c-gold); font-weight: 800; text-shadow: 0 0 12px rgba(255, 214, 10, 0.4); }
+        .text-glow-red { color: var(--c-red); font-weight: 800; text-shadow: 0 0 12px var(--c-red); }
+        .text-glow-blue { color: var(--c-blue); font-weight: 800; text-shadow: 0 0 12px var(--c-blue); }
+        .text-glow-green { color: var(--c-green); font-weight: 800; text-shadow: 0 0 12px var(--c-green); }
+        .text-glow-gold { color: var(--c-gold); font-weight: 800; text-shadow: 0 0 12px var(--c-gold); }
         
-        .main-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; text-align: center; margin-bottom: 24px; letter-spacing: -0.5px; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; text-align: center; margin-bottom: 20px; }
 
-        /* Gallery Grid */
         .explosion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; max-width: 420px; }
-        .photo-pop { 
-            width: 100%; aspect-ratio: 4/5; border-radius: 16px; object-fit: cover; 
-            background: #111; border: 1px solid rgba(255,255,255,0.1); 
-            transform: scale(0.8); opacity: 0; transition: transform 0.3s;
-        }
-        .photo-pop:active { transform: scale(0.95); }
-        .page.active .photo-pop { animation: popIn 0.6s var(--ease-bounce) forwards; }
-        .page.active .photo-pop:nth-child(1) { animation-delay: 0.1s; border-color: var(--c-blue); box-shadow: 0 4px 15px rgba(10, 132, 255, 0.2); }
-        .page.active .photo-pop:nth-child(2) { animation-delay: 0.2s; border-color: var(--c-red); box-shadow: 0 4px 15px rgba(255, 69, 58, 0.2); }
-        .page.active .photo-pop:nth-child(3) { animation-delay: 0.3s; border-color: var(--c-gold); box-shadow: 0 4px 15px rgba(255, 214, 10, 0.2); }
-        .page.active .photo-pop:nth-child(4) { animation-delay: 0.4s; border-color: var(--c-green); box-shadow: 0 4px 15px rgba(48, 209, 88, 0.2); }
+        .photo-pop { width: 100%; aspect-ratio: 4/5; border-radius: 16px; object-fit: cover; opacity: 0; transform: scale(0.8); }
+        .page.active .photo-pop { animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 
-        /* Modal Engineering */
         #photo-modal { 
-            position: fixed; inset: 0; background: rgba(5, 5, 5, 0.96); z-index: var(--z-modal); 
-            display: none; flex-direction: column; align-items: center; justify-content: center; 
-            padding: 20px; opacity: 0; transition: opacity 0.3s ease;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 1000; 
+            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
         }
-        #photo-modal.open { display: flex; opacity: 1; }
-        .modal-content-wrapper { 
-            display: flex; flex-direction: column; align-items: center; 
-            max-width: 100%; width: 100%; animation: modalSlideUp 0.4s var(--ease-out);
-        }
-        .modal-img { 
-            max-width: 100%; max-height: 55vh; object-fit: contain; 
-            border-radius: 12px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            margin-bottom: 20px;
-        }
-        .modal-text-box { 
-            background: #1a1a1a; border: 1px solid var(--c-blue); border-radius: 16px; 
-            padding: 16px 20px; text-align: center; font-size: 0.9rem; line-height: 1.5; 
-            color: #eee; width: 100%; max-width: 500px;
-        }
-        .close-btn { 
-            position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; 
-            background: var(--c-red); border-radius: 50%; border: none; color: white; 
-            font-weight: 900; font-size: 1.2rem; box-shadow: 0 0 20px rgba(255,69,58,0.4);
-            cursor: pointer; z-index: 10001;
-        }
+        .modal-img { max-width: 100%; max-height: 55vh; border-radius: 12px; margin-bottom: 20px; object-fit: contain; }
+        .modal-text-box { background: #111; border: 1px solid var(--c-blue); border-radius: 16px; padding: 15px; text-align: center; width: 100%; max-width: 500px; }
 
-        /* Navigation UI */
-        .nav-controls { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 25px; z-index: var(--z-ui); }
-        .nav-btn { 
-            background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.1); 
-            color: #fff; width: 50px; height: 50px; border-radius: 50%; 
-            backdrop-filter: blur(10px); cursor: pointer; transition: all 0.2s;
-        }
-        .nav-btn:active { transform: scale(0.9); background: rgba(255,255,255,0.15); }
-        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: all 0.4s var(--ease-bounce); }
-        .dot.active { background: var(--c-blue); transform: scale(1.8); box-shadow: 0 0 10px var(--c-blue); }
+        .nav-controls { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 100; }
+        .nav-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 50px; height: 50px; border-radius: 50%; }
+        .dot { width: 6px; height: 6px; background: rgba(255,255,255,0.2); border-radius: 50%; transition: 0.3s; }
+        .dot.active { background: var(--c-blue); transform: scale(1.6); }
 
-        /* Animations */
         @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        @keyframes ripple { 0% { transform: scale(0.8); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
-        @keyframes popIn { to { transform: scale(1); opacity: 1; } }
-        @keyframes modalSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes fadeIn { from { opacity: 0.3; } to { opacity: 0.8; } }
-
+        @keyframes popIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes rotateHourglass { 0% { transform: rotate(0deg); } 40% { transform: rotate(180deg); } 100% { transform: rotate(180deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 <body>
@@ -150,11 +78,8 @@
 <audio id="bg-music" src="foi-assim.mp3" loop></audio>
 
 <div id="splash" onclick="app.start()">
-    <div class="heart-container">
-        <div class="pulse-ring"></div>
-        <svg class="heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    </div>
-    <p class="splash-text">Toque para entrar</p>
+    <svg class="heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+    <p style="margin-top:20px; letter-spacing:4px; font-size:0.7rem; opacity:0.6; font-weight:600;">CLIQUE PARA ENTRAR</p>
 </div>
 
 <div class="progress-bar" id="p-bar"></div>
@@ -162,47 +87,45 @@
 
 <div class="nav-controls" id="controls" style="display:none">
     <button class="nav-btn" onclick="app.nav(-1)">←</button>
-    <div id="dots" style="display:flex; gap:12px"></div>
+    <div id="dots" style="display:flex; gap:10px"></div>
     <button class="nav-btn" onclick="app.nav(1)">→</button>
 </div>
 
 <div id="photo-modal">
-    <button class="close-btn" onclick="app.closeModal()">✕</button>
-    <div class="modal-content-wrapper">
-        <img id="modal-img" class="modal-img" src="">
-        <div id="modal-text" class="modal-text-box"></div>
-    </div>
+    <button style="position:absolute; top:20px; right:20px; background:var(--c-red); border:none; color:white; width:44px; height:44px; border-radius:50%; font-weight:900;" onclick="app.closeModal()">✕</button>
+    <img id="modal-img" class="modal-img" src="">
+    <div id="modal-text" class="modal-text-box"></div>
 </div>
 
 <div id="pages-container">
-    
     <section class="page active">
         <h1 class="main-title">Para meu <span class="text-glow-green">Jacaré</span></h1>
-        <div style="width:140px; height:140px; border-radius:50%; border:3px solid var(--c-red); background:url('foto-capa.jpg') center/cover; margin-bottom:24px; box-shadow: 0 0 30px rgba(255,69,58,0.3);"></div>
-        <div class="glass-card">
-            <div id="type-p1" style="font-size:0.95rem; text-align:justify; line-height:1.6;"></div>
-        </div>
-        <div style="display:flex; gap:12px; width:100%; max-width:420px;">
-            <div class="glass-card" style="flex:1; text-align:center; padding:15px;">
-                <span id="h1" class="text-glow-red" style="font-size:1.6rem">0</span>
-                <div style="opacity:0.6; font-size:0.65rem; font-weight:700; margin-top:4px;">HORAS</div>
+        <div style="width:130px; height:130px; border-radius:50%; border:3px solid var(--c-red); background:url('foto-capa.jpg') center/cover; margin-bottom:20px; box-shadow: 0 0 20px rgba(255,69,58,0.3);"></div>
+        <div class="glass-card"><div id="type-p1" style="font-size:0.9rem; text-align:justify;"></div></div>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; width:100%; max-width:420px;">
+            <div class="glass-card" style="margin:0; text-align:center; padding:12px;">
+                <span id="h1" class="text-glow-red" style="font-size:1.4rem">0</span>
+                <div style="font-size:0.6rem; font-weight:700; opacity:0.6;">HORAS</div>
             </div>
-            <div class="glass-card" style="flex:1; text-align:center; padding:15px;">
-                <span id="s1" class="text-glow-blue" style="font-size:1.6rem">0</span>
-                <div style="opacity:0.6; font-size:0.65rem; font-weight:700; margin-top:4px;">SEGUNDOS</div>
+            <div class="glass-card" style="margin:0; text-align:center; padding:12px;">
+                <span id="s1" class="text-glow-blue" style="font-size:1.4rem">0</span>
+                <div style="font-size:0.6rem; font-weight:700; opacity:0.6;">SEGUNDOS</div>
+            </div>
+            <div class="glass-card" style="grid-column: span 2; margin:0; text-align:center; padding:12px; display:flex; flex-direction:column; align-items:center;">
+                <span class="text-glow-gold" style="font-size:1.4rem">9 MESES</span>
+                <div id="hourglass" style="font-size:1.5rem; margin-top:5px; animation: rotateHourglass 3s infinite ease-in-out;">⏳</div>
             </div>
         </div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:340px; border-radius:20px; border:1px solid var(--c-blue); margin-bottom:20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);"></video>
-        <div class="glass-card">
-            <div id="type-p2" style="font-size:0.9rem; text-align:justify; line-height:1.6;"></div>
-        </div>
+        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:320px; border-radius:15px; border:1px solid var(--c-blue); margin-bottom:20px;"></video>
+        <div class="glass-card"><div id="type-p2" style="font-size:0.85rem; text-align:justify;"></div></div>
     </section>
 
     <section class="page">
-        <h2 class="main-title" style="font-size:1.6rem; margin-bottom:20px">Nossas Memórias</h2>
+        <h2 class="main-title">Nossas Memórias</h2>
         <div class="explosion-grid">
             <img src="foto4.jpg" class="photo-pop" onclick="app.openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
             <img src="foto2.jpg" class="photo-pop" onclick="app.openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
@@ -212,124 +135,59 @@
     </section>
 
     <section class="page">
-        <div style="text-align:center; transform: translateY(-30px);">
-            <div style="font-size:85px; filter: drop-shadow(0 0 25px var(--c-green)); margin-bottom: 20px; animation: heartbeat 2s infinite;">🐊</div>
-            <h2 class="main-title" style="font-size: 2.5rem; margin-bottom: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Promessa Inabalável</h2>
-            <p class="text-glow-red" style="font-size:3.8rem; margin: 25px 0; display: block; letter-spacing: -2px;">eu te amo</p>
-            <p class="text-glow-green" style="font-size: 1rem; letter-spacing: 6px; font-weight: 700; text-transform:uppercase; opacity:0.9;">para todo o sempre</p>
+        <div style="text-align:center; background: radial-gradient(circle, rgba(48,209,88,0.05) 0%, rgba(0,0,0,0) 70%); width:100%; padding:40px 0;">
+            <div style="font-size:95px; filter: drop-shadow(0 0 30px var(--c-green)); margin-bottom: 25px; animation: float 4s infinite ease-in-out;">🐊</div>
+            <h2 class="main-title" style="font-size: 2.2rem; margin-bottom: 10px; opacity:0.9;">Promessa Inabalável</h2>
+            <p class="text-glow-red" style="font-size:4rem; margin: 20px 0; display: block; letter-spacing: -2px; animation: heartbeat 2s infinite ease-in-out;">eu te amo</p>
+            <p class="text-glow-green" style="font-size: 0.9rem; letter-spacing: 7px; font-weight: 700; text-transform:uppercase; opacity:0.8;">para todo o sempre</p>
         </div>
     </section>
-
 </div>
 
 <script>
-    /**
-     * Senior Engineer Refactor
-     * - Namespace isolation
-     * - Event Delegation
-     * - Performance optimization
-     */
     const app = (() => {
-        // Configuration
         const CONFIG = {
             startDate: new Date("2025-05-08T20:00:00"),
             txt1: "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='text-glow-red'>eu te amo</span>, minha <span class='text-glow-green'>jacaré</span>! 🐊❤️",
             txt2: "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='text-glow-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='text-glow-gold'>intensidade</span> as nossas <span class='text-glow-blue'>conversas</span> construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, se entende, se desculpa e se \"sente\" Você tem esse jeito de tornar as coisas <span class='text-glow-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e do jeito que eu te irrrito, de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='text-glow-gold'>ouro</span>. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='text-glow-red'>Princesa</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico, é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é minha a <span class='text-glow-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='text-glow-blue'>sorriso</span> e que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='text-glow-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='text-glow-red'>coração</span> sente em cada batida."
         };
 
-        // State
-        let state = {
-            current: 0,
-            hasTypedP2: false,
-            pages: [],
-            audio: document.getElementById('bg-music')
-        };
-
-        // UI References
-        const ui = {
-            splash: document.getElementById('splash'),
-            controls: document.getElementById('controls'),
-            video: document.getElementById('main-video'),
-            modal: document.getElementById('photo-modal'),
-            modalImg: document.getElementById('modal-img'),
-            modalText: document.getElementById('modal-text'),
-            bar: document.getElementById('p-bar')
-        };
-
-        function init() {
-            state.pages = document.querySelectorAll('.page');
-            setupStars();
-            setupDots();
-            setupTouch();
-            // Start counter loop
-            setInterval(updateCounter, 1000);
-        }
+        let current = 0, hasTypedP2 = false;
+        const audio = document.getElementById('bg-music');
+        const pages = document.querySelectorAll('.page');
 
         function start() {
-            ui.splash.style.opacity = '0';
-            ui.splash.style.transform = 'scale(1.1)';
-            setTimeout(() => ui.splash.style.display = 'none', 800);
-            
-            ui.controls.style.display = 'flex';
-            
-            // Audio Fade In
-            state.audio.volume = 0;
-            state.audio.play().catch(e => console.log("Audio autoplay restriction"));
-            let volFade = setInterval(() => {
-                if (state.audio.volume < 0.6) state.audio.volume += 0.05;
-                else clearInterval(volFade);
-            }, 250);
-
-            typeWriter(CONFIG.txt1, "type-p1", 35);
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
+            document.getElementById('controls').style.display = 'flex';
+            audio.play();
+            typeWriter(CONFIG.txt1, "type-p1", 40);
+            setInterval(updateCounter, 1000);
+            setupStars(); setupDots(); setupTouch();
         }
 
         function nav(dir) {
-            const next = Math.max(0, Math.min(state.pages.length - 1, state.current + dir));
-            if (next === state.current) return;
-
-            state.pages[state.current].classList.remove('active');
-            state.current = next;
-            state.pages[state.current].classList.add('active');
-
-            // Update UI
-            ui.bar.style.width = ((state.current + 1) / state.pages.length) * 100 + "%";
-            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === state.current));
-
-            // Logic per page
-            if (state.current === 1) {
-                ui.video.play();
-                if (!state.hasTypedP2) {
-                    typeWriter(CONFIG.txt2, "type-p2", 20);
-                    state.hasTypedP2 = true;
-                }
-            } else {
-                ui.video.pause();
-            }
+            const next = Math.max(0, Math.min(pages.length - 1, current + dir));
+            if (next === current) return;
+            pages[current].classList.remove('active');
+            current = next;
+            pages[current].classList.add('active');
+            document.getElementById('p-bar').style.width = ((current + 1) / pages.length) * 100 + "%";
+            document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+            if(current === 1) { 
+                document.getElementById('main-video').play(); 
+                if(!hasTypedP2) { typeWriter(CONFIG.txt2, "type-p2", 20); hasTypedP2 = true; } 
+            } else { document.getElementById('main-video').pause(); }
         }
 
-        function openModal(src, txt) {
-            ui.modalImg.src = src;
-            ui.modalText.innerHTML = txt;
-            ui.modal.classList.add('open');
-        }
-
-        function closeModal() {
-            ui.modal.classList.remove('open');
-            setTimeout(() => { ui.modalImg.src = ""; }, 300);
-        }
-
-        // Utils
         function updateCounter() {
             const diff = new Date() - CONFIG.startDate;
             document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
-            document.getElementById('s1').innerText = Math.floor((diff / 1000) % 60);
+            document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
         }
 
         function typeWriter(text, elId, speed) {
-            let i = 0;
-            const el = document.getElementById(elId);
-            // Pre-process HTML tags for smoother typing
-            // (Simple implementation for this use-case)
+            let i = 0; const el = document.getElementById(elId);
             function type() {
                 if (i < text.length) {
                     if (text[i] === '<') {
@@ -337,8 +195,7 @@
                         el.innerHTML += text.substring(i, end + 1);
                         i = end + 1;
                     } else {
-                        el.innerHTML += text[i];
-                        i++;
+                        el.innerHTML += text[i]; i++;
                     }
                     setTimeout(type, speed);
                 }
@@ -347,29 +204,12 @@
         }
 
         function setupStars() {
-            const c = document.getElementById('star-canvas');
-            const ctx = c.getContext('2d');
-            let w, h;
-            
-            const resize = () => { w = c.width = window.innerWidth; h = c.height = window.innerHeight; };
-            window.addEventListener('resize', resize);
-            resize();
-
-            const stars = Array(120).fill().map(() => ({
-                x: Math.random() * w, y: Math.random() * h,
-                r: Math.random() * 1.5, o: Math.random(), s: 0.2 + Math.random() * 0.3
-            }));
-
+            const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
+            c.width = window.innerWidth; c.height = window.innerHeight;
+            const stars = Array(120).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1.5, s: 0.3+Math.random()*0.5 }));
             function draw() {
-                ctx.clearRect(0, 0, w, h);
-                stars.forEach(star => {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${star.o})`;
-                    ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2); ctx.fill();
-                    star.y -= star.s;
-                    if (star.y < 0) star.y = h;
-                    // Twinkle effect
-                    star.o = 0.3 + Math.abs(Math.sin(Date.now() * 0.001 * star.s)) * 0.7;
-                });
+                ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff";
+                stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2); ctx.fill(); s.y-=s.s; if(s.y<0) s.y=c.height; });
                 requestAnimationFrame(draw);
             }
             draw();
@@ -377,9 +217,9 @@
 
         function setupDots() {
             const container = document.getElementById('dots');
-            state.pages.forEach((_, i) => {
+            pages.forEach((_, i) => {
                 const d = document.createElement('div');
-                d.className = `dot ${i === 0 ? 'active' : ''}`;
+                d.className = `dot ${i===0?'active':''}`;
                 container.appendChild(d);
             });
         }
@@ -388,18 +228,18 @@
             let startX = 0;
             document.addEventListener('touchstart', e => startX = e.touches[0].clientX);
             document.addEventListener('touchend', e => {
-                if (ui.modal.classList.contains('open')) return;
+                if (document.getElementById('photo-modal').style.display === 'flex') return;
                 const diff = startX - e.changedTouches[0].clientX;
                 if (Math.abs(diff) > 60) nav(diff > 0 ? 1 : -1);
             });
         }
 
-        // Public API
-        return { init, start, nav, openModal, closeModal };
+        return { start, nav, openModal: (s, t) => { 
+            document.getElementById('modal-img').src = s; 
+            document.getElementById('modal-text').innerText = t; 
+            document.getElementById('photo-modal').style.display = 'flex'; 
+        }, closeModal: () => document.getElementById('photo-modal').style.display = 'none' };
     })();
-
-    // Boot
-    window.onload = app.init;
 </script>
 </body>
 </html>
