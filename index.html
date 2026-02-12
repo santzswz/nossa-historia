@@ -67,14 +67,12 @@
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
         .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
 
-        /* Grade expandida para ocupar a tela toda */
         .explosion-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
             gap: 10px; 
             width: 95%; 
             max-width: 500px; 
-            height: auto;
         }
         .photo-pop { 
             width: 100%; 
@@ -89,33 +87,34 @@
         .page.active .photo-pop { animation: explode 0.6s cubic-bezier(0.17, 0.89, 0.32, 1.28) forwards; }
         @keyframes explode { to { transform: scale(1); opacity: 1; } }
 
+        /* Modal com foto menor e sem esticar */
         #photo-modal { 
             position: fixed; 
             inset: 0; 
             background: rgba(0,0,0,0.98); 
             z-index: 100000; 
             display: none; 
+            flex-direction: column;
             align-items: center; 
             justify-content: center; 
         }
         .modal-img { 
-            max-width: 95%; 
-            max-height: 75dvh; 
-            object-fit: contain; 
+            width: 65%; 
+            height: 65%; 
+            object-fit: contain; /* Garante que não estique */
+            border-radius: 8px;
         }
         .inner-pop-text { 
-            position: absolute;
-            bottom: 30px;
-            width: 90%; 
-            background: rgba(0, 0, 0, 0.85); 
-            padding: 15px; 
-            border-radius: 15px; 
+            margin-top: 15px;
+            width: 85%; 
+            background: rgba(10, 10, 10, 0.9); 
+            padding: 12px; 
+            border-radius: 12px; 
             border: 1px solid var(--neon-blue); 
             text-align: center; 
-            font-size: 0.85rem; 
-            backdrop-filter: blur(10px);
+            font-size: 0.8rem; 
         }
-        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; z-index: 100001; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; }
 
         .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
         .nav-btn { background: rgba(0,122,255,0.1); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
