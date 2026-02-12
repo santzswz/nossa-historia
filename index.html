@@ -15,28 +15,30 @@
         body, html { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; width: 100%; overflow: hidden; position: fixed; }
         
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.6; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green)); z-index: 1000; transition: width 0.6s ease; width: 25%; }
+        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, var(--neon-blue), var(--neon-green)); z-index: 1000; transition: width 0.6s ease; width: 0%; }
         
         .c-red { color: var(--neon-red) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-red); }
         .c-blue { color: var(--neon-blue) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-blue); }
         .c-green { color: var(--neon-green) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-green); }
         .c-gold { color: var(--neon-gold) !important; font-weight: 900; text-shadow: 0 0 8px var(--neon-gold); }
 
-        .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: scale(0.95); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); z-index: 10; }
+        #pages-container { position: relative; z-index: 10; height: 100%; width: 100%; }
+        .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: scale(0.95); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .page.active { opacity: 1; visibility: visible; transform: scale(1); }
         .glass-card { background: var(--glass); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 15px; margin-bottom: 12px; width: 100%; max-width: 400px; }
         
         .foto-destaque { width: 100%; max-width: 250px; aspect-ratio: 1/1; border-radius: 20px; border: 3px solid var(--neon-green); object-fit: cover; box-shadow: 0 0 20px var(--neon-green); margin-bottom: 15px; }
 
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.8s ease; }
+        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: opacity 0.6s ease, visibility 0.6s; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         
         #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
         .modal-img { max-width: 100%; max-height: 60vh; border-radius: 15px; border: 2px solid var(--neon-blue); object-fit: contain; }
         
-        .nav-container { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 100; visibility: hidden; opacity: 0; transition: 0.5s; }
-        .nav-container.show { visibility: visible; opacity: 1; }
+        .nav-container { position: fixed; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 100; opacity: 0; pointer-events: none; transition: 0.5s; }
+        .nav-container.show { opacity: 1; pointer-events: auto; }
+        .btn-nav { width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); color: white; border: none; backdrop-filter: blur(10px); font-size: 1.2rem; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -51,7 +53,7 @@
 </div>
 
 <div id="pages-container">
-    <section class="page active">
+    <section class="page">
         <h1 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:15px;">Para meu <span class="c-green">Jacaré</span></h1>
         <img src="foto-capa.jpg" class="foto-destaque" alt="Nossa Foto">
         <div class="glass-card" style="text-align:center; border-color:var(--neon-gold); padding: 10px;">
@@ -96,8 +98,8 @@
 </div>
 
 <div class="nav-container" id="nav-btns">
-    <button onclick="app.nav(-1)" style="width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.1); color:white; border:none; backdrop-filter:blur(10px);">←</button>
-    <button onclick="app.nav(1)" style="width:50px; height:50px; border-radius:50%; background:rgba(255,255,255,0.1); color:white; border:none; backdrop-filter:blur(10px);">→</button>
+    <button class="btn-nav" onclick="app.nav(-1)">←</button>
+    <button class="btn-nav" onclick="app.nav(1)">→</button>
 </div>
 
 <script>
@@ -108,7 +110,7 @@
             txt2: "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='c-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='c-gold'>intensidade</span>. Nossas <span class='c-blue'>conversas</span> construíram algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa. Você tem esse jeito de tornar as coisas <span class='c-blue'>leves</span>. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='c-gold'>ouro</span>. Quero te dar o meu melhor. Você é minha <span class='c-red'>Princesa</span>, minha <span class='c-green'>menina</span> teimosa favorita e a dona do meu <span class='c-blue'>sorriso</span>. <span class='c-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar... <br><br>Que nosso nono mês seja repleto de <span class='c-green'>felicidade</span>, alegria, <span class='c-blue'>sorrisos bobos</span> e muita <span class='c-gold'>maturidade</span>, quero te oferecer o que ninguém nunca ofereceu, quero ser o que niguém nunca conseguiu ser, eu quero ser o cara que fará parte da sua vida e também <span class='c-blue'>diferença</span> na mesma, eu quero ser alguém capaz de fazer você esquecer todas as dores e passar a ser o homem que seu pai não foi, sem querer julgar sua familia. Eu ainda quero fazer você adormecer em meu braços enquanto nossos <span class='c-gold'>filhos</span> dormem ao lado, quero que venham 1, 2, 3 e diversos anos juntos. <span class='c-red'>EU TE AMO IMENSAMENTE MEU ANJINHO</span>"
         };
 
-        let current = 0, hasTyped = false, fadeInterval;
+        let current = 0, hasTypedP2 = false, fadeInterval;
         const pages = document.querySelectorAll('.page');
         const music = document.getElementById('bg-music');
         const video = document.getElementById('main-video');
@@ -158,7 +160,7 @@
             run();
         }
 
-        function update() {
+        function updateCounter() {
             const diff = new Date() - CONFIG.date;
             document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
             document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
@@ -169,14 +171,15 @@
                 const splash = document.getElementById('splash');
                 splash.style.opacity = '0';
                 setTimeout(() => { 
-                    splash.style.display = 'none'; 
+                    splash.style.visibility = 'hidden'; 
                     document.getElementById('nav-btns').classList.add('show');
                     pages[0].classList.add('active');
-                }, 800);
+                    document.getElementById('p-bar').style.width = "25%";
+                    type(CONFIG.txt1, "type-p1", 40);
+                }, 600);
                 
                 music.volume = 1; music.play().catch(()=>{});
-                setInterval(update, 1000);
-                type(CONFIG.txt1, "type-p1", 40);
+                setInterval(updateCounter, 1000);
                 
                 const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
                 c.width = window.innerWidth; c.height = window.innerHeight;
@@ -192,12 +195,16 @@
                 
                 if(current === 1) { 
                     fadeAudio(music, 0); video.volume = 1; video.play(); 
-                    if(!hasTyped) { type(CONFIG.txt2, "type-p2", 20); hasTyped = true; } 
-                } else {
-                    if(prev === 1) { video.pause(); fadeAudio(music, 1); }
+                    if(!hasTypedP2) { type(CONFIG.txt2, "type-p2", 20); hasTypedP2 = true; } 
+                } else if (prev === 1) {
+                    video.pause(); fadeAudio(music, 1);
                 }
             },
-            openModal: (s, t) => { document.getElementById('modal-img').src = s; document.getElementById('modal-text').innerText = t; document.getElementById('photo-modal').style.display = 'flex'; },
+            openModal: (s, t) => { 
+                document.getElementById('modal-img').src = s; 
+                document.getElementById('modal-text').innerText = t; 
+                document.getElementById('photo-modal').style.display = 'flex'; 
+            },
             closeModal: () => document.getElementById('photo-modal').style.display = 'none'
         };
     })();
