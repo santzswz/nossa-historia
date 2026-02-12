@@ -32,7 +32,7 @@
             inset: 0; 
             width: 100%; 
             height: 100dvh; 
-            padding: 20px; 
+            padding: 15px; 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
@@ -54,7 +54,7 @@
             width: 100%; 
             max-width: 400px; 
             overflow-y: auto;
-            max-height: 40dvh;
+            max-height: 35dvh;
         }
 
         .key-red { color: #ff3b30 !important; font-weight: 900 !important; text-shadow: 0 0 8px #ff3b30, 0 0 15px rgba(255,59,48,0.5) !important; display: inline-block; }
@@ -67,20 +67,22 @@
         #splash { position: fixed; inset: 0; background: #000; z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
         .heart-svg { width: 100px; height: 100px; fill: #ff3b30; filter: drop-shadow(0 0 20px #ff3b30); animation: heartbeat 1.2s infinite; }
 
+        /* Grade expandida para ocupar a tela toda */
         .explosion-grid { 
             display: grid; 
             grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-            width: 90%; 
-            max-width: 320px; 
+            gap: 10px; 
+            width: 95%; 
+            max-width: 500px; 
+            height: auto;
         }
         .photo-pop { 
             width: 100%; 
-            height: 140px; 
+            aspect-ratio: 4/5;
             border-radius: 12px; 
-            object-fit: contain; 
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.3); 
+            object-fit: cover; 
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.2); 
             transform: scale(0); 
             opacity: 0; 
         }
@@ -98,13 +100,13 @@
         }
         .modal-img { 
             max-width: 95%; 
-            max-height: 80%; 
+            max-height: 75dvh; 
             object-fit: contain; 
         }
         .inner-pop-text { 
             position: absolute;
-            bottom: 40px;
-            width: 85%; 
+            bottom: 30px;
+            width: 90%; 
             background: rgba(0, 0, 0, 0.85); 
             padding: 15px; 
             border-radius: 15px; 
@@ -113,7 +115,7 @@
             font-size: 0.85rem; 
             backdrop-filter: blur(10px);
         }
-        .close-modal { position: absolute; top: 25px; right: 25px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; z-index: 100001; }
+        .close-modal { position: absolute; top: 20px; right: 20px; background: #ff3b30; border: none; color: #fff; width: 40px; height: 40px; border-radius: 50%; font-weight: bold; z-index: 100001; }
 
         .nav-controls { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 10001; }
         .nav-btn { background: rgba(0,122,255,0.1); border: 1px solid #007aff; color: #fff; width: 45px; height: 45px; border-radius: 50%; }
@@ -192,19 +194,11 @@
     function startJourney() {
         document.getElementById('splash').style.display = 'none';
         document.getElementById('controls').style.display = 'flex';
-        
-        // Volume Gradual
-        bgMusic.volume = 0;
-        bgMusic.play();
+        bgMusic.volume = 0; bgMusic.play();
         let volInterval = setInterval(() => {
-            if (bgMusic.volume < 0.55) {
-                bgMusic.volume += 0.05;
-            } else {
-                bgMusic.volume = 0.6;
-                clearInterval(volInterval);
-            }
+            if (bgMusic.volume < 0.55) bgMusic.volume += 0.05;
+            else { bgMusic.volume = 0.6; clearInterval(volInterval); }
         }, 250);
-
         typeWriter(TXT1, "type-p1", 40);
         setInterval(updateCounter, 1000);
         setupDots(); initStars();
