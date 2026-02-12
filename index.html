@@ -3,146 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Para meu Jacaré</title>
+    <title>9 Meses</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Playfair+Display:wght@900&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --neon-blue: #00d2ff; 
-            --neon-red: #ff2d55; 
-            --neon-green: #4cd964; 
-            --neon-gold: #ffcc00; 
-            --bg-dark: #000000;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-        body, html { background: var(--bg-dark); color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; width: 100%; overflow: hidden; position: fixed; }
-
+        :root { --n-blue: #00d2ff; --n-red: #ff2d55; --n-green: #4cd964; --n-gold: #ffcc00; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #000; color: #fff; font-family: 'Montserrat', sans-serif; height: 100dvh; overflow: hidden; position: fixed; width: 100%; }
         #star-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: var(--neon-blue); z-index: 1000; transition: width 0.6s ease; }
-
-        #splash { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; }
-        .heart-svg { width: 80px; height: 80px; fill: var(--neon-red); filter: drop-shadow(0 0 15px var(--neon-red)); animation: pulse 1.2s infinite; }
-
         .page { position: absolute; inset: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.5s; z-index: 10; }
         .page.active { opacity: 1; visibility: visible; }
-
-        .glass-card { background: rgba(20,20,20,0.9); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        /* Cores Fixas */
-        .c-red { color: var(--neon-red) !important; font-weight: 800; text-shadow: 0 0 8px var(--neon-red); }
-        .c-blue { color: var(--neon-blue) !important; font-weight: 800; text-shadow: 0 0 8px var(--neon-blue); }
-        .c-green { color: var(--neon-green) !important; font-weight: 800; text-shadow: 0 0 8px var(--neon-green); }
-        .c-gold { color: var(--neon-gold) !important; font-weight: 800; text-shadow: 0 0 8px var(--neon-gold); }
-
-        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
-        #photo-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 2000; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-        .modal-img { max-width: 100%; max-height: 50vh; border-radius: 10px; object-fit: contain; border: 1px solid var(--neon-blue); margin-bottom: 20px; }
-
-        .nav-controls { position: fixed; bottom: 30px; width: 100%; display: flex; justify-content: center; align-items: center; gap: 20px; z-index: 100; }
-        .nav-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 50px; height: 50px; border-radius: 50%; font-size: 1.2rem; }
-        .dot { width: 8px; height: 8px; background: rgba(255,255,255,0.2); border-radius: 50%; }
-        .dot.active { background: var(--neon-blue); transform: scale(1.5); }
+        .glass-card { background: rgba(15,15,15,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 18px; width: 100%; max-width: 400px; }
+        .c-red { color: var(--n-red) !important; font-weight: bold; }
+        .c-blue { color: var(--n-blue) !important; font-weight: bold; }
+        .c-green { color: var(--n-green) !important; font-weight: bold; }
+        .c-gold { color: var(--n-gold) !important; font-weight: bold; }
+        .nav-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; margin: 10px; }
+        .nav-controls { position: fixed; bottom: 30px; z-index: 100; display: flex; }
     </style>
 </head>
 <body>
 
-<audio id="bg-music" src="foi-assim.mp3" loop></audio>
+<audio id="m1" src="foi-assim.mp3" loop></audio>
+<audio id="m2" src="musica2.mp3" loop></audio>
 <canvas id="star-canvas"></canvas>
-<div class="progress-bar" id="p-bar"></div>
 
-<div id="splash" onclick="app.start()">
-    <svg class="heart-svg" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-    <p style="margin-top:20px; letter-spacing:3px; font-size:0.7rem; font-weight:700;">TOQUE PARA ENTRAR</p>
-</div>
-
-<div class="nav-controls" id="controls" style="display:none">
-    <button class="nav-btn" onclick="app.nav(-1)">←</button>
-    <div id="dots" style="display:flex; gap:10px"></div>
-    <button class="nav-btn" onclick="app.nav(1)">→</button>
-</div>
-
-<div id="photo-modal">
-    <button style="position:absolute; top:30px; right:30px; background:var(--neon-red); border:none; color:white; width:45px; height:45px; border-radius:50%;" onclick="app.closeModal()">✕</button>
-    <img id="modal-img" class="modal-img" src="">
-    <div id="modal-text" style="background:#111; padding:15px; border-radius:15px; text-align:center; border:1px solid var(--neon-blue); max-width:400px;"></div>
+<div id="splash" style="position:fixed; inset:0; background:#000; z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer;" onclick="app.start()">
+    <div style="font-size:50px; filter:drop-shadow(0 0 10px var(--n-red))">❤️</div>
+    <p style="margin-top:20px; font-size:0.7rem; letter-spacing:2px;">CLIQUE PARA INICIAR</p>
 </div>
 
 <div id="pages-container">
     <section class="page active">
-        <h1 style="font-family:'Playfair Display'; font-size:1.8rem; margin-bottom:15px;">Para meu <span class="c-green">Jacaré</span></h1>
-        
-        <div class="glass-card" style="text-align:center; padding:10px; margin-bottom:10px; border-color:var(--neon-gold);">
-            <div class="c-gold" style="font-size:1.3rem;">9 MESES</div>
-            <div style="font-size:1.5rem; animation: spin 4s infinite linear; display:inline-block;">⏳</div>
+        <h1 style="font-family:'Playfair Display'; margin-bottom:15px;">Para meu <span class="c-green">Jacaré</span></h1>
+        <div class="glass-card" style="text-align:center; border-color:var(--n-gold); margin-bottom:15px;">
+            <div class="c-gold" style="font-size:1.2rem;">9 MESES</div>
         </div>
-
-        <div style="width:110px; height:110px; border-radius:50%; border:2px solid var(--neon-red); background:url('foto-capa.jpg') center/cover; margin-bottom:15px;"></div>
-        
-        <div class="glass-card" style="margin-bottom:10px;"><div id="type-p1" style="font-size:0.85rem; line-height:1.5;"></div></div>
-        
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; width:100%; max-width:400px;">
-            <div class="glass-card" style="margin:0; text-align:center;"><span id="h1" class="c-red" style="font-size:1.3rem">0</span><br><small>HORAS</small></div>
-            <div class="glass-card" style="margin:0; text-align:center;"><span id="s1" class="c-blue" style="font-size:1.3rem">0</span><br><small>SEGUNDOS</small></div>
-        </div>
+        <div class="glass-card"><div id="type-p1" style="font-size:0.85rem; line-height:1.5;"></div></div>
     </section>
 
     <section class="page">
-        <video id="main-video" src="seu-video.mp4" loop playsinline style="width:100%; max-width:300px; border-radius:15px; border:1px solid var(--neon-blue); margin-bottom:15px;"></video>
-        <div class="glass-card" style="max-height:35vh; overflow-y:auto;"><div id="type-p2" style="font-size:0.8rem; line-height:1.5; text-align:justify;"></div></div>
+        <video id="v1" src="seu-video.mp4" loop playsinline style="width:100%; max-width:280px; border-radius:15px; margin-bottom:15px; border:1px solid var(--n-blue);"></video>
+        <div class="glass-card" id="type-p2" style="font-size:0.8rem; line-height:1.6;"></div>
     </section>
 
     <section class="page">
-        <h2 style="margin-bottom:20px;">Nossas Memórias</h2>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:400px;">
-            <img src="foto4.jpg" style="width:100%; aspect-ratio:1; border-radius:15px; object-fit:cover; border:1px solid var(--neon-blue);" onclick="app.openModal('foto4.jpg', 'Nossa primeira foto, onde registramos o carinho do nosso quarto mês 🥹')">
-            <img src="foto2.jpg" style="width:100%; aspect-ratio:1; border-radius:15px; object-fit:cover; border:1px solid var(--neon-red);" onclick="app.openModal('foto2.jpg', 'Nossa primeira volta juntos, onde teve conversas bobas, mãos reciosas e pessoas pedindo pra eu te agarrar kkkk😅')">
-            <img src="foto3.jpg" style="width:100%; aspect-ratio:1; border-radius:15px; object-fit:cover; border:1px solid var(--neon-gold);" onclick="app.openModal('foto3.jpg', 'Está foto representa nosso primeiro natal junto, e onde estava magnífica com este vestido vermelho..🫠')">
-            <img src="foto1.jpg" style="width:100%; aspect-ratio:1; border-radius:15px; object-fit:cover; border:1px solid var(--neon-green);" onclick="app.openModal('foto1.jpg', 'Essa foto é a gente no ano novoo... representa que passamos 2 aniversários, 7 meses e clr, a virada de ano no qual eu pude te beijar e dizer o quanto você é especial pra mim, e que estaria com você este ano de 2026 ❤️')">
+        <h2 style="margin-bottom:20px;">Memórias</h2>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; width:100%; max-width:380px;">
+            <div style="width:100%; aspect-ratio:1; background:var(--n-blue); border-radius:10px;"></div>
+            <div style="width:100%; aspect-ratio:1; background:var(--n-red); border-radius:10px;"></div>
         </div>
     </section>
 
     <section class="page">
         <div style="text-align:center;">
-            <div style="font-size:80px; filter: drop-shadow(0 0 20px var(--neon-green)); margin-bottom: 20px;">🐊</div>
-            <h2 style="font-family:'Playfair Display'; font-size:2rem; margin-bottom:10px;">Promessa Inabalável</h2>
-            <p class="c-red" style="font-size:3.5rem; margin: 15px 0; display: block; letter-spacing: -2px;">eu te amo</p>
-            <p class="c-green" style="font-size: 0.8rem; letter-spacing: 5px; font-weight: 700;">PARA TODO O SEMPRE</p>
+            <p class="c-red" style="font-size:3rem;">eu te amo</p>
+            <p class="c-green" style="letter-spacing:5px; font-size:0.7rem;">PARA SEMPRE</p>
         </div>
     </section>
 </div>
 
+<div class="nav-controls" id="controls" style="display:none">
+    <button class="nav-btn" onclick="app.nav(-1)">←</button>
+    <button class="nav-btn" onclick="app.nav(1)">→</button>
+</div>
+
 <script>
     const app = (() => {
-        const CONFIG = {
-            date: new Date("2025-05-08T20:00:00"),
-            txt1: "Desde o dia 08 de Maio de 2025, minha vida se tornou um reflexo do seu sorriso... <span class='c-red'>eu te amo</span>, minha <span class='c-green'>jacaré</span>! 🐊❤️",
-            txt2: "E cá estamos minha princesaa, no nosso nono mês e foram definitivamente os melhores da minha vida, e, o mais legal é que simplesmente aconteceu. No começo, eram apenas <span class='c-blue'>olhares</span>, mas de repente se tornaram olhares cheio de sentimentos e <span class='c-gold'>intensidade</span> as nossas <span class='c-blue'>conversas</span> construiu algo que eu nem sabia que precisava tanto. É engraçado como a gente se encaixa, se entende, se desculpa e se \"sente\" Você tem esse jeito de tornar as coisas <span class='c-blue'>leves</span>, até quando o mundo lá fora parece pesado demais. Gosto da forma como você ri das minhas bobagens e do jeito que eu te irrrito, de como a gente consegue ficar em silêncio sem que isso seja desconfortável. <br><br>Não estou aqui para te dar promessas vazias meu pedacinho de <span class='c-gold'>ouro</span>. Quero te dar o meu melhor, mesmo nos dias em que eu não estiver tão bem. Estar com você me faz querer ser alguém mais atento, mais presente. Você é minha <span class='c-red'>Princesa</span>, aquela que eu procuro quando as coisas dão certo e a primeira que eu quero por perto quando tudo parece incerto. É uma conexão que vai além do físico, é algo na alma, uma vontade genuína de ver você crescer e estar lá para aplaudir cada conquista sua. <br><br>Você é minha a <span class='c-green'>menina</span>, minha teimosa favorita e a dona do meu <span class='c-blue'>sorriso</span> e que desarma qualquer defesa minha. Eu escolho você todos os dias, com todos os seus detalhes, manias e essa intensidade que só você tem. O que a gente tem é real, é cru e é a coisa mais bonita que eu já tive a sorte de viver. Obrigado por ser exatamente quem você é, por não mudar para caber em nada e por me deixar fazer parte da sua história. Eu não preciso de mais nada quando estou do seu lado. <span class='c-red'>eu te amo</span> de um jeito que as palavras mal conseguem alcançar, mas que meu <span class='c-red'>coração</span> sente em cada batida."
+        const TXT = {
+            p1: "Desde o dia 08 de Maio de 2025... <span class='c-red'>eu te amo</span>, minha <span class='c-green'>jacaré</span>! 🐊❤️",
+            p2: "Nove meses dos melhores da minha vida... <span class='c-red'>eu te amo</span>."
         };
+        let cur = 0, typed2 = false;
+        const m1 = document.getElementById('m1'), m2 = document.getElementById('m2');
 
-        let current = 0, hasTyped = false;
-        const audio = document.getElementById('bg-music');
-        const pages = document.querySelectorAll('.page');
-
-        function update() {
-            const diff = new Date() - CONFIG.date;
-            document.getElementById('h1').innerText = Math.floor(diff / 3600000).toLocaleString();
-            document.getElementById('s1').innerText = Math.floor((diff/1000)%60);
+        function fade(out, inv) {
+            let v = 1;
+            const t = setInterval(() => {
+                v -= 0.05;
+                out.volume = Math.max(0, v);
+                inv.volume = Math.min(1, 1-v);
+                if(v <= 0) { out.pause(); inv.play(); clearInterval(t); }
+            }, 100);
         }
 
-        function type(text, id, speed) {
-            let i = 0; const el = document.getElementById(id);
+        function typeEffect(text, elId, speed) {
+            let i = 0; const el = document.getElementById(elId);
             function run() {
                 if (i < text.length) {
                     if (text[i] === '<') { 
-                        const end = text.indexOf('>', i); 
+                        let end = text.indexOf('>', i); 
                         el.innerHTML += text.substring(i, end + 1); 
                         i = end + 1; 
-                    } else { 
-                        el.innerHTML += text[i]; 
-                        i++; 
-                    }
+                    } else { el.innerHTML += text[i]; i++; }
                     setTimeout(run, speed);
                 }
             }
@@ -153,25 +105,22 @@
             start: () => {
                 document.getElementById('splash').style.display = 'none';
                 document.getElementById('controls').style.display = 'flex';
-                audio.play(); setInterval(update, 1000);
-                type(CONFIG.txt1, "type-p1", 40);
-                const c = document.getElementById('star-canvas'); const ctx = c.getContext('2d');
-                c.width = window.innerWidth; c.height = window.innerHeight;
-                const stars = Array(100).fill().map(() => ({ x: Math.random()*c.width, y: Math.random()*c.height, r: Math.random()*1 }));
-                function draw() { ctx.clearRect(0,0,c.width,c.height); ctx.fillStyle="#fff"; stars.forEach(s => { ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); s.y-=0.3; if(s.y<0) s.y=c.height; }); requestAnimationFrame(draw); } draw();
-                const dots = document.getElementById('dots'); pages.forEach((_, i) => { const d = document.createElement('div'); d.className = `dot ${i===0?'active':''}`; dots.appendChild(d); });
+                m1.play(); m1.volume = 1; m2.volume = 0;
+                typeEffect(TXT.p1, "type-p1", 40);
             },
             nav: (dir) => {
-                const next = Math.max(0, Math.min(pages.length - 1, current + dir));
-                if (next === current) return;
-                pages[current].classList.remove('active'); current = next; pages[current].classList.add('active');
-                document.getElementById('p-bar').style.width = ((current + 1)/pages.length)*100 + "%";
-                document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
-                if(current === 1) { document.getElementById('main-video').play(); if(!hasTyped) { type(CONFIG.txt2, "type-p2", 20); hasTyped = true; } }
-                else document.getElementById('main-video').pause();
-            },
-            openModal: (s, t) => { document.getElementById('modal-img').src = s; document.getElementById('modal-text').innerText = t; document.getElementById('photo-modal').style.display = 'flex'; },
-            closeModal: () => document.getElementById('photo-modal').style.display = 'none'
+                const pages = document.querySelectorAll('.page');
+                pages[cur].classList.remove('active');
+                cur = Math.max(0, Math.min(pages.length -1, cur + dir));
+                pages[cur].classList.add('active');
+                if(cur === 1) { 
+                    document.getElementById('v1').play(); 
+                    if(!typed2) { typeEffect(TXT.p2, "type-p2", 25); typed2 = true; }
+                    fade(m1, m2);
+                } else if (cur === 0 && m2.volume > 0.5) {
+                    fade(m2, m1);
+                }
+            }
         };
     })();
 </script>
